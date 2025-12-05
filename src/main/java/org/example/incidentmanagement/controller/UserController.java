@@ -1,0 +1,51 @@
+package org.example.incidentmanagement.controller;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.incidentmanagement.entity.User;
+import org.example.incidentmanagement.service.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/user")
+@Tag(name = "User Controller API",
+        description = "User Management Controllers")
+public class UserController {
+
+    private final UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> user = userService.findAllUsers();
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findById(@PathVariable int id) {
+        User user = userService.findUserById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/user/email")
+    public ResponseEntity<User> findByEmail(@RequestBody String email) {
+        User userByEmail = userService.findUserByEmail(email);
+        return ResponseEntity.ok(userByEmail);
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable int id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+
+
+}
