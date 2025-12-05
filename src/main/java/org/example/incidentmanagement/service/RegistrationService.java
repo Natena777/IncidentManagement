@@ -1,8 +1,6 @@
 package org.example.incidentmanagement.service;
 
-import org.example.incidentmanagement.model.User;
-
-import java.util.List;
+import org.example.incidentmanagement.entity.User;
 
 public interface RegistrationService {
 

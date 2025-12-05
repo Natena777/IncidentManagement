@@ -1,7 +1,7 @@
 package org.example.incidentmanagement.repository;
 
 
-import org.example.incidentmanagement.model.User;
+import org.example.incidentmanagement.entity.User;
 
 import java.util.List;
 
@@ -13,4 +13,5 @@ public interface UserRepository {
     public List<User> findAll();
     public void save(User user);
     public void deleteById(int id);
+    public void registrationUser(User user);
 }

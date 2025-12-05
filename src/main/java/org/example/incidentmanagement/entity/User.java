@@ -1,24 +1,28 @@
-package org.example.incidentmanagement.model;
+package org.example.incidentmanagement.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class User {
 
     private int id;
+    private String firstname;
+    private String lastname;
     private String username;
     private String password;
     private String email;
     private String phone;
     private String address;
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     public User() {
     }
 
-    public User(int id, String username, String password, String email, String phone, String address, Date startDate, Date endDate) {
+    public User(int id, String username, String firstname, String lastname, String password, String email, String phone, String address, LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.username = username;
+        this.firstname= firstname;
+        this.lastname = lastname;
         this.password = password;
         this.email = email;
         this.phone = phone;
@@ -27,7 +31,7 @@ public class User {
         this.endDate = endDate;
     }
 
-    private User(int id, String username, String password, String email, Date startDate, Date endDate) {
+    private User(int id, String username, String password, String email, LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -47,6 +51,18 @@ public class User {
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+    public String getFirstname() {
+        return firstname;
+    }
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+    public String getLastname() {
+        return lastname;
+    }
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
     public String getPassword() {
         return password;
@@ -73,16 +89,16 @@ public class User {
         this.address = address;
     }
 
-    public Date getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
-    public Date getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 

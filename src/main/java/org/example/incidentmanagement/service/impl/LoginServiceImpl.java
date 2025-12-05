@@ -1,14 +1,32 @@
 package org.example.incidentmanagement.service.impl;
 
-import org.example.incidentmanagement.model.User;
+import org.example.incidentmanagement.entity.User;
+import org.example.incidentmanagement.exceptions.CustomException;
+import org.example.incidentmanagement.exceptions.ErrorCodes;
+import org.example.incidentmanagement.repository.UserRepository;
 import org.example.incidentmanagement.service.LoginService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LoginServiceImpl implements LoginService {
 
+    Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
+    private final UserRepository userRepository;
+    public LoginServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User login(String username, String password) {
-        System.out.println("Login");
-        return null;
+
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new CustomException(ErrorCodes.INVALID_USERNAME);
+        }
+        logger.info("Login attempt");
+        return user;
+
     }
 }
