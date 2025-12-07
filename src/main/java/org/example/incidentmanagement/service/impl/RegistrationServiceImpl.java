@@ -25,16 +25,43 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public User registerUser(User user) {
-        if (!user.getEmail().contains("@")){
-            throw new CustomException(ErrorCodes.INVALID_EMAIL);
-        }
+        //Generate Username and Start Date
         user.setUsername(extractUsername(user.getEmail()));
         user.setStartDate(LocalDateTime.now());
+
+        //Email Check
+        if (user.getEmail().length() > 0) {
+            logger.info("Called Check Email For: " + user.getEmail());
+            if (!user.getEmail().contains("@")){
+                logger.info("Email {} Does Not Contain @" + user.getEmail());
+                throw new CustomException(ErrorCodes.INVALID_EMAIL);
+            }
+
+            if (userRepository.findByEmail(user.getEmail()) != null){
+                logger.info("Email {} Already Exists", user.getEmail());
+                throw new CustomException(ErrorCodes.INVALID_EMAIL);
+            }
+
+        }
+
+
+
+        //Password Length Check
+        if (user.getPassword().length() > 0 ) {
+            logger.info("Called Check Password For User : " + user.getUsername());
+            if (user.getPassword().length() < 8) {
+                throw new CustomException(ErrorCodes.INVALID_PASSWORD);
+            }
+
+        }
+
+        //Set User Info
         userRepository.registrationUser(user);
         return user;
 
     }
 
+    //Generate Username From Email
     public String extractUsername(String email) {
         String username = "";
         username = email.split("@")[0];

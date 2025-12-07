@@ -1,7 +1,9 @@
 package org.example.incidentmanagement.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.incidentmanagement.dto.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
+import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,15 +28,15 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable int id) {
+    public ResponseEntity<UserResponseDto> findById(@PathVariable int id) {
         User user = userService.findUserById(id);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(UserMapper.toResponse(user));
     }
 
-    @PostMapping("/user/email")
-    public ResponseEntity<User> findByEmail(@RequestBody String email) {
-        User userByEmail = userService.findUserByEmail(email);
-        return ResponseEntity.ok(userByEmail);
+    @GetMapping("/user/{email}")
+    public ResponseEntity<UserResponseDto> findByEmail(@PathVariable String email) {
+        User user = userService.findUserByEmail(email);
+        return ResponseEntity.ok(UserMapper.toResponse(user));
     }
 
 

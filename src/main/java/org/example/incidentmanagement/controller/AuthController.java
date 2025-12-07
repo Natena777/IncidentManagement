@@ -4,7 +4,9 @@ package org.example.incidentmanagement.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.LoginUserDto;
 import org.example.incidentmanagement.dto.RegistrationUserDto;
+import org.example.incidentmanagement.dto.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
+import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.service.LoginService;
 import org.example.incidentmanagement.service.RegistrationService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +30,7 @@ public class AuthController {
 
 
     @PostMapping("/registration")
-    public User createUser(@RequestBody RegistrationUserDto registruserdto) {
+    public UserResponseDto createUser(@RequestBody RegistrationUserDto registruserdto) {
         User user = new User();
         user.setFirstname(registruserdto.getFirstname());
         user.setLastname(registruserdto.getLastname());
@@ -36,7 +38,7 @@ public class AuthController {
         user.setAddress(registruserdto.getAddress());
         user.setPassword(registruserdto.getPassword());
         registrationService.registerUser(user);
-        return user;
+        return UserMapper.toResponse(user);
     }
 
 

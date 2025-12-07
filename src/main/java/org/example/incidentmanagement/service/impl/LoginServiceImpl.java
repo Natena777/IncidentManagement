@@ -22,9 +22,17 @@ public class LoginServiceImpl implements LoginService {
     public User login(String username, String password) {
 
         User user = userRepository.findByUsername(username);
-        if (user == null) {
+
+        //Check Username
+        if (user == null || !user.getUsername().equals(username)) {
+            logger.info(user.getUsername());
             throw new CustomException(ErrorCodes.INVALID_USERNAME);
         }
+        //Check Password
+        if (!user.getPassword().equals(password)) {
+            throw new CustomException(ErrorCodes.INVALID_PASSWORD);
+        }
+
         logger.info("Login attempt");
         return user;
 
