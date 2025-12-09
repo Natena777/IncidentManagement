@@ -2,10 +2,11 @@ package org.example.incidentmanagement.exceptions;
 
 public enum ErrorCodes {
 
-    INVALID_EMAIL(-20, "Invalid Email"),
-    INVALID_USERNAME(-10, "Invalid Username"),
-    INVALID_PASSWORD(-11, "Invalid Password"),
-    INVALID_USER(-1, "Invalid User"),;
+    INVALID_EMAIL(-1, "Invalid Email"),
+    INVALID_USERNAME(-2, "Invalid Username"),
+    INVALID_PASSWORD(-3, "Invalid Password"),
+    INVALID_USER(-4, "Invalid User"),
+    INVALID_ROLE(-5, "Invalid Role");
 
     private int code;
     private String message;

@@ -23,19 +23,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByUsername(String username) {
-        logger.info("findUserByUsername: " + username);
+        logger.info("Called findUserByUsername: " + username);
         return userRepository.findByUsername(username);
     }
 
     @Override
     public User findUserByEmail(String email) {
-        logger.info("findUserByEmail: " + email);
+        logger.info("Called findUserByEmail: " + email);
         return userRepository.findByEmail(email);
     }
 
     @Override
     public User findUserById(int id) {
-        logger.info("findUserById: " + id);
+        logger.info("Called findUserById: " + id);
         User user = userRepository.findById(id);
 
         if (user == null) {
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllUsers() {
         List<User> users = userRepository.findAll();
-        logger.info("findAllUsers: " + users);
+        logger.info("Called findAllUsers" );
         return users;
     }
 
