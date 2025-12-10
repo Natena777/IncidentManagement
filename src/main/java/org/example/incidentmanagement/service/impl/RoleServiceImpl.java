@@ -1,8 +1,11 @@
 package org.example.incidentmanagement.service.impl;
 
+import org.example.incidentmanagement.dto.RoleRequestDto;
+import org.example.incidentmanagement.dto.RoleResponseDto;
 import org.example.incidentmanagement.entity.Role;
 import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ErrorCodes;
+import org.example.incidentmanagement.mappers.RoleMapper;
 import org.example.incidentmanagement.repository.RoleRepository;
 import org.example.incidentmanagement.service.RoleService;
 import org.slf4j.Logger;
@@ -40,20 +43,22 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Override
-    public Role create(Role role) {
+    public RoleResponseDto create(RoleRequestDto roledto) {
         logger.info("called Create Role");
-        if (role == null) {
+        if (roledto == null) {
             logger.info("Role is null");
             throw new CustomException(ErrorCodes.INVALID_ROLE);
         }
-        if (roleRepository.findByName(role.getName()) != null) {
-            logger.info("Role with name {} already exists", role.getName());
+        if (roleRepository.findByName(roledto.getRoleName()) != null) {
+            logger.info("Role with name {} already exists", roledto.getRoleName());
             throw new CustomException(ErrorCodes.INVALID_ROLE);
         }
+
+        Role role = RoleMapper.toEntity(roledto);
         role.setCreatedOn(LocalDateTime.now());
         role.setCreatedBy("Nika");
         roleRepository.create(role);
-        return role;
+        return RoleMapper.toResponse(role);
     }
 
     @Override

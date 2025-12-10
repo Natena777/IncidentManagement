@@ -1,7 +1,10 @@
 package org.example.incidentmanagement.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.incidentmanagement.dto.RoleRequestDto;
+import org.example.incidentmanagement.dto.RoleResponseDto;
 import org.example.incidentmanagement.entity.Role;
+import org.example.incidentmanagement.mappers.RoleMapper;
 import org.example.incidentmanagement.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +27,11 @@ public class RoleController {
 
 
     @PostMapping("/create")
-    public Role createRole(@RequestBody Role role) {
-        return roleService.create(role);
+    public RoleResponseDto createRole(@RequestBody RoleRequestDto roleRequestDto) {
+        return roleService.create(roleRequestDto);
     }
+
+
 
 
 }
