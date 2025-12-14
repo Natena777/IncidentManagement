@@ -10,9 +10,9 @@ import java.util.List;
 public interface RoleService {
 
     public RoleResponseDto findByRoleName(String roleName);
-    public RoleResponseDto create(RoleRequestDto role);
-    public RoleResponseDto update(String name, UpdateRoleRequestDto role);
-    public void delete(String name);
+    public RoleResponseDto createRole(RoleRequestDto role);
+    public RoleResponseDto updateRole(String name, UpdateRoleRequestDto role);
+    public void deleteRole(String name);
     public List<Role> findAll();
 
 

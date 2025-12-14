@@ -33,12 +33,12 @@ public class RoleController {
 
     @PostMapping("/create")
     public RoleResponseDto createRole(@RequestBody RoleRequestDto roleRequestDto) {
-        return roleService.create(roleRequestDto);
+        return roleService.createRole(roleRequestDto);
     }
 
     @DeleteMapping("/delete/{name}")
     public ResponseEntity<Object> deleteRole(@PathVariable String name) {
-        roleService.delete(name);
+        roleService.deleteRole(name);
         return ResponseEntity.noContent().build();
     }
 
@@ -46,7 +46,7 @@ public class RoleController {
     @PostMapping("update/{name}")
     public RoleResponseDto updateRole(@PathVariable String name,
                                       @RequestBody UpdateRoleRequestDto updateRoleRequestDto) {
-        return roleService.update(name, updateRoleRequestDto);
+        return roleService.updateRole(name, updateRoleRequestDto);
     }
 
 

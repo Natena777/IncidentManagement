@@ -46,7 +46,7 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Override
-    public RoleResponseDto create(RoleRequestDto roledto) {
+    public RoleResponseDto createRole(RoleRequestDto roledto) {
         logger.info("called Create Role");
         if (roledto == null) {
             logger.info("Role is null");
@@ -65,7 +65,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleResponseDto update(String name, UpdateRoleRequestDto role) {
+    public RoleResponseDto updateRole(String name, UpdateRoleRequestDto role) {
         logger.info("called Update Role");
         if (role == null) {
             logger.info("Update Role is null");
@@ -86,7 +86,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void delete(String name) {
+    public void deleteRole(String name) {
         logger.info("called Delete Role : " + name );
 
         if (name == null) {
