@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,13 +23,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User findUserByUsername(String username) {
+    public Optional<User> findUserByUsername(String username) {
         logger.info("Called findUserByUsername: " + username);
         return userRepository.findByUsername(username);
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public Optional<User> findUserByEmail(String email) {
         logger.info("Called findUserByEmail: " + email);
         return userRepository.findByEmail(email);
     }
@@ -36,13 +37,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserById(int id) {
         logger.info("Called findUserById: " + id);
-        User user = userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
-        if (user == null) {
+        if (user.isEmpty()) {
             throw new CustomException(ErrorCodes.INVALID_USER);
         }
 
-        return user;
+        return user.orElse(null);
     }
 
     @Override

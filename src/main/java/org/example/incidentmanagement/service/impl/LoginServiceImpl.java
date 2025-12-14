@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class LoginServiceImpl implements LoginService {
 
@@ -21,20 +23,20 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public User login(String username, String password) {
 
-        User user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findByUsername(username);
 
         //Check Username
-        if (user == null || !user.getUsername().equals(username)) {
-            logger.info(user.getUsername());
+        if (user.isEmpty() || !user.get().getUsername().equals(username)) {
+            logger.info(user.get().getUsername());
             throw new CustomException(ErrorCodes.INVALID_USERNAME);
         }
         //Check Password
-        if (!user.getPassword().equals(password)) {
+        if (!user.get().getPassword().equals(password)) {
             throw new CustomException(ErrorCodes.INVALID_PASSWORD);
         }
 
         logger.info("Login attempt");
-        return user;
+        return user.orElse(null);
 
     }
 }

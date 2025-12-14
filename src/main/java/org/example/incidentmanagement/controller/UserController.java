@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -35,8 +36,8 @@ public class UserController {
 
     @GetMapping("/{email}")
     public ResponseEntity<UserResponseDto> findByEmail(@PathVariable String email) {
-        User user = userService.findUserByEmail(email);
-        return ResponseEntity.ok(UserMapper.toResponse(user));
+        Optional<User> user = userService.findUserByEmail(email);
+        return ResponseEntity.ok(UserMapper.toResponse(user.orElse(null)));
     }
 
 

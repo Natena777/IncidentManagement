@@ -1,9 +1,16 @@
 package org.example.incidentmanagement.entity;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
+
+@Entity
+@Table(name = "sys_users")
 public class User {
 
+    @Id
+    @GeneratedValue
     private int id;
     private String firstname;
     private String lastname;

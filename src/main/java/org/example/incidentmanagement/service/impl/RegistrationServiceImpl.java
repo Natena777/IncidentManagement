@@ -25,10 +25,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public User registerUser(User user) {
-        //Generate Username and Start Date
-        user.setUsername(extractUsername(user.getEmail()));
-        user.setStartDate(LocalDateTime.now());
-
         //Email Check
         if (user.getEmail().length() > 0) {
             logger.info("Called Check Email For: " + user.getEmail());
@@ -37,14 +33,12 @@ public class RegistrationServiceImpl implements RegistrationService {
                 throw new CustomException(ErrorCodes.INVALID_EMAIL);
             }
 
-            if (userRepository.findByEmail(user.getEmail()) != null){
+            if (userRepository.findByEmail(user.getEmail()).isPresent()){
                 logger.info("Email {} Already Exists", user.getEmail());
                 throw new CustomException(ErrorCodes.INVALID_EMAIL);
             }
 
         }
-
-
 
         //Password Length Check
         if (user.getPassword().length() > 0 ) {
@@ -56,7 +50,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
 
         //Set User Info
-        userRepository.registrationUser(user);
+        user.setUsername(extractUsername(user.getEmail()));
+        user.setStartDate(LocalDateTime.now());
+        userRepository.save(user);
         return user;
 
     }

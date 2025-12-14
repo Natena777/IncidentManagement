@@ -3,12 +3,13 @@ package org.example.incidentmanagement.service;
 import org.example.incidentmanagement.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
-    User findUserByUsername(String username);
+    Optional<User> findUserByUsername(String username);
 
-    User findUserByEmail(String email);
+    Optional<User> findUserByEmail(String email);
 
     User findUserById(int id);
 
