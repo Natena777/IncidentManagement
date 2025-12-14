@@ -1,4 +1,4 @@
-package org.example.incidentmanagement.dto;
+package org.example.incidentmanagement.dto.response;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package org.example.incidentmanagement.dto;
+package org.example.incidentmanagement.dto.requests;
 
 public class RoleRequestDto {
     private String roleName;
@@ -10,7 +10,6 @@ public class RoleRequestDto {
 
 
     public RoleRequestDto(String roleName, String roleDescription, String roleStatus) {
-
         this.roleName = roleName;
         this.roleDescription = roleDescription;
     }

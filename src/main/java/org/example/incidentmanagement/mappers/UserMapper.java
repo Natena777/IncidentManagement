@@ -1,8 +1,7 @@
 package org.example.incidentmanagement.mappers;
 
-import org.example.incidentmanagement.dto.UserResponseDto;
+import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
-import org.springframework.web.bind.annotation.Mapping;
 
 
 public class UserMapper {

@@ -1,7 +1,7 @@
 package org.example.incidentmanagement.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.incidentmanagement.dto.UserResponseDto;
+import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.service.UserService;
@@ -33,7 +33,7 @@ public class UserController {
         return ResponseEntity.ok(UserMapper.toResponse(user));
     }
 
-    @GetMapping("/user/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<UserResponseDto> findByEmail(@PathVariable String email) {
         User user = userService.findUserByEmail(email);
         return ResponseEntity.ok(UserMapper.toResponse(user));

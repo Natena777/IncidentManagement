@@ -1,7 +1,8 @@
 package org.example.incidentmanagement.service.impl;
 
-import org.example.incidentmanagement.dto.RoleRequestDto;
-import org.example.incidentmanagement.dto.RoleResponseDto;
+import org.example.incidentmanagement.dto.requests.RoleRequestDto;
+import org.example.incidentmanagement.dto.response.RoleResponseDto;
+import org.example.incidentmanagement.dto.requests.UpdateRoleRequestDto;
 import org.example.incidentmanagement.entity.Role;
 import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ErrorCodes;
@@ -25,7 +26,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
 
     @Override
-    public Role findByRoleName(String roleName) {
+    public RoleResponseDto findByRoleName(String roleName) {
         logger.info("Called Find Role Named: " + roleName);
         if (roleName == null) {
             logger.info("Role Name is provided Null");
@@ -38,7 +39,9 @@ public class RoleServiceImpl implements RoleService {
             logger.info("Role with name {} not found", roleName);
             throw new CustomException(ErrorCodes.INVALID_ROLE);
         }
-        return roleRepository.findByName(roleName);
+
+        return RoleMapper.toResponse(roleRepository.findByName(roleName));
+
     }
 
 
@@ -62,21 +65,23 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role update(Role role) {
+    public RoleResponseDto update(String name, UpdateRoleRequestDto role) {
         logger.info("called Update Role");
         if (role == null) {
             logger.info("Update Role is null");
             throw new CustomException(ErrorCodes.INVALID_ROLE);
         }
-        if (roleRepository.findByName(role.getName()) != null) {
-            logger.info("Role with name {} already exists", role.getName());
+        if (roleRepository.findByName(name) == null) {
+            logger.info("Role with name {} does not exists", name);
             throw new CustomException(ErrorCodes.INVALID_ROLE);
         }
 
-        role.setUpdatedOn(LocalDateTime.now());
-        role.setUpdatedBy("Nika1");
-        roleRepository.update(role.getId(), role);
-        return role;
+        Role roleToUpdate = RoleMapper.updateToEntity(role);
+        roleToUpdate.setUpdatedOn(LocalDateTime.now());
+        roleToUpdate.setUpdatedBy("Nika");
+
+        roleRepository.update(roleToUpdate.getId(), roleToUpdate);
+        return RoleMapper.toResponse(roleToUpdate);
 
     }
 

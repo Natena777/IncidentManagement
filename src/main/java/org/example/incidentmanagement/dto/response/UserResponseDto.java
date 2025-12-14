@@ -1,4 +1,4 @@
-package org.example.incidentmanagement.dto;
+package org.example.incidentmanagement.dto.response;
 
 public class UserResponseDto {
     private int id;

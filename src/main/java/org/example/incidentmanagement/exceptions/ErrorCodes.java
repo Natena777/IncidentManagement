@@ -6,7 +6,8 @@ public enum ErrorCodes {
     INVALID_USERNAME(-2, "Invalid Username"),
     INVALID_PASSWORD(-3, "Invalid Password"),
     INVALID_USER(-4, "Invalid User"),
-    INVALID_ROLE(-5, "Invalid Role");
+    INVALID_ROLE(-5, "Invalid Role"),
+    INVALID_NEW_ROLE(-6, "New Role Already Exists");
 
     private int code;
     private String message;

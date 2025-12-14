@@ -2,9 +2,9 @@ package org.example.incidentmanagement.controller;
 
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.incidentmanagement.dto.LoginUserDto;
-import org.example.incidentmanagement.dto.RegistrationUserDto;
-import org.example.incidentmanagement.dto.UserResponseDto;
+import org.example.incidentmanagement.dto.requests.LoginUserDto;
+import org.example.incidentmanagement.dto.requests.RegistrationUserDto;
+import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.service.LoginService;

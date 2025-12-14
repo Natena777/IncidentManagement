@@ -1,12 +1,13 @@
 package org.example.incidentmanagement.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.incidentmanagement.dto.RoleRequestDto;
-import org.example.incidentmanagement.dto.RoleResponseDto;
+import org.example.incidentmanagement.dto.requests.RoleRequestDto;
+import org.example.incidentmanagement.dto.response.RoleResponseDto;
+import org.example.incidentmanagement.dto.requests.UpdateRoleRequestDto;
 import org.example.incidentmanagement.entity.Role;
-import org.example.incidentmanagement.mappers.RoleMapper;
 import org.example.incidentmanagement.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,17 +20,36 @@ public class RoleController {
     @Autowired
     RoleService roleService;
 
-
     @GetMapping
     public List<Role> getAllRoles() {
         return roleService.findAll();
     }
 
 
+    @GetMapping("/{name}")
+    public RoleResponseDto findByName(@PathVariable String name) {
+        return roleService.findByRoleName(name);
+    }
+
     @PostMapping("/create")
     public RoleResponseDto createRole(@RequestBody RoleRequestDto roleRequestDto) {
         return roleService.create(roleRequestDto);
     }
+
+    @DeleteMapping("/delete/{name}")
+    public ResponseEntity<Object> deleteRole(@PathVariable String name) {
+        roleService.delete(name);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @PostMapping("update/{name}")
+    public RoleResponseDto updateRole(@PathVariable String name,
+                                      @RequestBody UpdateRoleRequestDto updateRoleRequestDto) {
+        return roleService.update(name, updateRoleRequestDto);
+    }
+
+
 
 
 

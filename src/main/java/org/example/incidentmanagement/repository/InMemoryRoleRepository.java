@@ -40,6 +40,7 @@ public class InMemoryRoleRepository implements RoleRepository {
 
     @Override
     public void update(int id, Role role) {
+        database.remove(id);
         database.put(id, role);
     }
 
