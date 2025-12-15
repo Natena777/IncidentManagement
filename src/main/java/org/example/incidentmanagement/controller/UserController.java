@@ -23,21 +23,21 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> user = userService.findAllUsers();
+    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
+        List<UserResponseDto> user = userService.findAllUsers();
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> findById(@PathVariable int id) {
-        User user = userService.findUserById(id);
-        return ResponseEntity.ok(UserMapper.toResponse(user));
+    @GetMapping("/id/{id}")
+    public UserResponseDto findById(@PathVariable int id) {
+        UserResponseDto user = userService.findUserById(id);
+        return user;
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<UserResponseDto> findByEmail(@PathVariable String email) {
-        Optional<User> user = userService.findUserByEmail(email);
-        return ResponseEntity.ok(UserMapper.toResponse(user.orElse(null)));
+    @GetMapping("/email/{email}")
+    public UserResponseDto findByEmail(@PathVariable String email) {
+        UserResponseDto user = userService.findUserByEmail(email);
+        return user;
     }
 
 

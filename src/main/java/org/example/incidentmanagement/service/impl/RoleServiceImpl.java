@@ -24,6 +24,8 @@ public class RoleServiceImpl implements RoleService {
     Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public RoleResponseDto findByRoleName(String roleName) {
@@ -40,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
             throw new CustomException(ErrorCodes.INVALID_ROLE);
         }
 
-        return RoleMapper.toResponse(roleRepository.findByName(roleName));
+        return roleMapper.toRoleResponseDto(roleRepository.findByName(roleName));
 
     }
 
@@ -57,31 +59,32 @@ public class RoleServiceImpl implements RoleService {
             throw new CustomException(ErrorCodes.INVALID_ROLE);
         }
 
-        Role role = RoleMapper.toEntity(roledto);
+        Role role = roleMapper.toEntity(roledto);
         role.setCreatedOn(LocalDateTime.now());
-        role.setCreatedBy("Nika");
-        roleRepository.create(role);
-        return RoleMapper.toResponse(role);
+        role.setStatus("A");
+        role.setCreatedBy("Nika"); //აქ უნდა მიეთითოს იუზერი ავტომატში
+        roleRepository.save(role);
+        return roleMapper.toRoleResponseDto(role);
     }
 
     @Override
     public RoleResponseDto updateRole(String name, UpdateRoleRequestDto role) {
         logger.info("called Update Role");
-        if (role == null) {
+
+        Role roleToUpdate = roleRepository.findByName(name);
+
+        if (roleToUpdate == null) {
             logger.info("Update Role is null");
             throw new CustomException(ErrorCodes.INVALID_ROLE);
         }
-        if (roleRepository.findByName(name) == null) {
-            logger.info("Role with name {} does not exists", name);
-            throw new CustomException(ErrorCodes.INVALID_ROLE);
-        }
 
-        Role roleToUpdate = RoleMapper.updateToEntity(role);
+        roleMapper.updateFromDto(role, roleToUpdate);
         roleToUpdate.setUpdatedOn(LocalDateTime.now());
-        roleToUpdate.setUpdatedBy("Nika");
+        roleToUpdate.setUpdatedBy("Nika"); //აქ მერე უნდა მიეთითოს იუზერი ავტომატში
 
-        roleRepository.update(roleToUpdate.getId(), roleToUpdate);
-        return RoleMapper.toResponse(roleToUpdate);
+        Role updatedRole = roleRepository.save(roleToUpdate);
+
+        return roleMapper.toRoleResponseDto(updatedRole);
 
     }
 

@@ -4,6 +4,7 @@ package org.example.incidentmanagement.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.requests.LoginUserDto;
 import org.example.incidentmanagement.dto.requests.RegistrationUserDto;
+import org.example.incidentmanagement.dto.response.RegistrationUserRespDto;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.mappers.UserMapper;
@@ -30,15 +31,9 @@ public class AuthController {
 
 
     @PostMapping("/registration")
-    public UserResponseDto createUser(@RequestBody RegistrationUserDto registruserdto) {
-        User user = new User();
-        user.setFirstname(registruserdto.getFirstname());
-        user.setLastname(registruserdto.getLastname());
-        user.setEmail(registruserdto.getEmail());
-        user.setAddress(registruserdto.getAddress());
-        user.setPassword(registruserdto.getPassword());
-        registrationService.registerUser(user);
-        return UserMapper.toResponse(user);
+    public RegistrationUserRespDto createUser(@RequestBody RegistrationUserDto registruserdto) {
+        RegistrationUserRespDto regUser =  registrationService.registerUser(registruserdto);
+        return regUser;
     }
 
 

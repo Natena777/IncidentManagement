@@ -1,8 +1,10 @@
 package org.example.incidentmanagement.service.impl;
 
+import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ErrorCodes;
+import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.repository.UserRepository;
 import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
@@ -17,45 +19,58 @@ public class UserServiceImpl implements UserService {
 
     Logger logger  = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
-    public UserServiceImpl(UserRepository userRepository) {
+    private final UserMapper userMapper;
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
 
     @Override
-    public Optional<User> findUserByUsername(String username) {
+    public UserResponseDto findUserByUsername(String username) {
         logger.info("Called findUserByUsername: " + username);
-        return userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
+
+        return userMapper.toResponseDto(user);
+
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
+    public UserResponseDto findUserByEmail(String email) {
         logger.info("Called findUserByEmail: " + email);
-        return userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
+            logger.info("User with email {} not found", email);
+            throw new CustomException(ErrorCodes.INVALID_USER);
+        }
+
+        return userMapper.toResponseDto(user);
     }
 
     @Override
-    public User findUserById(int id) {
+    public UserResponseDto findUserById(int id) {
         logger.info("Called findUserById: " + id);
         Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty()) {
+            logger.info("User with {} not found", id);
             throw new CustomException(ErrorCodes.INVALID_USER);
         }
+        return userMapper.toResponseDto(user.orElse(null));
 
-        return user.orElse(null);
     }
 
     @Override
-    public List<User> findAllUsers() {
+    public List<UserResponseDto> findAllUsers() {
+        logger.info("Called findAllUsers");
         List<User> users = userRepository.findAll();
-        logger.info("Called findAllUsers" );
-        return users;
+        return userMapper.toResponseDtoList(users);
     }
 
     @Override
     public void deleteUser(int id) {
-        logger.info("Called deleteUser: " + findUserById(id).getUsername());
+        logger.info("Called deleteUser: " +  findUserById(id));
         userRepository.deleteById(id);
 
     }

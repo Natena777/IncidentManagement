@@ -7,16 +7,16 @@ public class RoleResponseDto {
     private String role;
     private String description;
     private String status;
-    private LocalDateTime createdon;
+    private LocalDateTime createdOn;
     private String createdBy;
 
     public RoleResponseDto() {}
 
-    public RoleResponseDto(String role, String description, String status, LocalDateTime createdon, String createdBy) {
+    public RoleResponseDto(String role, String description, String status, LocalDateTime createdOn, String createdBy) {
         this.role = role;
         this.description = description;
         this.status = status;
-        this.createdon = createdon;
+        this.createdOn = createdOn;
         this.createdBy = createdBy;
     }
 
@@ -40,10 +40,10 @@ public class RoleResponseDto {
         this.status = status;
     }
     public LocalDateTime getCreatedon() {
-        return createdon;
+        return createdOn;
     }
-    public void setCreatedon(LocalDateTime createdon) {
-        this.createdon = createdon;
+    public void setCreatedon(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
     }
     public String getCreatedBy() {
         return createdBy;

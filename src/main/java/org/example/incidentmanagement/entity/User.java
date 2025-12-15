@@ -12,8 +12,9 @@ public class User {
     @Id
     @GeneratedValue
     private int id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
+    private String fullName;
     private String username;
     private String password;
     private String email;
@@ -25,11 +26,12 @@ public class User {
     public User() {
     }
 
-    public User(int id, String username, String firstname, String lastname, String password, String email, String phone, String address, LocalDateTime startDate, LocalDateTime endDate) {
+    public User(int id, String username, String firstName, String lastName, String fullName, String password, String email, String phone, String address, LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.username = username;
-        this.firstname= firstname;
-        this.lastname = lastname;
+        this.firstName= firstName;
+        this.lastName = lastName;
+        this.fullName = fullName;
         this.password = password;
         this.email = email;
         this.phone = phone;
@@ -59,17 +61,25 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
-    public String getLastname() {
-        return lastname;
+
+    public String getLastName() {
+        return lastName;
     }
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
     public String getPassword() {
         return password;

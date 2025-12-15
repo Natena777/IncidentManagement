@@ -1,18 +1,24 @@
 package org.example.incidentmanagement.mappers;
 
+import org.example.incidentmanagement.dto.requests.RegistrationUserDto;
+import org.example.incidentmanagement.dto.response.RegistrationUserRespDto;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
+import org.mapstruct.Mapper;
+
+import java.util.List;
 
 
-public class UserMapper {
+@Mapper(componentModel = "spring")
+public interface UserMapper {
 
 
-    public static UserResponseDto toResponse(User user) {
-        UserResponseDto userResponseDto = new UserResponseDto();
-        userResponseDto.setId(user.getId());
-        userResponseDto.setFirstName(user.getFirstname());
-        userResponseDto.setLastName(user.getLastname());
-        userResponseDto.setEmail(user.getEmail());
-        return userResponseDto;
-    }
+    User toEntity(RegistrationUserDto dto);
+
+    UserResponseDto toResponseDto(User user);
+
+    List<UserResponseDto> toResponseDtoList(List<User> users);
+
+    RegistrationUserRespDto toRegistrationResp(User user);
+
 }

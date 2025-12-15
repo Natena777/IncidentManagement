@@ -23,20 +23,20 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public User login(String username, String password) {
 
-        Optional<User> user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
 
-        //Check Username
-        if (user.isEmpty() || !user.get().getUsername().equals(username)) {
-            logger.info(user.get().getUsername());
-            throw new CustomException(ErrorCodes.INVALID_USERNAME);
-        }
-        //Check Password
-        if (!user.get().getPassword().equals(password)) {
-            throw new CustomException(ErrorCodes.INVALID_PASSWORD);
-        }
+//        //Check Username
+//        if (user.isEmpty() || !user.get().getUsername().equals(username)) {
+//            logger.info(user.get().getUsername());
+//            throw new CustomException(ErrorCodes.INVALID_USERNAME);
+//        }
+//        //Check Password
+//        if (!user.get().getPassword().equals(password)) {
+//            throw new CustomException(ErrorCodes.INVALID_PASSWORD);
+//        }
 
         logger.info("Login attempt");
-        return user.orElse(null);
+        return null;
 
     }
 }

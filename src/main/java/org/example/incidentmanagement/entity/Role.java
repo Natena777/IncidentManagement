@@ -1,10 +1,19 @@
 package org.example.incidentmanagement.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.time.LocalDateTime;
 
+
+@Entity
+@Table(name = "sys_roles")
 public class Role {
 
-
+    @Id
+    @GeneratedValue
     private int id;
     private String name;
     private String description;

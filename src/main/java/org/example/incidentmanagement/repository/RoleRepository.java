@@ -1,15 +1,12 @@
 package org.example.incidentmanagement.repository;
 
 import org.example.incidentmanagement.entity.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RoleRepository {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     public Role findByName(String name);
-    public List<Role> findAll();
-    public void create(Role role);
-    public void update(int id, Role role);
-    public void delete(Role role);
 
 }
