@@ -7,7 +7,8 @@ public enum ErrorCodes {
     INVALID_PASSWORD(-3, "Invalid Password"),
     INVALID_USER(-4, "Invalid User"),
     INVALID_ROLE(-5, "Invalid Role"),
-    INVALID_NEW_ROLE(-6, "New Role Already Exists");
+    INVALID_NEW_ROLE(-6, "New Role Already Exists"),
+    NULL_CODE(-7, "Null Parameter");
 
     private int code;
     private String message;

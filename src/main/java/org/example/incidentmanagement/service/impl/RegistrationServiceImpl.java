@@ -30,7 +30,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 
 
-
     @Override
     public RegistrationUserRespDto registerUser(RegistrationUserDto userDto) {
         //Email Check
@@ -63,6 +62,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setUsername(extractUsername(user.getEmail()));
         user.setStartDate(LocalDateTime.now());
         user.setFullName(userDto.getFirstName() + " " + userDto.getLastName());
+        user.setActive("A");
         User savedUser = userRepository.save(user);
 
         return userMapper.toRegistrationResp(savedUser);

@@ -81,4 +81,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
     }
+
+    @Override
+    public Boolean existsUser(int id) {
+        Boolean exists = userRepository.existsById(id);
+        logger.info("Called Check User Exists on ID '{}' , Result: '{}'", id, exists  );
+        return exists;
+    }
 }

@@ -2,37 +2,27 @@ package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.dto.requests.CreateUserRoleRequestDto;
 import org.example.incidentmanagement.dto.requests.UpdateUserRoleRequestDto;
+import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.entity.UserRoles;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-public class UserRoleMapper {
+import java.util.List;
 
-
-    public UserRoles toEntity(CreateUserRoleRequestDto createUserRoleRequestDto) {
-        UserRoles userRoles = new UserRoles();
-        userRoles.setUserId(createUserRoleRequestDto.getUserID());
-        userRoles.setRoleId(createUserRoleRequestDto.getRoleID());
-        userRoles.setMainRole(createUserRoleRequestDto.getMainRole());
-        return userRoles;
-    }
+@Mapper(componentModel = "spring")
+public interface UserRoleMapper {
 
 
-    public UserRoleResponseDto toResponseDto(UserRoles userRoles) {
-        UserRoleResponseDto userRoleResponseDto = new UserRoleResponseDto();
-        userRoleResponseDto.setUserId(userRoles.getUserId());
-        userRoleResponseDto.setRoleID(userRoles.getRoleId());
-        userRoleResponseDto.setMainRole(userRoles.getMainRole());
-        return userRoleResponseDto;
-    }
+    public UserRoles toEntity(CreateUserRoleRequestDto createUserRoleRequestDto);
 
+    @Mapping(target = "updatedOn", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    public List<UserRoleResponseDto> toResponseList (List<UserRoles> userRoles);
 
-    public UserRoles updateToEntity(UpdateUserRoleRequestDto updateUserRoleRequestDto) {
-        UserRoles userRoles = new UserRoles();
-        userRoles.setUserId(updateUserRoleRequestDto.getUserId());
-        userRoles.setRoleId(updateUserRoleRequestDto.getRoleId());
-        return userRoles;
-    }
-
+    @Mapping(target = "updatedOn", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    public UserRoleResponseDto toResponse(UserRoles userRoles);
 
 
 }

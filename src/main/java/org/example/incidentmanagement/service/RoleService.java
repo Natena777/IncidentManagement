@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface RoleService {
 
+    public Boolean existsRole(int id);
     public RoleResponseDto findByRoleName(String roleName);
     public RoleResponseDto createRole(RoleRequestDto role);
     public RoleResponseDto updateRole(String name, UpdateRoleRequestDto role);

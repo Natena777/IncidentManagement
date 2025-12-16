@@ -4,6 +4,7 @@ public class UpdateUserRoleRequestDto {
 
     private int userId;
     private int roleId;
+    private String mainRole;
 
     public UpdateUserRoleRequestDto() {}
     public UpdateUserRoleRequestDto(int userId, int roleId) {

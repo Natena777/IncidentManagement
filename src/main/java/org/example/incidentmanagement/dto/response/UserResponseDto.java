@@ -6,15 +6,17 @@ public class UserResponseDto {
     private String lastName;
     private String email;
     private String phone;
+    private String active;
     public UserResponseDto() {
 
     }
-    public UserResponseDto(int id, String firstName, String lastName, String email, String phone) {
+    public UserResponseDto(int id, String firstName, String lastName, String email, String phone, String active) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+        this.active = active;
     }
 
     public int getId() {
@@ -47,6 +49,8 @@ public class UserResponseDto {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+    public String getActive() {return active;}
+    public void setActive(String active) {this.active = active;}
 
 
 }

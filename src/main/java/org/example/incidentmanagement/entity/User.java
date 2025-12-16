@@ -20,13 +20,17 @@ public class User {
     private String email;
     private String phone;
     private String address;
+    private String active;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
     public User() {
     }
 
-    public User(int id, String username, String firstName, String lastName, String fullName, String password, String email, String phone, String address, LocalDateTime startDate, LocalDateTime endDate) {
+    public User(int id, String username, String firstName, String lastName,
+                String fullName, String password,
+                String email, String phone, String address, String active,
+                LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.username = username;
         this.firstName= firstName;
@@ -36,6 +40,7 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.address = address;
+        this.active = active;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -105,7 +110,8 @@ public class User {
     public void setAddress(String address) {
         this.address = address;
     }
-
+    public String getActive() {return active;}
+    public void setActive(String active) {this.active = active;}
     public LocalDateTime getStartDate() {
         return startDate;
     }

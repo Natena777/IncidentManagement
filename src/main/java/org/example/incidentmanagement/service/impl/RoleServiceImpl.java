@@ -27,6 +27,14 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleMapper roleMapper;
 
+
+    @Override
+    public Boolean existsRole(int id) {
+        Boolean exists = roleRepository.existsById(id);
+        logger.info("Called Check Role Exists on ID '{}' , Result: '{}'", id, exists  );
+        return exists;
+    }
+
     @Override
     public RoleResponseDto findByRoleName(String roleName) {
         logger.info("Called Find Role Named: " + roleName);

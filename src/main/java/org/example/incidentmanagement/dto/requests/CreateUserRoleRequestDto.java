@@ -2,27 +2,27 @@ package org.example.incidentmanagement.dto.requests;
 
 public class CreateUserRoleRequestDto {
 
-    private int roleID;
-    private int userID;
+    private int roleId;
+    private int userId;
     private String mainRole;
 
     public CreateUserRoleRequestDto() {}
-    public CreateUserRoleRequestDto(int roleID, int userID, String mainRole) {
-        this.roleID = roleID;
-        this.userID = userID;
+    public CreateUserRoleRequestDto(int roleId, int userId, String mainRole) {
+        this.roleId = roleId;
+        this.userId = userId;
         this.mainRole = mainRole;
     }
-    public int getRoleID() {
-        return roleID;
+    public int getRoleId() {
+        return roleId;
     }
-    public void setRoleID(int roleID) {
-        this.roleID = roleID;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
-    public int getUserID() {
-        return userID;
+    public int getUserId() {
+        return userId;
     }
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
     public String getMainRole() {
         return mainRole;

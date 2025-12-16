@@ -43,11 +43,6 @@ public class UserRoleController {
         return userRoleService.createUserRole(crrequestDto);
     }
 
-    @PostMapping("/update")
-    public UserRoleResponseDto updateUserRole(@RequestBody UpdateUserRoleRequestDto uprequestDto) {
-        return userRoleService.updateUserRole(uprequestDto);
-    }
-
     @DeleteMapping("/delete/{id}")
     public void deleteUserRole(@PathVariable int id) {
         userRoleService.deleteUserRole(id);
