@@ -4,13 +4,12 @@ import org.example.incidentmanagement.dto.requests.RegistrationUserDto;
 import org.example.incidentmanagement.dto.response.RegistrationUserRespDto;
 import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.exceptions.CustomException;
-import org.example.incidentmanagement.exceptions.ErrorCodes;
+import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.repository.UserRepository;
 import org.example.incidentmanagement.service.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -37,12 +36,12 @@ public class RegistrationServiceImpl implements RegistrationService {
             logger.info("Called Check Email For: " + userDto.getEmail());
             if (!userDto.getEmail().contains("@")){
                 logger.info("Email {} Does Not Contain @ ",  userDto.getEmail());
-                throw new CustomException(ErrorCodes.INVALID_EMAIL);
+                throw new CustomException(ResponseCodes.INVALID_EMAIL);
             }
 
             if (userRepository.findByEmail(userDto.getEmail()) != null){
                 logger.info("Email {} Already Exists", userDto.getEmail());
-                throw new CustomException(ErrorCodes.INVALID_EMAIL);
+                throw new CustomException(ResponseCodes.INVALID_EMAIL);
             }
 
         }
@@ -51,7 +50,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (userDto.getPassword().length() > 0 ) {
             logger.info("Called Check Password For Client : " + userDto.getFirstName() + " " + userDto.getLastName());
             if (userDto.getPassword().length() < 8) {
-                throw new CustomException(ErrorCodes.INVALID_PASSWORD);
+                throw new CustomException(ResponseCodes.INVALID_PASSWORD);
             }
 
         }

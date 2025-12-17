@@ -1,15 +1,11 @@
 package org.example.incidentmanagement.service.impl;
 
 import org.example.incidentmanagement.entity.User;
-import org.example.incidentmanagement.exceptions.CustomException;
-import org.example.incidentmanagement.exceptions.ErrorCodes;
 import org.example.incidentmanagement.repository.UserRepository;
 import org.example.incidentmanagement.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -28,11 +24,11 @@ public class LoginServiceImpl implements LoginService {
 //        //Check Username
 //        if (user.isEmpty() || !user.get().getUsername().equals(username)) {
 //            logger.info(user.get().getUsername());
-//            throw new CustomException(ErrorCodes.INVALID_USERNAME);
+//            throw new CustomException(ResponseCodes.INVALID_USERNAME);
 //        }
 //        //Check Password
 //        if (!user.get().getPassword().equals(password)) {
-//            throw new CustomException(ErrorCodes.INVALID_PASSWORD);
+//            throw new CustomException(ResponseCodes.INVALID_PASSWORD);
 //        }
 
         logger.info("Login attempt");

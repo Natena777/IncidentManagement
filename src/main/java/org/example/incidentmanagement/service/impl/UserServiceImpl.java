@@ -3,7 +3,7 @@ package org.example.incidentmanagement.service.impl;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.exceptions.CustomException;
-import org.example.incidentmanagement.exceptions.ErrorCodes;
+import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.repository.UserRepository;
 import org.example.incidentmanagement.service.UserService;
@@ -31,6 +31,11 @@ public class UserServiceImpl implements UserService {
         logger.info("Called findUserByUsername: " + username);
         User user = userRepository.findByUsername(username);
 
+        if (user == null) {
+            logger.info("User with Name {} not found", username);
+            throw new CustomException(ResponseCodes.INVALID_USER);
+        }
+
         return userMapper.toResponseDto(user);
 
     }
@@ -42,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
         if (user == null) {
             logger.info("User with email {} not found", email);
-            throw new CustomException(ErrorCodes.INVALID_USER);
+            throw new CustomException(ResponseCodes.INVALID_USER);
         }
 
         return userMapper.toResponseDto(user);
@@ -55,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
         if (user.isEmpty()) {
             logger.info("User with {} not found", id);
-            throw new CustomException(ErrorCodes.INVALID_USER);
+            throw new CustomException(ResponseCodes.INVALID_USER);
         }
         return userMapper.toResponseDto(user.orElse(null));
 

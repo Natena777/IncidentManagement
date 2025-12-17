@@ -5,7 +5,7 @@ import org.example.incidentmanagement.dto.response.RoleResponseDto;
 import org.example.incidentmanagement.dto.requests.UpdateRoleRequestDto;
 import org.example.incidentmanagement.entity.Role;
 import org.example.incidentmanagement.exceptions.CustomException;
-import org.example.incidentmanagement.exceptions.ErrorCodes;
+import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.RoleMapper;
 import org.example.incidentmanagement.repository.RoleRepository;
 import org.example.incidentmanagement.service.RoleService;
@@ -40,14 +40,14 @@ public class RoleServiceImpl implements RoleService {
         logger.info("Called Find Role Named: " + roleName);
         if (roleName == null) {
             logger.info("Role Name is provided Null");
-            throw new CustomException(ErrorCodes.INVALID_ROLE);
+            throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
         if (roleName.isEmpty()) {
             logger.info("findByRoleName() called with empty roleName");
         }
         if (roleRepository.findByName(roleName) == null) {
             logger.info("Role with name {} not found", roleName);
-            throw new CustomException(ErrorCodes.INVALID_ROLE);
+            throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
 
         return roleMapper.toRoleResponseDto(roleRepository.findByName(roleName));
@@ -60,11 +60,11 @@ public class RoleServiceImpl implements RoleService {
         logger.info("called Create Role");
         if (roledto == null) {
             logger.info("Role is null");
-            throw new CustomException(ErrorCodes.INVALID_ROLE);
+            throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
         if (roleRepository.findByName(roledto.getRoleName()) != null) {
             logger.info("Role with name {} already exists", roledto.getRoleName());
-            throw new CustomException(ErrorCodes.INVALID_ROLE);
+            throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
 
         Role role = roleMapper.toEntity(roledto);
@@ -83,7 +83,7 @@ public class RoleServiceImpl implements RoleService {
 
         if (roleToUpdate == null) {
             logger.info("Update Role is null");
-            throw new CustomException(ErrorCodes.INVALID_ROLE);
+            throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
 
         roleMapper.updateFromDto(role, roleToUpdate);
@@ -102,11 +102,11 @@ public class RoleServiceImpl implements RoleService {
 
         if (name == null) {
             logger.info("delete() called with null role");
-            throw new CustomException(ErrorCodes.INVALID_ROLE);
+            throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
         if (roleRepository.findByName(name) == null) {
             logger.info("Role with name {} not found", name);
-            throw new CustomException(ErrorCodes.INVALID_ROLE);
+            throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
         Role role = roleRepository.findByName(name);
 

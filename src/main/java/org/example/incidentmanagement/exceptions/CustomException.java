@@ -2,16 +2,16 @@ package org.example.incidentmanagement.exceptions;
 
 public class CustomException extends RuntimeException {
 
-    private final ErrorCodes errorCodes;
+    private final ResponseCodes responseCodes;
 
-    public CustomException(ErrorCodes errorCodes) {
-        super(errorCodes.getMessage());
-        this.errorCodes = errorCodes;
+    public CustomException(ResponseCodes responseCodes) {
+        super(responseCodes.getMessage());
+        this.responseCodes = responseCodes;
     }
 
 
-    public ErrorCodes getErrorCodes() {
-        return errorCodes;
+    public ResponseCodes getErrorCodes() {
+        return responseCodes;
     }
 
 }

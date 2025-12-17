@@ -1,5 +1,6 @@
 package org.example.incidentmanagement.exceptions;
 
+import org.example.incidentmanagement.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,13 +14,19 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<Map<String, Object>> handleCustomException(CustomException e) {
+    public ResponseEntity<ApiResponse> handleCustomException(CustomException e) {
 
-        Map<String , Object> response = new HashMap<>();
-        response.put("code", e.getErrorCodes().getCode());
-        response.put("message", e.getErrorCodes().getMessage());
+        ApiResponse response = new ApiResponse(
+                e.getErrorCodes().getCode(),
+                e.getErrorCodes().getMessage()
+        );
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(response);
+
+//        response.put("code", e.getErrorCodes().getCode());
+//        response.put("message", e.getErrorCodes().getMessage());
 
     }
 

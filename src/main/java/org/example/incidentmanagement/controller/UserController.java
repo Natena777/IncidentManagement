@@ -1,8 +1,10 @@
 package org.example.incidentmanagement.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
+import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +25,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
-        List<UserResponseDto> user = userService.findAllUsers();
-        return ResponseEntity.ok(user);
+    public List<UserResponseDto> getAllUsers() {
+        return userService.findAllUsers();
     }
 
     @GetMapping("/id/{id}")
@@ -42,9 +43,16 @@ public class UserController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable int id) {
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable int id) {
+
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+
+        ApiResponse response = new ApiResponse(
+                ResponseCodes.USER_DELETED.getCode(),
+                ResponseCodes.USER_DELETED.getMessage()
+        );
+
+        return ResponseEntity.ok(response);
     }
 
 

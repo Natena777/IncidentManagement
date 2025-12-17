@@ -2,11 +2,14 @@ package org.example.incidentmanagement.controller;
 
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.requests.CreateUserRoleRequestDto;
 import org.example.incidentmanagement.dto.requests.UpdateUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
+import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,8 +47,16 @@ public class UserRoleController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteUserRole(@PathVariable int id) {
+    public ResponseEntity<ApiResponse> deleteUserRole(@PathVariable int id) {
         userRoleService.deleteUserRole(id);
+
+        ApiResponse response = new ApiResponse(
+                ResponseCodes.USER_DELETED.getCode(),
+                ResponseCodes.USER_DELETED.getMessage()
+        );
+
+        return ResponseEntity.ok(response);
+
     }
 
 
