@@ -71,11 +71,14 @@ public class UserRoleServiceImpl implements UserRoleService {
             throw new CustomException(ResponseCodes.NULL_CODE);
         }
 
+
+
         logger.info("Called Create user role with request: {}, {}, {}", createUserRoleRequestDto.getUserId(),
                 createUserRoleRequestDto.getRoleId(), createUserRoleRequestDto.getMainRole());
 
         UserRoles userRoles = userRoleMapper.toEntity(createUserRoleRequestDto);
         userRoles.setCreatedOn(LocalDateTime.now());
+        userRoles.setStatus("A");
         userRoles.setCreatedBy("Nika");
 
         if (!roleService.existsRole(createUserRoleRequestDto.getRoleId())) {
@@ -93,8 +96,9 @@ public class UserRoleServiceImpl implements UserRoleService {
                     createUserRoleRequestDto.getRoleId());
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
-
+        logger.info("mainRole before save = '{}'", userRoles.getMainRole());
         userRolesRepository.save(userRoles);
+
         return userRoleMapper.toResponse(userRoles);
     }
 

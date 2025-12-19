@@ -1,26 +1,39 @@
 package org.example.incidentmanagement.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "sysUserRoles")
+@Table(name = "sysuserroles")
 public class UserRoles {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "userid")
     private int userId;
+
+    @Column(name = "roleid")
     private int roleId;
+
+    @Column(name = "main_role")
     private String MainRole;
+
+    @Column(name = "status")
     private String Status;
+
+    @Column(name = "created_on")
     private LocalDateTime createdOn;
+
+    @Column(name = "created_by")
     private String createdBy;
+
+    @Column(name = "updated_on")
     private LocalDateTime updatedOn;
+
+    @Column(name = "updated_by")
     private String updatedBy;
 
 

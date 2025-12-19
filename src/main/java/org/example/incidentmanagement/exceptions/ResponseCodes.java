@@ -11,7 +11,8 @@ public enum ResponseCodes {
     NULL_CODE(-7, "Null Parameter"),
     USERROLEDELETED(10, "User Role Deleted Successfully "),
     USER_DELETED(15, "User  Deleted Successfully "),
-    ROLE_DELETED(20, "Role Deleted Successfully ");
+    ROLE_DELETED(20, "Role Deleted Successfully "),
+    VALIDATION_ERROR(-999, "Validation Error");
 
     private int code;
     private String message;

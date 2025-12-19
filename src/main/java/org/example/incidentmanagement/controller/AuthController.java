@@ -2,6 +2,7 @@ package org.example.incidentmanagement.controller;
 
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.example.incidentmanagement.dto.requests.LoginUserDto;
 import org.example.incidentmanagement.dto.requests.RegistrationUserDto;
 import org.example.incidentmanagement.dto.response.RegistrationUserRespDto;

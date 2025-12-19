@@ -10,28 +10,78 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "created_on")
+    private LocalDateTime createdOn;
+
+    @Column(name = "created_by")
+    private String CreatedBy;
+
+    @Column(name = "modified_by")
+    private String UpdatedBy;
+
+    @Column(name = "modified_on")
+    private LocalDateTime updatedOn;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "first_name_en")
+    private String firstNameEn;
+
+    @Column(name = "last_name_en")
+    private String lastNameEn;
+
+    @Column(name = "full_name_en")
+    private String fullNameEn;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "full_name")
     private String fullName;
+
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "phone")
     private String phone;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "active")
     private String active;
+
+    @Column(name = "start_date")
     private LocalDateTime startDate;
+
+    @Column(name = "end_date")
     private LocalDateTime endDate;
 
     public User() {
     }
 
-    public User(int id, String username, String firstName, String lastName,
-                String fullName, String password,
+    public User(int id, LocalDateTime createdOn, String createdBy,
+                LocalDateTime updatedOn, String updatedBy, String username,
+                String firstName, String lastName, String fullName,
+                String firstNameEn, String lastNameEn, String fullNameEn,
+                String password,
                 String email, String phone, String address, String active,
                 LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
+        this.createdOn = createdOn;
+        this.CreatedBy = createdBy;
+        this.updatedOn = updatedOn;
+        this.UpdatedBy = updatedBy;
         this.username = username;
         this.firstName= firstName;
         this.lastName = lastName;
@@ -43,6 +93,9 @@ public class User {
         this.active = active;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.firstNameEn = firstNameEn;
+        this.lastNameEn = lastNameEn;
+        this.fullNameEn = fullNameEn;
     }
 
     private User(int id, String username, String password, String email, LocalDateTime startDate, LocalDateTime endDate) {
@@ -60,6 +113,31 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+    public String getCreatedBy() {
+        return CreatedBy;
+    }
+    public void setCreatedBy(String createdBy) {
+        this.CreatedBy = createdBy;
+    }
+    public String getUpdatedBy() {
+        return UpdatedBy;
+    }
+    public void setUpdatedBy(String updatedBy) {
+        this.UpdatedBy = updatedBy;
+    }
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -123,6 +201,25 @@ public class User {
     }
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public String getFirstNameEn() {
+        return firstNameEn;
+    }
+    public void setFirstNameEn(String firstNameEn) {
+        this.firstNameEn = firstNameEn;
+    }
+    public String getLastNameEn() {
+        return lastNameEn;
+    }
+    public void setLastNameEn(String lastNameEn) {
+        this.lastNameEn = lastNameEn;
+    }
+    public String getFullNameEn() {
+        return fullNameEn;
+    }
+    public void setFullNameEn(String fullNameEn) {
+        this.fullNameEn = fullNameEn;
     }
 
 

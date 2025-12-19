@@ -2,9 +2,9 @@ package org.example.incidentmanagement.controller;
 
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.requests.CreateUserRoleRequestDto;
-import org.example.incidentmanagement.dto.requests.UpdateUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.UserRoleService;
@@ -42,7 +42,7 @@ public class UserRoleController {
     }
 
     @PostMapping("/create")
-    public UserRoleResponseDto createUserRole(@RequestBody CreateUserRoleRequestDto crrequestDto) {
+    public UserRoleResponseDto createUserRole(@Valid @RequestBody CreateUserRoleRequestDto crrequestDto) {
         return userRoleService.createUserRole(crrequestDto);
     }
 

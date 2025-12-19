@@ -60,8 +60,10 @@ public class RegistrationServiceImpl implements RegistrationService {
         //Set User Info
         user.setUsername(extractUsername(user.getEmail()));
         user.setStartDate(LocalDateTime.now());
+        user.setCreatedOn(LocalDateTime.now());
         user.setFullName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setActive("A");
+        user.setCreatedBy("Nika");
         User savedUser = userRepository.save(user);
 
         return userMapper.toRegistrationResp(savedUser);
