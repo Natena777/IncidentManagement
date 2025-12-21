@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/users")
 @Tag(name = "User Controller API",
         description = "User Management Controllers")
 public class UserController {

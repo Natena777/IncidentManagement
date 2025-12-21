@@ -8,7 +8,7 @@ public enum ResponseCodes {
     INVALID_USER(-4, "Invalid User"),
     INVALID_ROLE(-5, "Invalid Role"),
     INVALID_NEW_ROLE(-6, "New Role Already Exists"),
-    NULL_CODE(-7, "Null Parameter"),
+    INVALID_ASSIGNEE_GROUP(-7, "Assignee Group Not Found"),
     USERROLEDELETED(10, "User Role Deleted Successfully "),
     USER_DELETED(15, "User  Deleted Successfully "),
     ROLE_DELETED(20, "Role Deleted Successfully "),

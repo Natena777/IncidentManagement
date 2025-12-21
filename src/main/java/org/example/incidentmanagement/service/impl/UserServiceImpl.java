@@ -93,4 +93,15 @@ public class UserServiceImpl implements UserService {
         logger.info("Called Check User Exists on ID '{}' , Result: '{}'", id, exists  );
         return exists;
     }
+
+    @Override
+    public String getFullName(Integer id) {
+        String userFullName = userRepository.findFullNameById(id);
+        logger.info("Called GetFullName on ID {}  Result: {}", id, userFullName);
+        if (userFullName == null) {
+            throw new CustomException(ResponseCodes.INVALID_USER);
+        }
+
+        return userFullName;
+    }
 }

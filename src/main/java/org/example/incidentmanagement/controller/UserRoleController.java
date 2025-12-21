@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/userRole")
+@RequestMapping("/api/userRole")
 @Tag(name = "User Role API",
         description = "User Role Management Controllers")
 public class UserRoleController {

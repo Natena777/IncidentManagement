@@ -68,7 +68,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     public UserRoleResponseDto createUserRole(CreateUserRoleRequestDto createUserRoleRequestDto) {
         if (createUserRoleRequestDto == null){
             logger.info("Create user role with null request");
-            throw new CustomException(ResponseCodes.NULL_CODE);
+            throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
 
 
