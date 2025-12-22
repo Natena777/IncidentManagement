@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AssigneeGroupRepository extends JpaRepository<AssigneeGroups, Integer> {
+
+
+    AssigneeGroups findByGroupName(String groupName);
 }

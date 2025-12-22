@@ -1,5 +1,4 @@
 package org.example.incidentmanagement.service.impl;
-
 import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
 import org.example.incidentmanagement.entity.AssigneeGroups;
@@ -33,7 +32,6 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     }
 
 
-
     @Override
     public AssigneeGroupResponseDto findById(Integer id) {
         AssigneeGroups assigneeGroups = assigneeGroupRepository.findById(id).orElse(null);
@@ -49,7 +47,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
             String createdBy = userService.getFullName(assigneeGroups.getCreatedBy());
 
             if (createdBy != null) {
-               assgneeGroupresult.setCreatedBy(createdBy);
+                assgneeGroupresult.setCreatedBy(createdBy);
             }
         }
 
@@ -67,12 +65,67 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
     @Override
     public AssigneeGroupResponseDto findByGroupName(String groupName) {
-        return null;
+
+        AssigneeGroups assigneeGroups = assigneeGroupRepository.findByGroupName(groupName);
+
+        AssigneeGroupResponseDto assgneeGroupresult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
+
+        //Get and Set Created By User
+        if (assgneeGroupresult.getCreatedBy() != null) {
+            String createdBy = userService.getFullName(assigneeGroups.getCreatedBy());
+
+            if (createdBy != null) {
+                assgneeGroupresult.setCreatedBy(createdBy);
+            }
+        }
+
+        //Get and Set Updated By User
+        if (assgneeGroupresult.getUpdatedBy() != null) {
+            String updatedBy = userService.getFullName(assigneeGroups.getUpdatedBy());
+            if (updatedBy != null) {
+                assgneeGroupresult.setUpdatedBy(updatedBy);
+            }
+        }
+
+
+        return assgneeGroupresult;
+
     }
 
     @Override
     public List<AssigneeGroupResponseDto> findAll() {
-        return List.of();
+
+        List<AssigneeGroups> groups = assigneeGroupRepository.findAll();
+
+        List<AssigneeGroupResponseDto> result = groups.stream()
+                .map(group -> {
+                    AssigneeGroupResponseDto assigneeGroupResult =
+                            assigneeGroupMapper.toGroupResponseDto(group);
+
+                    // Get and Set Created By User
+                    if (group.getCreatedBy() != null) {
+                        String createdBy =
+                                userService.getFullName(group.getCreatedBy());
+
+                        if (createdBy != null) {
+                            assigneeGroupResult.setCreatedBy(createdBy);
+                        }
+                    }
+
+                    // Get and Set Updated By User
+                    if (group.getUpdatedBy() != null) {
+                        String updatedBy =
+                                userService.getFullName(group.getUpdatedBy());
+
+                        if (updatedBy != null) {
+                            assigneeGroupResult.setUpdatedBy(updatedBy);
+                        }
+                    }
+                    return assigneeGroupResult;
+                })
+                .toList();
+
+        return result;
     }
 
     @Override
@@ -106,6 +159,15 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
     @Override
     public void deleteAssigneeGroup(Integer id) {
+        AssigneeGroups assigneeGroups = assigneeGroupRepository.findById(id).orElse(null);
+
+        logger.info("Called Delete AssigneeGroup: {} {}", id, assigneeGroups.getGroupName() );
+        if (assigneeGroups == null) {
+            logger.info("AssigneeGroups with ID {} not found", id);
+            throw new CustomException(ResponseCodes.INVALID_ASSIGNEE_GROUP);
+        }
+
+        assigneeGroupRepository.delete(assigneeGroups);
 
     }
 }
