@@ -22,10 +22,13 @@ public class RoleServiceImpl implements RoleService {
 
 
     Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private RoleMapper roleMapper;
+    private final RoleRepository roleRepository;
+    private final RoleMapper roleMapper;
+
+    public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper) {
+        this.roleRepository = roleRepository;
+        this.roleMapper = roleMapper;
+    }
 
 
     @Override

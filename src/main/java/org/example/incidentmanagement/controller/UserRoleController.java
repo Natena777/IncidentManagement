@@ -21,9 +21,11 @@ import java.util.List;
         description = "User Role Management Controllers")
 public class UserRoleController {
 
-    @Autowired
-    UserRoleService userRoleService;
 
+    private final UserRoleService userRoleService;
+    public UserRoleController( UserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
+    }
 
     @GetMapping
     public List<UserRoleResponseDto> findUserRoles() {

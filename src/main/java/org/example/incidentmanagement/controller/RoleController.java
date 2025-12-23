@@ -19,8 +19,11 @@ import java.util.List;
 @Tag(name = "Role Controller API",
         description = "Role Management Controllers")
 public class RoleController {
-    @Autowired
-    RoleService roleService;
+
+    private final RoleService roleService;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @GetMapping
     public List<Role> getAllRoles() {
@@ -50,7 +53,7 @@ public class RoleController {
     }
 
 
-    @PostMapping("update/{name}")
+    @PutMapping("update/{name}")
     public RoleResponseDto updateRole(@PathVariable String name,
                                       @RequestBody UpdateRoleRequestDto updateRoleRequestDto) {
         return roleService.updateRole(name, updateRoleRequestDto);

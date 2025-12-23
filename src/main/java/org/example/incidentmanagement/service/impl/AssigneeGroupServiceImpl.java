@@ -97,30 +97,23 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
         List<AssigneeGroups> groups = assigneeGroupRepository.findAll();
 
+        //Get List With UserNames
         List<AssigneeGroupResponseDto> result = groups.stream()
                 .map(group -> {
                     AssigneeGroupResponseDto assigneeGroupResult =
                             assigneeGroupMapper.toGroupResponseDto(group);
 
+                    String createdBy = userService.getFullName(group.getCreatedBy());
+                    String updatedBy = userService.getFullName(group.getUpdatedBy());
+
                     // Get and Set Created By User
-                    if (group.getCreatedBy() != null) {
-                        String createdBy =
-                                userService.getFullName(group.getCreatedBy());
-
-                        if (createdBy != null) {
-                            assigneeGroupResult.setCreatedBy(createdBy);
-                        }
+                    if (createdBy != null) {
+                        assigneeGroupResult.setCreatedBy(createdBy);
                     }
+                     if (updatedBy != null) {
+                         assigneeGroupResult.setUpdatedBy(updatedBy);
+                     }
 
-                    // Get and Set Updated By User
-                    if (group.getUpdatedBy() != null) {
-                        String updatedBy =
-                                userService.getFullName(group.getUpdatedBy());
-
-                        if (updatedBy != null) {
-                            assigneeGroupResult.setUpdatedBy(updatedBy);
-                        }
-                    }
                     return assigneeGroupResult;
                 })
                 .toList();
@@ -137,21 +130,15 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         assigneeGroupRepository.save(assigneeGroups);
 
         AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
-        //Get and Set Created By User
-        if (assigneeGroupResult.getCreatedBy() != null) {
-            String createdBy = userService.getFullName(assigneeGroups.getCreatedBy());
 
-            if (createdBy != null) {
-                assigneeGroupResult.setCreatedBy(createdBy);
-            }
+        String createdBy = userService.getFullName(assigneeGroups.getCreatedBy());
+        String updatedBy = userService.getFullName(assigneeGroups.getUpdatedBy());
+
+        if (createdBy != null) {
+            assigneeGroupResult.setCreatedBy(createdBy);
         }
-
-        //Get and Set Updated By User
-        if (assigneeGroupResult.getUpdatedBy() != null) {
-            String updatedBy = userService.getFullName(assigneeGroups.getUpdatedBy());
-            if (updatedBy != null) {
-                assigneeGroupResult.setUpdatedBy(updatedBy);
-            }
+        if (updatedBy != null) {
+            assigneeGroupResult.setUpdatedBy(updatedBy);
         }
 
         return assigneeGroupResult;

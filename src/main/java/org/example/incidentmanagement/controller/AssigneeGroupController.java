@@ -14,9 +14,12 @@ import java.util.List;
 @RequestMapping("/api/assigneeGroup")
 public class AssigneeGroupController {
 
-    @Autowired
-    AssigneGroupService assigneGroupService;
 
+    private final AssigneGroupService assigneGroupService;
+
+    public AssigneeGroupController(AssigneGroupService assigneGroupService) {
+        this.assigneGroupService = assigneGroupService;
+    }
 
     @PostMapping("/create")
     public AssigneeGroupResponseDto createAssigneGroup(@RequestBody CreateAssigneeGroupRequestDto createAssigneeGroupRequestDto){
@@ -24,7 +27,7 @@ public class AssigneeGroupController {
         return result;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteAssigneGroup(@PathVariable Integer id) {
         assigneGroupService.deleteAssigneeGroup(id);
 

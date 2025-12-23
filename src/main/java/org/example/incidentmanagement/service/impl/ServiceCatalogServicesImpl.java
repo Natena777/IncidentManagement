@@ -13,9 +13,12 @@ import org.example.incidentmanagement.service.ServiceCatalogServices;
 import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
     Logger logger = LoggerFactory.getLogger(ServiceCatalogServicesImpl.class);
@@ -86,13 +89,22 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
     @Override
     public CreateScDepartmentsResponseDto createScDepartments(CreateScDepartmentsRequestDto createScDepartmentsRequestDto) {
+        logger.info("Called Create Department {}, {}, {} ", createScDepartmentsRequestDto.getDepartmentName(),
+                createScDepartmentsRequestDto.getDescription(), createScDepartmentsRequestDto.getActive());
+        ScDepartments scDepartments = scDepartmentsMapper.toScDepartmentsEntity(createScDepartmentsRequestDto);
+        scDepartments.setCreatedBy(2);
+        scDepartments.setCreatedDate(LocalDateTime.now());
+        scDepartmentsRepository.save(scDepartments);
 
-        return null;
+        CreateScDepartmentsResponseDto result = scDepartmentsMapper.toCreateScDepartmentsResponseDto(scDepartments);
+
+        return result;
 
     }
 
     @Override
     public void deleteScDepartments(Integer id) {
+
 
     }
 }
