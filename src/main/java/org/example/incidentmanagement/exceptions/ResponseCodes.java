@@ -11,6 +11,8 @@ public enum ResponseCodes {
     INVALID_ASSIGNEE_GROUP(-7, "Assignee Group Not Found"),
     INVALID_SERIVCE_CATALOG_DEPARTMENTS(-8, "Invalid Service Catalog Departments"),
     DELETE_SERVICE_CATALOG_DEPARTMENT_SUCCESFULY(30, "Service Catalog Department Deleted Succesfully"),
+    INVALID_SERIVCE_CATALOG_CATEGORY(-9, "Invalid Service Catalog Category"),
+    DELETE_SERVICE_CATALOG_CATEGORY_SUCCESFULY(35, "Service Catalog Category Deleted Succesfully"),
     USERROLEDELETED(10, "User Role Deleted Successfully "),
     USER_DELETED(15, "User  Deleted Successfully "),
     ROLE_DELETED(20, "Role Deleted Successfully "),
