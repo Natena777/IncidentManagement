@@ -34,6 +34,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
     @Override
     public AssigneeGroupResponseDto findById(Integer id) {
+        logger.info("Called Find AssigneeGroups by ID: {}", id);
         AssigneeGroups assigneeGroups = assigneeGroupRepository.findById(id).orElse(null);
         if (assigneeGroups == null) {
             logger.info("AssigneeGroups with ID {} not found", id);
@@ -65,12 +66,13 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
     @Override
     public AssigneeGroupResponseDto findByGroupName(String groupName) {
-
+        logger.info("Called Find AssigneeGroups by Group Name: {}", groupName);
         AssigneeGroups assigneeGroups = assigneeGroupRepository.findByGroupName(groupName);
 
         AssigneeGroupResponseDto assgneeGroupresult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
 
         //Get and Set Created By User
+
         if (assgneeGroupresult.getCreatedBy() != null) {
             String createdBy = userService.getFullName(assigneeGroups.getCreatedBy());
 
@@ -94,7 +96,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
     @Override
     public List<AssigneeGroupResponseDto> findAll() {
-
+        logger.info("Called Find All AssigneeGroups");
         List<AssigneeGroups> groups = assigneeGroupRepository.findAll();
 
         //Get List With UserNames
