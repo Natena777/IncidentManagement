@@ -149,10 +149,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         AssigneeGroups assigneeGroups = assigneeGroupRepository.findById(id).orElse(null);
 
         logger.info("Called Delete AssigneeGroup: {} {}", id, assigneeGroups.getGroupName() );
-        if (assigneeGroups == null) {
-            logger.info("AssigneeGroups with ID {} not found", id);
-            throw new CustomException(ResponseCodes.INVALID_ASSIGNEE_GROUP);
-        }
+
 
         assigneeGroupRepository.delete(assigneeGroups);
 

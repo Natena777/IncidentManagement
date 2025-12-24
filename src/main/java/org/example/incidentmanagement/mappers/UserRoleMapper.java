@@ -1,8 +1,6 @@
 package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.dto.requests.CreateUserRoleRequestDto;
-import org.example.incidentmanagement.dto.requests.UpdateUserRoleRequestDto;
-import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.entity.UserRoles;
 import org.mapstruct.Mapper;

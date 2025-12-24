@@ -3,15 +3,12 @@ package org.example.incidentmanagement.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
-import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
-import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")

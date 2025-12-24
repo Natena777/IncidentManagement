@@ -2,13 +2,10 @@ package org.example.incidentmanagement.controller;
 
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.example.incidentmanagement.dto.requests.LoginUserDto;
 import org.example.incidentmanagement.dto.requests.RegistrationUserDto;
 import org.example.incidentmanagement.dto.response.RegistrationUserRespDto;
-import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
-import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.service.LoginService;
 import org.example.incidentmanagement.service.RegistrationService;
 import org.springframework.web.bind.annotation.PostMapping;
