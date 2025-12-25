@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
@@ -124,7 +125,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         logger.info("Called Create Department {}, {}, {} ", createScDepartmentsRequestDto.getDepartmentName(),
                 createScDepartmentsRequestDto.getDescription(), createScDepartmentsRequestDto.getActive());
         ScDepartments scDepartments = scDepartmentsMapper.toScDepartmentsEntity(createScDepartmentsRequestDto);
-        scDepartments.setCreatedBy(2);
+        scDepartments.setCreatedBy(11);
         scDepartments.setCreatedDate(LocalDateTime.now());
         scDepartmentsRepository.save(scDepartments);
 
@@ -143,6 +144,12 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
     }
 
+    @Override
+    public String getScDepartmentName(Integer id){
+        String scDepartmentName = scDepartmentsRepository.findByDepartmenNametId(id);
+        return scDepartmentName;
+    }
+
 
 
     //Sc Category Services Implementation
@@ -153,8 +160,8 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                 createScCategoryRequestDto.getDescription(), createScCategoryRequestDto.getActive());
 
         ScCategory scCategory = scCategoryMapper.toScCategoryEntity(createScCategoryRequestDto);
-        scCategory.setCreatedBy(2);
-        scCategory.setCreatedDate(LocalDateTime.now());
+        scCategory.setCreatedBy(11);
+        scCategory.setCreatedOn(LocalDateTime.now());
         scCategoryRepository.save(scCategory);
 
         CreateScCategoryResponseDto result = scCategoryMapper.toCreateScCategoryResponseDto(scCategory);
@@ -181,11 +188,15 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                 .map(category -> {ScCategoryResponseDto scCategoryResponseDto = scCategoryMapper.toScCategoryResponseDto(category);
                     String createdBy = userService.getFullName(category.getCreatedBy());
                     String updatedBy = userService.getFullName(category.getUpdatedBy());
+                    String scDepartmentName = getScDepartmentName(category.getScDepartmentId());
                     if (createdBy != null) {
                         scCategoryResponseDto.setCreatedBy(createdBy);
                     }
                     if (updatedBy != null) {
                         scCategoryResponseDto.setUpdatedBy(updatedBy);
+                    }
+                    if (scDepartmentName != null) {
+                        scCategoryResponseDto.setScDepartment(scDepartmentName);
                     }
                     return scCategoryResponseDto;
                 }).toList();
@@ -202,11 +213,15 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         ScCategoryResponseDto scCategoryResponseDto = scCategoryMapper.toScCategoryResponseDto(scCategory);
         String createdBy = userService.getFullName(scCategory.getCreatedBy());
         String updatedBy = userService.getFullName(scCategory.getUpdatedBy());
+        String scDepartmentName = String.valueOf(getScDepartmentName(scCategory.getScDepartmentId()));
         if (createdBy != null) {
             scCategoryResponseDto.setCreatedBy(createdBy);
         }
         if (updatedBy != null) {
             scCategoryResponseDto.setUpdatedBy(updatedBy);
+        }
+        if (scDepartmentName != null) {
+            scCategoryResponseDto.setScDepartment(scDepartmentName);
         }
         return scCategoryResponseDto;
     }
@@ -221,11 +236,15 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         ScCategoryResponseDto scCategoryResponseDto = scCategoryMapper.toScCategoryResponseDto(scCategory);
         String createdBy = userService.getFullName(scCategory.getCreatedBy());
         String updatedBy = userService.getFullName(scCategory.getUpdatedBy());
+        String scDepartmentName = String.valueOf(getScDepartmentName(scCategory.getScDepartmentId()));
         if (createdBy != null) {
             scCategoryResponseDto.setCreatedBy(createdBy);
         }
         if (updatedBy != null) {
             scCategoryResponseDto.setUpdatedBy(updatedBy);
+        }
+        if (scDepartmentName != null) {
+            scCategoryResponseDto.setScDepartment(scDepartmentName);
         }
         return scCategoryResponseDto;
     }

@@ -128,7 +128,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         logger.info("Called Create AssigneeGroup: {}", createAssigneeGroupRequestDto.getGroupName());
         AssigneeGroups assigneeGroups = assigneeGroupMapper.toEntity(createAssigneeGroupRequestDto);
         assigneeGroups.setCreatedOn(LocalDateTime.now());
-        assigneeGroups.setCreatedBy(2);
+        assigneeGroups.setCreatedBy(11);
         assigneeGroupRepository.save(assigneeGroups);
 
         AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);

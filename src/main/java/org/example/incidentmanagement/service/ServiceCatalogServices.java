@@ -4,6 +4,7 @@ import org.example.incidentmanagement.dto.requests.*;
 import org.example.incidentmanagement.dto.response.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ServiceCatalogServices {
 
@@ -11,6 +12,7 @@ public interface ServiceCatalogServices {
     List<ScDepartmentsResponseDto> findAllScDepartments();
     ScDepartmentsResponseDto findScDepartmentById(Integer id);
     ScDepartmentsResponseDto findScDepartmentByName(String departmentName);
+    String getScDepartmentName(Integer id);
     CreateScDepartmentsResponseDto createScDepartments(CreateScDepartmentsRequestDto createScDepartmentsRequestDto);
     void deleteScDepartments(Integer id);
 

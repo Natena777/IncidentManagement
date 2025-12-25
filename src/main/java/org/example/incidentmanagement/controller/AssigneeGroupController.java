@@ -1,4 +1,5 @@
 package org.example.incidentmanagement.controller;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
@@ -11,6 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/assigneeGroup")
+@Tag(name = "Assignee Group Management API",
+        description = "Manage Assigne Group In System")
 public class AssigneeGroupController {
 
 

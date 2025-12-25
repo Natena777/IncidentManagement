@@ -96,12 +96,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getFullName(Integer id) {
-        String userFullName = userRepository.findFullNameById(id);
+        String userFullName = userRepository.findFullNameById(id).orElse(null);
         logger.info("Called GetFullName on ID {}  Result: {}", id, userFullName);
-        if (userFullName == null) {
-            throw new CustomException(ResponseCodes.INVALID_USER);
-        }
-
         return userFullName;
     }
 }

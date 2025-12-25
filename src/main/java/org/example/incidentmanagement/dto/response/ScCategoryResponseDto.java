@@ -2,34 +2,43 @@ package org.example.incidentmanagement.dto.response;
 
 public class ScCategoryResponseDto {
 
-    private String ScCategoryName;
+    private String scCategoryName;
     private String description;
+    private String scDepartment;
     private String active;
-    private String CreatedBy;
-    private String UpdatedBy;
+    private String createdBy;
+    private String updatedBy;
 
     public ScCategoryResponseDto() {
     }
 
-    public ScCategoryResponseDto(String scCategoryName, String description, String active, String createdBy, String updatedBy) {
-        ScCategoryName = scCategoryName;
+    public ScCategoryResponseDto(String scCategoryName, String description, String scDepartment, String active, String createdBy, String updatedBy) {
+        this.scCategoryName = scCategoryName;
         this.description = description;
+        this.scDepartment = scDepartment;
         this.active = active;
-        CreatedBy = createdBy;
-        UpdatedBy = updatedBy;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+
     }
 
     public String getScCategoryName() {
-        return ScCategoryName;
+        return scCategoryName;
     }
     public void setScCategoryName(String scCategoryName) {
-        ScCategoryName = scCategoryName;
+        this.scCategoryName = scCategoryName;
     }
     public String getDescription() {
         return description;
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public String getScDepartment() {
+        return scDepartment;
+    }
+    public void setScDepartment(String scDepartment) {
+        this.scDepartment = scDepartment;
     }
     public String getActive() {
         return active;
@@ -38,13 +47,19 @@ public class ScCategoryResponseDto {
         this.active = active;
     }
     public String getCreatedBy() {
-        return CreatedBy;
+        return createdBy;
     }
     public void setCreatedBy(String createdBy) {
-        CreatedBy = createdBy;
+        this.createdBy = createdBy;
     }
     public String getUpdatedBy() {
-        return UpdatedBy;
+        return updatedBy;
     }
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+
+
 
 }

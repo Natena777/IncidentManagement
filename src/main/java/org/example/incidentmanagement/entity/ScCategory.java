@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "category")
+@Table(name = "sccategory")
 public class ScCategory {
 
     @Id
@@ -19,6 +19,9 @@ public class ScCategory {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "scdepartment_id")
+    private Integer scDepartmentId;
 
     @Column(name = "active")
     private String active;
@@ -38,12 +41,13 @@ public class ScCategory {
     public ScCategory() {
     }
 
-    public ScCategory(Integer id, String scCategoryName, String description, String active,
-                      Integer createdBy, Integer updatedBy,
+    public ScCategory(Integer id, String scCategoryName, String description, Integer scDepartmentId,
+                      String active, Integer createdBy, Integer updatedBy,
                       LocalDateTime createdOn, LocalDateTime updatedOn) {
         this.id = id;
         this.scCategoryName = scCategoryName;
         this.description = description;
+        this.scDepartmentId = scDepartmentId;
         this.active = active;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
@@ -68,6 +72,12 @@ public class ScCategory {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public Integer getScDepartmentId() {
+        return scDepartmentId;
+    }
+    public void setScDepartmentId(Integer scDepartmentId) {
+        this.scDepartmentId = scDepartmentId;
     }
     public String getActive() {
         return active;
