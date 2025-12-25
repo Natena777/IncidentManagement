@@ -22,9 +22,8 @@ public class CreateScCategoryResponseDto {
     public String getScCategoryName() {
         return scCategoryName;
     }
-
     public void setScCategoryName(String scCategoryName) {
-        scCategoryName = scCategoryName;
+        this.scCategoryName = scCategoryName;
     }
     public String getScDepartment() {
         return scDepartment;

@@ -4,10 +4,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.requests.CreateScCategoryRequestDto;
 import org.example.incidentmanagement.dto.requests.CreateScDepartmentsRequestDto;
-import org.example.incidentmanagement.dto.response.CreateScCategoryResponseDto;
-import org.example.incidentmanagement.dto.response.CreateScDepartmentsResponseDto;
-import org.example.incidentmanagement.dto.response.ScCategoryResponseDto;
-import org.example.incidentmanagement.dto.response.ScDepartmentsResponseDto;
+import org.example.incidentmanagement.dto.requests.CreateScSubCategoryRequestDto;
+import org.example.incidentmanagement.dto.response.*;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.ServiceCatalogServices;
 import org.springframework.http.ResponseEntity;
@@ -95,7 +93,38 @@ public class ServiceCatalogServicesController {
         );
 
         return ResponseEntity.ok(apiResponse);
+    }
 
+
+    //Service Catalog SubCategory Controller
+    @GetMapping("/scSubCategory")
+    public List<ScSubCategoryResponseDto> getAllScSubCategory(){
+        return serviceCatalogServices.findAllScSubCategories();
+    }
+
+    @GetMapping("/scSubCategory/{id}")
+    public ScSubCategoryResponseDto getScSubCategoryById(@PathVariable Integer id){
+        return serviceCatalogServices.findScSubCategoryById(id);
+    }
+
+    @GetMapping("/scSubCategory/name/{name}")
+    public ScSubCategoryResponseDto getScSubCategoryByName(@PathVariable String name){
+        return serviceCatalogServices.findScSubCategoryByName(name);
+    }
+
+    @PostMapping("/scSubCategory")
+    public CreateScSubCategoryResponseDto createScSubCategory(@RequestBody CreateScSubCategoryRequestDto createScSubCategoryRequestDto){
+        return serviceCatalogServices.createScSubCategory(createScSubCategoryRequestDto);
+    }
+
+    @DeleteMapping("/scSubCategory/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteScSubCategory(@PathVariable Integer id){
+        serviceCatalogServices.deleteScSubCategory(id);
+        ApiResponse apiResponse = new ApiResponse(
+                ResponseCodes.DELETE_SERVICE_CATALOG_SUBCATEGORY_SUCCESFULY.getCode(),
+                ResponseCodes.DELETE_SERVICE_CATALOG_SUBCATEGORY_SUCCESFULY.getMessage());
+
+        return ResponseEntity.ok(apiResponse);
     }
 
 

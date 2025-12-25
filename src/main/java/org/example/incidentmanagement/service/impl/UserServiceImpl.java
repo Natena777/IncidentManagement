@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto findUserByUsername(String username) {
-        logger.info("Called findUserByUsername: " + username);
+        logger.info("Called findUserByUsername: {}",  username);
         User user = userRepository.findByUsername(username);
 
         if (user == null) {
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto findUserByEmail(String email) {
-        logger.info("Called findUserByEmail: " + email);
+        logger.info("Called findUserByEmail: {}", email);
         User user = userRepository.findByEmail(email);
 
         if (user == null) {
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto findUserById(int id) {
-        logger.info("Called findUserById: " + id);
+        logger.info("Called findUserById: {}", id);
         Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty()) {
@@ -75,14 +75,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int id) {
-        logger.info("Called deleteUser: " +  findUserById(id));
+        logger.info("Called deleteUser: {}",  findUserById(id));
         userRepository.deleteById(id);
 
     }
 
     @Override
     public void updateUser(User user) {
-        logger.info("Called updateUser: " + user);
+        logger.info("Called updateUser: {}", user);
         userRepository.save(user);
 
     }

@@ -33,7 +33,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     public RegistrationUserRespDto registerUser(RegistrationUserDto userDto) {
         //Email Check
         if (userDto.getEmail().length() > 0) {
-            logger.info("Called Check Email For: " + userDto.getEmail());
+            logger.info("Called Check Email For: {}", userDto.getEmail());
             if (!userDto.getEmail().contains("@")){
                 logger.info("Email {} Does Not Contain @ ",  userDto.getEmail());
                 throw new CustomException(ResponseCodes.INVALID_EMAIL);
@@ -48,7 +48,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         //Password Length Check
         if (userDto.getPassword().length() > 0 ) {
-            logger.info("Called Check Password For Client : " + userDto.getFirstName() + " " + userDto.getLastName());
+            logger.info("Called Check Password For Client : {} {}", userDto.getFirstName(), userDto.getLastName());
             if (userDto.getPassword().length() < 8) {
                 throw new CustomException(ResponseCodes.INVALID_PASSWORD);
             }
@@ -72,9 +72,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     //Generate Username From Email
     public String extractUsername(String email) {
-        String username = "";
-        username = email.split("@")[0];
-        logger.info("Called Generated Username: " +  username);
+        String username = email.split("@")[0];
+        logger.info("Called Generated Username: {}",  username);
         return username;
     }
 

@@ -41,27 +41,27 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
             throw new CustomException(ResponseCodes.INVALID_ASSIGNEE_GROUP);
         }
 
-        AssigneeGroupResponseDto assgneeGroupresult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
+        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
 
         //Get and Set Created By User
-        if (assgneeGroupresult.getCreatedBy() != null) {
+        if (assigneeGroupResult.getCreatedBy() != null) {
             String createdBy = userService.getFullName(assigneeGroups.getCreatedBy());
 
             if (createdBy != null) {
-                assgneeGroupresult.setCreatedBy(createdBy);
+                assigneeGroupResult.setCreatedBy(createdBy);
             }
         }
 
         //Get and Set Updated By User
-        if (assgneeGroupresult.getUpdatedBy() != null) {
+        if (assigneeGroupResult.getUpdatedBy() != null) {
             String updatedBy = userService.getFullName(assigneeGroups.getUpdatedBy());
             if (updatedBy != null) {
-                assgneeGroupresult.setUpdatedBy(updatedBy);
+                assigneeGroupResult.setUpdatedBy(updatedBy);
             }
         }
 
 
-        return assgneeGroupresult;
+        return assigneeGroupResult;
     }
 
     @Override
@@ -69,28 +69,28 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         logger.info("Called Find AssigneeGroups by Group Name: {}", groupName);
         AssigneeGroups assigneeGroups = assigneeGroupRepository.findByGroupName(groupName);
 
-        AssigneeGroupResponseDto assgneeGroupresult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
+        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
 
         //Get and Set Created By User
 
-        if (assgneeGroupresult.getCreatedBy() != null) {
+        if (assigneeGroupResult.getCreatedBy() != null) {
             String createdBy = userService.getFullName(assigneeGroups.getCreatedBy());
 
             if (createdBy != null) {
-                assgneeGroupresult.setCreatedBy(createdBy);
+                assigneeGroupResult.setCreatedBy(createdBy);
             }
         }
 
         //Get and Set Updated By User
-        if (assgneeGroupresult.getUpdatedBy() != null) {
+        if (assigneeGroupResult.getUpdatedBy() != null) {
             String updatedBy = userService.getFullName(assigneeGroups.getUpdatedBy());
             if (updatedBy != null) {
-                assgneeGroupresult.setUpdatedBy(updatedBy);
+                assigneeGroupResult.setUpdatedBy(updatedBy);
             }
         }
 
 
-        return assgneeGroupresult;
+        return assigneeGroupResult;
 
     }
 

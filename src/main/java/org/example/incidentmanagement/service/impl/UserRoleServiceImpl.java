@@ -45,7 +45,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public UserRoleResponseDto findUserRoleById(int id) {
-        logger.info("Find user role by id: " + id);
+        logger.info("Find user role by id: {}",  id);
         UserRoles userroles = userRolesRepository.findById(id);
         return userRoleMapper.toResponse(userroles);
     }
@@ -105,7 +105,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public void deleteUserRole(int id) {
-        logger.info("Deleting user role with id: " + id);
+        logger.info("Deleting user role with id: {}", id);
         UserRoles userRoles = userRolesRepository.findById(id);
 
         if (userRoles == null) {

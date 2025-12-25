@@ -39,7 +39,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleResponseDto findByRoleName(String roleName) {
-        logger.info("Called Find Role Named: " + roleName);
+        logger.info("Called Find Role Named: {}", roleName);
         if (roleName == null) {
             logger.info("Role Name is provided Null");
             throw new CustomException(ResponseCodes.INVALID_ROLE);
@@ -100,7 +100,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void deleteRole(String name) {
-        logger.info("called Delete Role : " + name );
+        logger.info("called Delete Role : {}", name );
 
         if (name == null) {
             logger.info("delete() called with null role");

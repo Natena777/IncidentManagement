@@ -8,8 +8,10 @@ import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.ScCategoryMapper;
 import org.example.incidentmanagement.mappers.ScDepartmentsMapper;
+import org.example.incidentmanagement.mappers.ScSubCategoryMapper;
 import org.example.incidentmanagement.repository.ScCategoryRepository;
 import org.example.incidentmanagement.repository.ScDepartmentsRepository;
+import org.example.incidentmanagement.repository.ScSubCategoryRepository;
 import org.example.incidentmanagement.service.ServiceCatalogServices;
 import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
@@ -33,18 +34,28 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     private final ScCategoryRepository scCategoryRepository;
     private final ScCategoryMapper scCategoryMapper;
 
+    //Sc SubCategory Dependencies
+    private final ScSubCategoryRepository scSubCategoryRepository;
+    private final ScSubCategoryMapper scSubCategoryMapper;
 
     public ServiceCatalogServicesImpl(ScDepartmentsRepository scDepartmentsRepository,
                                       ScDepartmentsMapper scDepartmentsMapper,
                                       UserService userService,
                                       ScCategoryRepository scCategoryRepository,
-                                      ScCategoryMapper scCategoryMapper) {
+                                      ScCategoryMapper scCategoryMapper,
+                                      ScSubCategoryRepository scSubCategoryRepository,
+                                      ScSubCategoryMapper scSubCategoryMapper) {
         this.scDepartmentsRepository = scDepartmentsRepository;
         this.scDepartmentsMapper = scDepartmentsMapper;
         this.userService = userService;
         this.scCategoryRepository = scCategoryRepository;
         this.scCategoryMapper = scCategoryMapper;
+        this.scSubCategoryRepository = scSubCategoryRepository;
+        this.scSubCategoryMapper = scSubCategoryMapper;
     }
+
+
+
 
 
 
@@ -160,13 +171,27 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                 createScCategoryRequestDto.getDescription(), createScCategoryRequestDto.getActive());
 
         ScCategory scCategory = scCategoryMapper.toScCategoryEntity(createScCategoryRequestDto);
+
+        logger.info("AFTER MAPPING: name={}", scCategory.getScCategoryName());
+
         scCategory.setCreatedBy(11);
         scCategory.setCreatedOn(LocalDateTime.now());
         scCategoryRepository.save(scCategory);
 
-        CreateScCategoryResponseDto result = scCategoryMapper.toCreateScCategoryResponseDto(scCategory);
 
+        logger.info("AFTER SAVE: name={}", scCategory.getScCategoryName());
+        String scDepartmentName = getScDepartmentName(scCategory.getScDepartmentId());
+        CreateScCategoryResponseDto result = scCategoryMapper.toCreateScCategoryResponseDto(scCategory);
+        logger.info("AFTER Result: name={}", result.getScCategoryName());
+
+        result.setScDepartment(scDepartmentName);
         return result;
+    }
+
+    @Override
+    public String getScCategoryName(Integer id) {
+        String scCategoryName =  scCategoryRepository.findByScCategoryNameById(id);
+        return scCategoryName;
     }
 
 
@@ -213,7 +238,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         ScCategoryResponseDto scCategoryResponseDto = scCategoryMapper.toScCategoryResponseDto(scCategory);
         String createdBy = userService.getFullName(scCategory.getCreatedBy());
         String updatedBy = userService.getFullName(scCategory.getUpdatedBy());
-        String scDepartmentName = String.valueOf(getScDepartmentName(scCategory.getScDepartmentId()));
+        String scDepartmentName = getScDepartmentName(scCategory.getScDepartmentId());
         if (createdBy != null) {
             scCategoryResponseDto.setCreatedBy(createdBy);
         }
@@ -236,7 +261,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         ScCategoryResponseDto scCategoryResponseDto = scCategoryMapper.toScCategoryResponseDto(scCategory);
         String createdBy = userService.getFullName(scCategory.getCreatedBy());
         String updatedBy = userService.getFullName(scCategory.getUpdatedBy());
-        String scDepartmentName = String.valueOf(getScDepartmentName(scCategory.getScDepartmentId()));
+        String scDepartmentName = getScDepartmentName(scCategory.getScDepartmentId());
         if (createdBy != null) {
             scCategoryResponseDto.setCreatedBy(createdBy);
         }
@@ -250,6 +275,106 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     }
 
 
+
+    //Service Catalog Sub Category
+    @Override
+    public List<ScSubCategoryResponseDto> findAllScSubCategories() {
+        logger.info("Called Find All Service Catalog SubCategories");
+        List<ScSubCategory> scSubCategoryList = scSubCategoryRepository.findAll();
+        List<ScSubCategoryResponseDto> scSubCategoryResponseDtoList = scSubCategoryList.stream()
+                .map(subcategory -> {ScSubCategoryResponseDto scSubCategoryResponseDto = scSubCategoryMapper.toScSubCategoryResponseDto(subcategory);
+                    String createdBy = userService.getFullName(subcategory.getCreatedBy());
+                    String updatedBy = userService.getFullName(subcategory.getUpdatedBy());
+                    String scCategoryName = getScCategoryName(subcategory.getScCategoryId());
+                    if (createdBy != null) {
+                        scSubCategoryResponseDto.setCreatedBy(createdBy);
+                    }
+                    if (updatedBy != null) {
+                        scSubCategoryResponseDto.setUpdatedBy(updatedBy);
+                    }
+                    if (scCategoryName != null) {
+                        scSubCategoryResponseDto.setScCategoryName(scCategoryName);
+                    }
+                    return scSubCategoryResponseDto;
+                }).toList();
+
+        return scSubCategoryResponseDtoList;
+    }
+
+    @Override
+    public ScSubCategoryResponseDto findScSubCategoryById(Integer id) {
+        logger.info("Called Find Service Catalog SubCategory By ID: {} ", id);
+        ScSubCategory scSubCategory = scSubCategoryRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SUBCATEGORY));
+
+        ScSubCategoryResponseDto scSubCategoryResponseDto = scSubCategoryMapper.toScSubCategoryResponseDto(scSubCategory);
+        String createdBy = userService.getFullName(scSubCategory.getCreatedBy());
+        String updatedBy = userService.getFullName(scSubCategory.getUpdatedBy());
+        String scCategoryName = getScCategoryName(scSubCategory.getScCategoryId());
+        if (createdBy != null) {
+            scSubCategoryResponseDto.setCreatedBy(createdBy);
+        }
+        if (updatedBy != null) {
+            scSubCategoryResponseDto.setUpdatedBy(updatedBy);
+        }
+        if (scCategoryName != null) {
+            scSubCategoryResponseDto.setScCategoryName(scCategoryName);
+        }
+        return scSubCategoryResponseDto;
+    }
+
+    @Override
+    public ScSubCategoryResponseDto findScSubCategoryByName(String subCategoryName) {
+        logger.info("Called Find Service Catalog SubCategory By Name: {} ", subCategoryName);
+        ScSubCategory scSubCategory = scSubCategoryRepository.findByScSubCategoryName(subCategoryName)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SUBCATEGORY));
+
+        ScSubCategoryResponseDto scSubCategoryResponseDto = scSubCategoryMapper.toScSubCategoryResponseDto(scSubCategory);
+        String createdBy = userService.getFullName(scSubCategory.getCreatedBy());
+        String updatedBy = userService.getFullName(scSubCategory.getUpdatedBy());
+        String scCategoryName = getScCategoryName(scSubCategory.getScCategoryId());
+        if (createdBy != null) {
+            scSubCategoryResponseDto.setCreatedBy(createdBy);
+        }
+        if (updatedBy != null) {
+            scSubCategoryResponseDto.setUpdatedBy(updatedBy);
+        }
+        if (scCategoryName != null) {
+            scSubCategoryResponseDto.setScCategoryName(scCategoryName);
+        }
+        return scSubCategoryResponseDto;
+    }
+
+    @Override
+    public CreateScSubCategoryResponseDto createScSubCategory(CreateScSubCategoryRequestDto createScSubCategoryRequestDto) {
+        logger.info("Called Create Service Catalog Category {}, {}, {} ", createScSubCategoryRequestDto.getScSubCategoryName(),
+                createScSubCategoryRequestDto.getDescription(), createScSubCategoryRequestDto.getActive());
+
+        ScSubCategory scSubCategory = scSubCategoryMapper.toScSubCategory(createScSubCategoryRequestDto);
+        scSubCategory.setCreatedBy(11);
+        scSubCategory.setCreatedOn(LocalDateTime.now());
+        scSubCategoryRepository.save(scSubCategory);
+
+        String scCategoryName = getScCategoryName(createScSubCategoryRequestDto.getScCategoryId());
+
+        CreateScSubCategoryResponseDto result = scSubCategoryMapper.toCreateScSubCategoryResponseDto(scSubCategory);
+        result.setScCategoryName(scCategoryName);
+        return result;
+    }
+
+    @Override
+    public String getScSubCategoryName(Integer id) {
+        String scSubCategoryName = scSubCategoryRepository.findScSubCategoryNameById(id);
+        return scSubCategoryName;
+    }
+
+    @Override
+    public void deleteScSubCategory(Integer id) {
+        logger.info("Called Delete Service Catalog SubCategory By ID: {} ", id);
+        ScSubCategory scSubCategory = scSubCategoryRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SUBCATEGORY));
+        scSubCategoryRepository.delete(scSubCategory);
+    }
 
 
 

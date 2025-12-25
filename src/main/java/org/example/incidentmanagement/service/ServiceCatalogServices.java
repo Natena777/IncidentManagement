@@ -22,6 +22,17 @@ public interface ServiceCatalogServices {
     ScCategoryResponseDto findScCategoryById(Integer id);
     ScCategoryResponseDto findScCategoryByName(String categoryName);
     CreateScCategoryResponseDto createScCategory(CreateScCategoryRequestDto createScCategoryRequestDto);
+    String getScCategoryName(Integer id);
     void deleteScCategory(Integer id);
+
+
+    //Sc SubCategory Services
+    List<ScSubCategoryResponseDto> findAllScSubCategories();
+    ScSubCategoryResponseDto findScSubCategoryById(Integer id);
+    ScSubCategoryResponseDto findScSubCategoryByName(String subCategoryName);
+    CreateScSubCategoryResponseDto createScSubCategory(CreateScSubCategoryRequestDto createScSubCategoryRequestDto);
+    String getScSubCategoryName(Integer id);
+    void deleteScSubCategory(Integer id);
+
 
 }
