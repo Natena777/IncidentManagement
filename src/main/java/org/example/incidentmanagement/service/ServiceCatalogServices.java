@@ -1,7 +1,9 @@
 package org.example.incidentmanagement.service;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.example.incidentmanagement.dto.requests.*;
 import org.example.incidentmanagement.dto.response.*;
+import org.example.incidentmanagement.entity.ScServices;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,5 +36,13 @@ public interface ServiceCatalogServices {
     String getScSubCategoryName(Integer id);
     void deleteScSubCategory(Integer id);
 
+
+    //Sc Services service
+    List<ScServicesResponseDto> findAllScServices();
+    ScServicesResponseDto findScServicesById(Integer id);
+    ScServicesResponseDto findScServicesByName(String serviceName);
+    CreateScServicesResponseDto createScServices(CreateScServicesRequestDto createScServicesRequestDto);
+    List<ServiceCatalogFullResponseDto> getScFullFlow();
+    void deleteScServices(Integer id);
 
 }

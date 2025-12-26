@@ -1,6 +1,7 @@
 package org.example.incidentmanagement.service.impl;
 
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.example.incidentmanagement.dto.requests.*;
 import org.example.incidentmanagement.dto.response.*;
 import org.example.incidentmanagement.entity.*;
@@ -8,10 +9,13 @@ import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.ScCategoryMapper;
 import org.example.incidentmanagement.mappers.ScDepartmentsMapper;
+import org.example.incidentmanagement.mappers.ScServicesMapper;
 import org.example.incidentmanagement.mappers.ScSubCategoryMapper;
 import org.example.incidentmanagement.repository.ScCategoryRepository;
 import org.example.incidentmanagement.repository.ScDepartmentsRepository;
+import org.example.incidentmanagement.repository.ScServicesRepository;
 import org.example.incidentmanagement.repository.ScSubCategoryRepository;
+import org.example.incidentmanagement.service.AssigneGroupService;
 import org.example.incidentmanagement.service.ServiceCatalogServices;
 import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
@@ -19,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,13 +43,21 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     private final ScSubCategoryRepository scSubCategoryRepository;
     private final ScSubCategoryMapper scSubCategoryMapper;
 
+    //Sc Services Dependencies
+    private final ScServicesRepository scServicesRepository;
+    private final ScServicesMapper scServicesMapper;
+    private final AssigneGroupService assigneeGroupService;
+
     public ServiceCatalogServicesImpl(ScDepartmentsRepository scDepartmentsRepository,
                                       ScDepartmentsMapper scDepartmentsMapper,
                                       UserService userService,
                                       ScCategoryRepository scCategoryRepository,
                                       ScCategoryMapper scCategoryMapper,
                                       ScSubCategoryRepository scSubCategoryRepository,
-                                      ScSubCategoryMapper scSubCategoryMapper) {
+                                      ScSubCategoryMapper scSubCategoryMapper,
+                                      ScServicesRepository scServicesRepository,
+                                      ScServicesMapper scServicesMapper,
+                                      AssigneGroupService assigneeGroupService) {
         this.scDepartmentsRepository = scDepartmentsRepository;
         this.scDepartmentsMapper = scDepartmentsMapper;
         this.userService = userService;
@@ -52,6 +65,9 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         this.scCategoryMapper = scCategoryMapper;
         this.scSubCategoryRepository = scSubCategoryRepository;
         this.scSubCategoryMapper = scSubCategoryMapper;
+        this.scServicesRepository = scServicesRepository;
+        this.scServicesMapper = scServicesMapper;
+        this.assigneeGroupService = assigneeGroupService;
     }
 
 
@@ -377,6 +393,139 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     }
 
 
+    @Override
+    public List<ScServicesResponseDto> findAllScServices() {
+        logger.info("Called Find All Service Catalog Services");
+        List<ScServices> scServiceslist = scServicesRepository.findAll();
+        List<ScServicesResponseDto> scServicesResponseDtoList = scServiceslist.stream()
+                .map(scServices -> {
+                    ScServicesResponseDto scServicesResponseDto = scServicesMapper.toScServicesResponseDto(scServices);
+                    String createdBy = userService.getFullName(scServices.getCreatedBy());
+                    String updatedBy = userService.getFullName(scServices.getUpdatedBy());
+                    String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
+                    String scCategoryName = getScCategoryName(scServices.getScCategoryId());
+                    String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
+                    String assigneeGroupName = assigneeGroupService.getAssigneeGroupName(scServices.getAssigneeGroupId());
+                    String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue();
+                    String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
 
-    
+
+                    scServicesResponseDto.setCreatedBy(createdBy);
+                    scServicesResponseDto.setUpdatedBy(updatedBy);
+                    scServicesResponseDto.setScDepartmentName(scDepartmentName);
+                    scServicesResponseDto.setScCategoryName(scCategoryName);
+                    scServicesResponseDto.setScSubCategoryName(scSubCategoryName);
+                    scServicesResponseDto.setAssigneeGroupName(assigneeGroupName);
+                    scServicesResponseDto.setResponseTime(responseTime);
+                    scServicesResponseDto.setResolutionTime(resolutionTime);
+
+                return scServicesResponseDto;})
+                .toList();
+
+        return scServicesResponseDtoList;
+    }
+
+    @Override
+    public ScServicesResponseDto findScServicesById(Integer id) {
+        logger.info("Called Find Service Catalog Service By ID: {} ", id);
+        ScServices scServices = scServicesRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SERVICES));
+
+        ScServicesResponseDto scServicesResponseDto = scServicesMapper.toScServicesResponseDto(scServices);
+
+        if (scServices != null) {
+            //get value
+            String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
+            String scCategoryName = getScCategoryName(scServices.getScCategoryId());
+            String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
+            String assigneeGroupName = assigneeGroupService.getAssigneeGroupName(scServices.getAssigneeGroupId());
+            String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue();
+            String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
+
+            //set
+            scServicesResponseDto.setServicesName(scServices.getServicesName());
+            scServicesResponseDto.setScDepartmentName(scDepartmentName);
+            scServicesResponseDto.setScCategoryName(scCategoryName);
+            scServicesResponseDto.setScSubCategoryName(scSubCategoryName);
+            scServicesResponseDto.setAssigneeGroupName(assigneeGroupName);
+            scServicesResponseDto.setResponseTime(responseTime);
+            scServicesResponseDto.setResolutionTime(resolutionTime);
+        }
+        return scServicesResponseDto;
+    }
+
+    @Override
+    public ScServicesResponseDto findScServicesByName(String serviceName) {
+        logger.info("Called Find Service Catalog Service By Name: {} ", serviceName);
+        ScServices scServices = scServicesRepository.findByServicesName(serviceName)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SERVICES));
+
+        ScServicesResponseDto scServicesResponseDto = scServicesMapper.toScServicesResponseDto(scServices);
+
+        if (scServices != null) {
+            //get value
+            String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
+            String scCategoryName = getScCategoryName(scServices.getScCategoryId());
+            String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
+            String assigneeGroupName = assigneeGroupService.getAssigneeGroupName(scServices.getAssigneeGroupId());
+            String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue();
+            String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
+
+            //set
+            scServicesResponseDto.setServicesName(scServices.getServicesName());
+            scServicesResponseDto.setScDepartmentName(scDepartmentName);
+            scServicesResponseDto.setScCategoryName(scCategoryName);
+            scServicesResponseDto.setScSubCategoryName(scSubCategoryName);
+            scServicesResponseDto.setAssigneeGroupName(assigneeGroupName);
+            scServicesResponseDto.setResponseTime(responseTime);
+            scServicesResponseDto.setResolutionTime(resolutionTime);
+        }
+        return scServicesResponseDto;
+    }
+
+    @Override
+    public CreateScServicesResponseDto createScServices(CreateScServicesRequestDto createScServicesRequestDto) {
+        logger.info("Called Create Service Catalog Service ");
+
+        ScServices scServices = scServicesMapper.toScServicesEntity(createScServicesRequestDto);
+        scServices.setCreatedBy(11);
+        scServices.setCreatedDate(LocalDateTime.now());
+        scServicesRepository.save(scServices);
+
+        String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
+        String scCategoryName = getScCategoryName(scServices.getScCategoryId());
+        String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
+        String assigneeGroupName = assigneeGroupService.getAssigneeGroupName(scServices.getAssigneeGroupId());
+        String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue() ;
+        String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
+
+
+        CreateScServicesResponseDto scServicesResponseDto = scServicesMapper.toCreateScServicesResponseDto(scServices);
+        scServicesResponseDto.setServicesName(createScServicesRequestDto.getServicesName());
+        scServicesResponseDto.setScDepartmentName(scDepartmentName);
+        scServicesResponseDto.setScCategoryName(scCategoryName);
+        scServicesResponseDto.setScSubCategoryName(scSubCategoryName);
+        scServicesResponseDto.setAssigneeGroupName(assigneeGroupName);
+        scServicesResponseDto.setResponseTime(responseTime);
+        scServicesResponseDto.setResolutionTime(resolutionTime);
+
+
+        return scServicesResponseDto;
+    }
+
+    @Override
+    public List<ServiceCatalogFullResponseDto> getScFullFlow() {
+        logger.info("Called Get Service Catalog Service By ID: {} ");
+        List<ServiceCatalogFullResponseDto> getScFullFlow = scServicesRepository.findFullFlowServiceCatalog();
+        return getScFullFlow;
+    }
+
+    @Override
+    public void deleteScServices(Integer id) {
+        logger.info("Called Delete Service Catalog Service By ID: {} ", id);
+        ScServices scServices = scServicesRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SERVICES));
+        scServicesRepository.delete(scServices);
+
+    }
 }

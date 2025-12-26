@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.requests.CreateScCategoryRequestDto;
 import org.example.incidentmanagement.dto.requests.CreateScDepartmentsRequestDto;
+import org.example.incidentmanagement.dto.requests.CreateScServicesRequestDto;
 import org.example.incidentmanagement.dto.requests.CreateScSubCategoryRequestDto;
 import org.example.incidentmanagement.dto.response.*;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
@@ -11,6 +12,7 @@ import org.example.incidentmanagement.service.ServiceCatalogServices;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -126,6 +128,46 @@ public class ServiceCatalogServicesController {
 
         return ResponseEntity.ok(apiResponse);
     }
+
+
+
+    //Service Catalog Services Controller
+    @GetMapping("/scServices")
+    public List<ScServicesResponseDto> getAllScServices(){
+        return serviceCatalogServices.findAllScServices();
+    }
+
+    @GetMapping("/scServices/{id}")
+    public ScServicesResponseDto getScServicesById(@PathVariable Integer id){
+        return serviceCatalogServices.findScServicesById(id);
+    }
+
+    @GetMapping("/scServices/name/{name}")
+    public ScServicesResponseDto getScServicesByName(@PathVariable String name){
+        return serviceCatalogServices.findScServicesByName(name);
+    }
+
+    @PostMapping("/scServices")
+    public CreateScServicesResponseDto createScServices(@RequestBody CreateScServicesRequestDto createScServicesRequestDto){
+        return serviceCatalogServices.createScServices(createScServicesRequestDto);
+    }
+
+    @DeleteMapping("/scServices/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteScServices(@PathVariable Integer id){
+        serviceCatalogServices.deleteScServices(id);
+        ApiResponse apiResponse = new ApiResponse(
+                ResponseCodes.DELETE_SERVICE_CATALOG_SUBCATEGORY_SUCCESFULY.getCode(),
+                ResponseCodes.DELETE_SERVICE_CATALOG_SUBCATEGORY_SUCCESFULY.getMessage());
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+
+    @GetMapping("/scFullFlow")
+    public List<ServiceCatalogFullResponseDto> getServiceCatalogFullFlow(){
+        return serviceCatalogServices.getScFullFlow();
+    }
+
 
 
 
