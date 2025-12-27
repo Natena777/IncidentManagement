@@ -1,0 +1,220 @@
+BEGIN;
+
+-- 1
+CREATE TABLE sys_users (
+    id integer generated always as identity
+        constraint sys_users_pk primary key,
+    created_on    timestamp,
+    created_by    varchar(250),
+    modified_on   timestamp,
+    modified_by   varchar(250),
+    first_name    varchar(250),
+    last_name     varchar(250),
+    full_name     varchar(250),
+    first_name_en varchar(50),
+    last_name_en  varchar(100),
+    full_name_en  varchar(250),
+    username      varchar(50),
+    email         varchar(50),
+    phone         varchar(20),
+    address       varchar(250),
+    active        varchar(1) not null,
+    password      varchar(100),
+    start_date    timestamp,
+    end_date      timestamp
+);
+
+-- 2
+CREATE TABLE sys_roles (
+    id integer generated always as identity
+        constraint sys_roles_rolepk primary key,
+    name        varchar(50)  not null,
+    description varchar(250),
+    status      varchar(1)   not null,
+    created_by  varchar(250) not null,
+    created_on  timestamp,
+    updated_by  varchar(250),
+    updated_on  timestamp
+);
+
+-- 3
+CREATE TABLE sysUserRoles (
+    id integer generated always as identity
+        constraint sysUserRoles_pk primary key,
+    userID integer not null
+        constraint sysUserRoles_userfk1 references sys_users(id),
+    roleID integer not null
+        constraint sysUserRoles_rolefk1 references sys_roles(id),
+    main_role varchar(1) not null,
+    status varchar(1) not null,
+    created_on timestamp,
+    created_by varchar(250),
+    updated_on timestamp,
+    updated_by varchar(250)
+);
+
+-- 4
+CREATE TABLE case_statuses (
+    id integer generated always as identity
+        constraint casestatus_idpk primary key,
+    name varchar(30) not null,
+    description varchar(50),
+    created_by integer,
+    created_on timestamp,
+    active varchar(1),
+    updated_by integer,
+    updated_on timestamp,
+    is_final varchar(1),
+    is_paused varchar(1)
+);
+
+-- 5
+CREATE TABLE sys_assignee_groups (
+    id integer generated always as identity
+        constraint sys_assignee_groups_idpk primary key,
+    name varchar(30),
+    description varchar(50),
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp
+);
+
+-- 6
+CREATE TABLE sys_assignee_groups_users (
+    id integer generated always as identity
+        constraint sys_assignee_groups_users_idpk primary key,
+    user_id integer not null
+        constraint sys_assignee_groups_users_fk1 references sys_users(id),
+    assignee_group_id integer not null
+        constraint sys_assignee_groups_users_fk2 references sys_assignee_groups(id),
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp
+);
+
+-- 7
+CREATE TABLE assignee_group_statuses (
+    id integer generated always as identity
+        constraint assignee_group_statuses_pk primary key,
+    previous_status_id integer not null
+        constraint assignee_group_statuses_fk1 references case_statuses(id),
+    next_status_id integer not null
+        constraint assignee_group_statuses_fk2 references case_statuses(id),
+    assignee_group_id integer not null
+        constraint assignee_group_statuses_fk3 references sys_assignee_groups(id),
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp
+);
+
+-- 8
+CREATE TABLE case_status_change_permissions (
+    id integer generated always as identity
+        constraint case_status_change_permissions_pk primary key,
+    assignee_group_statuses_id integer
+        constraint case_status_change_permissions_fk1 references assignee_group_statuses(id),
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    can_read integer check (can_read in (0,1)),
+    can_edit integer check (can_edit in (0,1)),
+    can_delete integer check (can_delete in (0,1))
+);
+
+-- 9
+CREATE TABLE scdepartments (
+    id integer generated always as identity
+        constraint scdepartments_pk primary key,
+    name varchar(50) not null,
+    description varchar(100),
+    active varchar(1) not null,
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp
+);
+
+-- 10
+CREATE TABLE sccategory (
+    id integer generated always as identity
+        constraint sccategory_pk primary key,
+    name varchar(50) not null,
+    description varchar(100),
+    scdepartment_id integer references scdepartments(id),
+    active varchar(1) not null,
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp
+);
+
+-- 11
+CREATE TABLE scsubcategory (
+    id integer generated always as identity
+        constraint scsubcategory_pk primary key,
+    name varchar(50) not null,
+    description varchar(100),
+    sccategory_id integer references sccategory(id),
+    active varchar(1) not null,
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp
+);
+
+-- 12
+CREATE TABLE scservice (
+    id integer generated always as identity
+        constraint scservice_pk primary key,
+    name varchar(50) not null,
+    description varchar(100),
+    scdepartment_id integer references scdepartments(id),
+    sccategory_id integer references sccategory(id),
+    scsubcategory_id integer references scsubcategory(id),
+    status varchar(20) not null,
+    service_type varchar(20),
+    assignee_group_id integer references sys_assignee_groups(id),
+    response_time_type varchar(20),
+    response_time_value integer,
+    resolution_time_type varchar(20),
+    resolution_time_value integer,
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp
+);
+
+-- 13
+CREATE TABLE cases (
+    id integer generated always as identity
+        constraint cases_pk primary key,
+    number varchar(20),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    status integer not null references case_statuses(id),
+    subject varchar(250),
+    description text,
+    channel varchar(20),
+    scdepartment_id integer references scdepartments(id),
+    sccategory_id integer references sccategory(id),
+    scsubcategory_id integer references scsubcategory(id),
+    scservice_id integer references scservice(id),
+    assignee_group_id integer references sys_assignee_groups(id),
+    assignee_user_id integer references sys_assignee_groups_users(id),
+    response_time_calculated timestamp,
+    resolutio_time_calculated timestamp,
+    response_time_actual timestamp,
+    resolution_time_actual timestamp
+);
+
+COMMIT;

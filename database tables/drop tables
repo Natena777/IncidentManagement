@@ -1,0 +1,17 @@
+DO $$
+BEGIN
+    DROP TABLE IF EXISTS cases CASCADE;
+    DROP TABLE IF EXISTS scservice CASCADE;
+    DROP TABLE IF EXISTS scsubcategory CASCADE;
+    DROP TABLE IF EXISTS sccategory CASCADE;
+    DROP TABLE IF EXISTS scdepartments CASCADE;
+    DROP TABLE IF EXISTS case_status_change_permissions CASCADE;
+    DROP TABLE IF EXISTS assignee_group_statuses CASCADE;
+    DROP TABLE IF EXISTS sys_assignee_groups_users CASCADE;
+    DROP TABLE IF EXISTS sys_assignee_groups CASCADE;
+    DROP TABLE IF EXISTS case_statuses CASCADE;
+    DROP TABLE IF EXISTS sys_user_roles CASCADE;
+    DROP TABLE IF EXISTS sys_roles CASCADE;
+    DROP TABLE IF EXISTS sys_users CASCADE;
+END
+$$;
