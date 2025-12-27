@@ -29,6 +29,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "target/*.jar"
           target: "/opt/incident"
+          strip_components: 1
 
 
       - name: Restart and Activate new version
