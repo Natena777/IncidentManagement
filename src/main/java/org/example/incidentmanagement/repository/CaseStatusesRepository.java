@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CaseStatusesRepository extends JpaRepository<CaseStatuses, Integer> {
 
-    CaseStatuses findByName(String statusName);
+    CaseStatuses findBystatusName(String statusName);
 
 }

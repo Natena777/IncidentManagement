@@ -39,7 +39,7 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
               throw new IllegalArgumentException("Status cannot be null");
         }
 
-        CaseStatuses caseStatuses = statusesRepository.findByName(status);
+        CaseStatuses caseStatuses = statusesRepository.findBystatusName(status);
         if (caseStatuses == null) {
             throw new IllegalArgumentException("Case Statuses not found");
         }
