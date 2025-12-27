@@ -163,11 +163,6 @@ public class ServiceCatalogServicesController {
     }
 
 
-    @GetMapping("/scFullFlow")
-    public List<ServiceCatalogFullResponseDto> getServiceCatalogFullFlow(){
-        return serviceCatalogServices.getScFullFlow();
-    }
-
 
 
 
