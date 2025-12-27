@@ -51,10 +51,10 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public List<UserRoleResponseDto> findUserRolesByUserID(int userID) {
+    public UserRoleResponseDto findUserRolesByUserID(int userID) {
         logger.info("Called find user role by user id {}", userID);
-        List<UserRoles> userRoles = userRolesRepository.findByUserId(userID);
-        return userRoleMapper.toResponseList(userRoles);
+        UserRoles userRoles = userRolesRepository.findByUserId(userID);
+        return userRoleMapper.toResponse(userRoles);
     }
 
     @Override

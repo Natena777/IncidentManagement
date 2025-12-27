@@ -1,5 +1,6 @@
 package org.example.incidentmanagement.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.requests.CreateCaseStatusesRequestDto;
@@ -25,22 +26,26 @@ public class CaseStatusController {
     }
 
     @GetMapping
+    @Operation(summary = "Find All Case Statuses")
     public List<CaseStatusesResponseDto> findAll() {
         return caseStatuseService.findAllStatuses();
     }
 
     @GetMapping("/{name}")
+    @Operation(summary = "Find Status By Name")
     public CaseStatusesResponseDto findByName(@PathVariable String name) {
         return caseStatuseService.findByStatus(name);
     }
 
 
     @PostMapping("/create")
+    @Operation(summary = "Create New Status")
     public CreateCaseStatusesResponseDto createCaseStatuses(@RequestBody CreateCaseStatusesRequestDto createCaseStatusesRequestDto) {
         return caseStatuseService.createCaseStatuses(createCaseStatusesRequestDto);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete Status By ID")
     public ResponseEntity<ApiResponse> deleteCaseStatuses(@PathVariable Integer id) {
 
         caseStatuseService.deleteCaseStatuses(id);

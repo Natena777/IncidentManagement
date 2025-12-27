@@ -7,6 +7,7 @@ import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.AssigneeGroupMapper;
 import org.example.incidentmanagement.repository.AssigneeGroupRepository;
 import org.example.incidentmanagement.service.AssigneGroupService;
+import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +23,16 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     private AssigneeGroupRepository assigneeGroupRepository;
     private AssigneeGroupMapper assigneeGroupMapper;
     private UserService userService;
+    private CurrentUserService currentUserService;
 
     public AssigneeGroupServiceImpl(AssigneeGroupRepository assigneeGroupRepository,
                                     AssigneeGroupMapper assigneeGroupMapper,
-                                    UserService userService) {
+                                    UserService userService,
+                                    CurrentUserService currentUserService) {
         this.assigneeGroupRepository = assigneeGroupRepository;
         this.assigneeGroupMapper = assigneeGroupMapper;
         this.userService = userService;
+        this.currentUserService = currentUserService;
     }
 
 
@@ -128,7 +132,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         logger.info("Called Create AssigneeGroup: {}", createAssigneeGroupRequestDto.getGroupName());
         AssigneeGroups assigneeGroups = assigneeGroupMapper.toEntity(createAssigneeGroupRequestDto);
         assigneeGroups.setCreatedOn(LocalDateTime.now());
-        assigneeGroups.setCreatedBy(11);
+        assigneeGroups.setCreatedBy(currentUserService.getCurrentUserId());
         assigneeGroupRepository.save(assigneeGroups);
 
         AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
@@ -166,3 +170,5 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     }
 
 }
+
+

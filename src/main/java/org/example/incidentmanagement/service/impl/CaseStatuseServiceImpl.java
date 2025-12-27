@@ -7,6 +7,7 @@ import org.example.incidentmanagement.entity.CaseStatuses;
 import org.example.incidentmanagement.mappers.CaseStatusMapper;
 import org.example.incidentmanagement.repository.CaseStatusesRepository;
 import org.example.incidentmanagement.service.CaseStatuseService;
+import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +23,16 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
     private CaseStatusesRepository statusesRepository;
     private UserService userService;
     private CaseStatusMapper caseStatusMapper;
+    private CurrentUserService currentUserService;
 
     public CaseStatuseServiceImpl(CaseStatusesRepository statusesRepository,
                                   UserService userService,
-                                  CaseStatusMapper caseStatusMapper) {
+                                  CaseStatusMapper caseStatusMapper,
+                                  CurrentUserService currentUserService) {
         this.statusesRepository = statusesRepository;
         this.userService = userService;
         this.caseStatusMapper = caseStatusMapper;
+        this.currentUserService = currentUserService;
     }
 
     @Override
@@ -83,7 +87,7 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
         logger.info("Called Create Case Status");
         CaseStatuses casetoSave = caseStatusMapper.toCaseStatusEntity(createCaseStatusesRequestDto);
         casetoSave.setCreatedOn(LocalDateTime.now());
-        casetoSave.setCreatedBy(1);
+        casetoSave.setCreatedBy(currentUserService.getCurrentUserId());
 
         statusesRepository.save(casetoSave);
 

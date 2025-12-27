@@ -1,10 +1,13 @@
 package org.example.incidentmanagement.service.impl;
 
 import org.example.incidentmanagement.entity.User;
+import org.example.incidentmanagement.exceptions.CustomException;
+import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.repository.UserRepository;
 import org.example.incidentmanagement.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,27 +15,30 @@ public class LoginServiceImpl implements LoginService {
 
     Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
     private final UserRepository userRepository;
-    public LoginServiceImpl(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+    public LoginServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User login(String username, String password) {
 
+
         User user = userRepository.findByUsername(username);
+        if (user == null) {
+            logger.info("Invalid username: {}", username);
+            throw new CustomException(ResponseCodes.INVALID_USERNAME);
+        }
 
-//        //Check Username
-//        if (user.isEmpty() || !user.get().getUsername().equals(username)) {
-//            logger.info(user.get().getUsername());
-//            throw new CustomException(ResponseCodes.INVALID_USERNAME);
-//        }
-//        //Check Password
-//        if (!user.get().getPassword().equals(password)) {
-//            throw new CustomException(ResponseCodes.INVALID_PASSWORD);
-//        }
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            logger.info("Invalid password for user: {}", username);
+            throw new CustomException(ResponseCodes.INVALID_PASSWORD);
+        }
 
-        logger.info("Login attempt");
-        return null;
-
+        logger.info("User {} logged in successfully", username);
+        return user;
     }
+
 }
+

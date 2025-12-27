@@ -1,6 +1,7 @@
 package org.example.incidentmanagement.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.example.incidentmanagement.dto.ApiResponse;
@@ -27,27 +28,31 @@ public class UserRoleController {
     }
 
     @GetMapping
+    @Operation(summary = "Find All System User Roles")
     public List<UserRoleResponseDto> findUserRoles() {
         return userRoleService.findAllUserRoles();
     }
 
     @GetMapping("/{userID}")
-    public List<UserRoleResponseDto> findUserRolesByUserId(int userId) {
+    @Operation(summary = "Find User All Roles By UserID")
+    public UserRoleResponseDto findUserRolesByUserId(int userId) {
         return userRoleService.findUserRolesByUserID(userId);
     }
 
-
     @GetMapping("/roleID")
+    @Operation(summary = "Find Users In Role By RoleID")
     public List<UserRoleResponseDto> findUsersRoleByRoleID(int roleID) {
         return userRoleService.findUsersRoleByRoleId(roleID);
     }
 
     @PostMapping("/create")
+    @Operation(summary = "Add New Role On User")
     public UserRoleResponseDto createUserRole(@Valid @RequestBody CreateUserRoleRequestDto crrequestDto) {
         return userRoleService.createUserRole(crrequestDto);
     }
 
     @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Delete Role From User")
     public ResponseEntity<ApiResponse> deleteUserRole(@PathVariable int id) {
         userRoleService.deleteUserRole(id);
 
@@ -59,13 +64,6 @@ public class UserRoleController {
         return ResponseEntity.ok(response);
 
     }
-
-
-
-
-
-
-
 
 
 

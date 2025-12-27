@@ -1,5 +1,6 @@
 package org.example.incidentmanagement.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
@@ -22,17 +23,20 @@ public class UserController {
     }
 
     @GetMapping
+    @Operation(summary = "Get All System Users")
     public List<UserResponseDto> getAllUsers() {
         return userService.findAllUsers();
     }
 
     @GetMapping("/id/{id}")
+    @Operation(summary = "Find System User By ID")
     public UserResponseDto findById(@PathVariable int id) {
         UserResponseDto user = userService.findUserById(id);
         return user;
     }
 
     @GetMapping("/email/{email}")
+    @Operation(summary = "Find System User By Email")
     public UserResponseDto findByEmail(@PathVariable String email) {
         UserResponseDto user = userService.findUserByEmail(email);
         return user;
@@ -40,6 +44,7 @@ public class UserController {
 
 
     @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Delete System User By ID")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable int id) {
 
         userService.deleteUser(id);

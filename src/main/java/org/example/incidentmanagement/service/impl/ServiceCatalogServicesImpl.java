@@ -16,6 +16,7 @@ import org.example.incidentmanagement.repository.ScDepartmentsRepository;
 import org.example.incidentmanagement.repository.ScServicesRepository;
 import org.example.incidentmanagement.repository.ScSubCategoryRepository;
 import org.example.incidentmanagement.service.AssigneGroupService;
+import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.service.ServiceCatalogServices;
 import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
@@ -30,6 +31,7 @@ import java.util.List;
 public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
     Logger logger = LoggerFactory.getLogger(ServiceCatalogServicesImpl.class);
+    private CurrentUserService currentUserService;
     //Sc Departments Dependencies
     private final ScDepartmentsRepository scDepartmentsRepository;
     private final ScDepartmentsMapper scDepartmentsMapper;
@@ -57,7 +59,8 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                                       ScSubCategoryMapper scSubCategoryMapper,
                                       ScServicesRepository scServicesRepository,
                                       ScServicesMapper scServicesMapper,
-                                      AssigneGroupService assigneeGroupService) {
+                                      AssigneGroupService assigneeGroupService,
+                                      CurrentUserService currentUserService) {
         this.scDepartmentsRepository = scDepartmentsRepository;
         this.scDepartmentsMapper = scDepartmentsMapper;
         this.userService = userService;
@@ -68,6 +71,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         this.scServicesRepository = scServicesRepository;
         this.scServicesMapper = scServicesMapper;
         this.assigneeGroupService = assigneeGroupService;
+        this.currentUserService = currentUserService;
     }
 
 
@@ -152,7 +156,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         logger.info("Called Create Department {}, {}, {} ", createScDepartmentsRequestDto.getDepartmentName(),
                 createScDepartmentsRequestDto.getDescription(), createScDepartmentsRequestDto.getActive());
         ScDepartments scDepartments = scDepartmentsMapper.toScDepartmentsEntity(createScDepartmentsRequestDto);
-        scDepartments.setCreatedBy(11);
+        scDepartments.setCreatedBy(currentUserService.getCurrentUserId());
         scDepartments.setCreatedDate(LocalDateTime.now());
         scDepartmentsRepository.save(scDepartments);
 
@@ -190,7 +194,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
         logger.info("AFTER MAPPING: name={}", scCategory.getScCategoryName());
 
-        scCategory.setCreatedBy(11);
+        scCategory.setCreatedBy(currentUserService.getCurrentUserId());
         scCategory.setCreatedOn(LocalDateTime.now());
         scCategoryRepository.save(scCategory);
 
@@ -367,7 +371,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                 createScSubCategoryRequestDto.getDescription(), createScSubCategoryRequestDto.getActive());
 
         ScSubCategory scSubCategory = scSubCategoryMapper.toScSubCategory(createScSubCategoryRequestDto);
-        scSubCategory.setCreatedBy(11);
+        scSubCategory.setCreatedBy(currentUserService.getCurrentUserId());
         scSubCategory.setCreatedOn(LocalDateTime.now());
         scSubCategoryRepository.save(scSubCategory);
 
@@ -488,7 +492,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         logger.info("Called Create Service Catalog Service ");
 
         ScServices scServices = scServicesMapper.toScServicesEntity(createScServicesRequestDto);
-        scServices.setCreatedBy(11);
+        scServices.setCreatedBy(currentUserService.getCurrentUserId());
         scServices.setCreatedDate(LocalDateTime.now());
         scServicesRepository.save(scServices);
 
@@ -529,3 +533,4 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
     }
 }
+

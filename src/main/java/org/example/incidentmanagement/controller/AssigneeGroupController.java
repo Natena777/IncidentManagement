@@ -1,4 +1,5 @@
 package org.example.incidentmanagement.controller;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupRequestDto;
@@ -24,12 +25,14 @@ public class AssigneeGroupController {
     }
 
     @PostMapping("/create")
+    @Operation(summary = "Create New Assignee Group")
     public AssigneeGroupResponseDto createAssigneGroup(@RequestBody CreateAssigneeGroupRequestDto createAssigneeGroupRequestDto){
         AssigneeGroupResponseDto result = assigneGroupService.createAssigneeGroup(createAssigneeGroupRequestDto);
         return result;
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete Assignee Group By ID")
     public ResponseEntity<ApiResponse> deleteAssigneGroup(@PathVariable Integer id) {
         assigneGroupService.deleteAssigneeGroup(id);
 
@@ -42,17 +45,20 @@ public class AssigneeGroupController {
 
 
     @GetMapping
+    @Operation(summary = "Find All Assignee Group")
     public List<AssigneeGroupResponseDto> findall(){
         return assigneGroupService.findAll();
     };
 
 
     @GetMapping("/id/{id}")
+    @Operation(summary = "Find Assignee Group By ID")
     public AssigneeGroupResponseDto findById(@PathVariable Integer id) {
         return assigneGroupService.findById(id);
     }
 
     @GetMapping("/name/{groupName}")
+    @Operation(summary = "Find Assignee Group By Name")
     public AssigneeGroupResponseDto findByGroupName(@PathVariable String groupName) {
         return assigneGroupService.findByGroupName(groupName);
     }

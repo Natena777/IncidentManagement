@@ -10,7 +10,7 @@ public interface UserRolesRepository extends JpaRepository<UserRoles, Integer> {
     public Boolean existsByUserIdAndRoleId(int userId, int roleId);
     public List<UserRoles> findAll();
     public UserRoles findById(int id);
-    public List<UserRoles> findByUserId(int userId);
+    public UserRoles findByUserId(int userId);
     public List<UserRoles> findByRoleId(int roleID);
 
 }

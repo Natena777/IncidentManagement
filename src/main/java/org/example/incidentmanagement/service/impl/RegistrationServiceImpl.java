@@ -10,6 +10,7 @@ import org.example.incidentmanagement.repository.UserRepository;
 import org.example.incidentmanagement.service.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,11 +21,13 @@ public class RegistrationServiceImpl implements RegistrationService {
     Logger logger = LoggerFactory.getLogger(RegistrationServiceImpl.class);
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public RegistrationServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public RegistrationServiceImpl(UserRepository userRepository, UserMapper userMapper,
+                                   PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
-
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -56,7 +59,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
 
         User user = userMapper.toEntity(userDto);
-
         //Set User Info
         user.setUsername(extractUsername(user.getEmail()));
         user.setStartDate(LocalDateTime.now());
@@ -64,6 +66,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setFullName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setActive("A");
         user.setCreatedBy("Nika");
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User savedUser = userRepository.save(user);
 
         return userMapper.toRegistrationResp(savedUser);

@@ -1,11 +1,20 @@
 package org.example.incidentmanagement.dto.requests;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class RegistrationUserDto {
 
+    @NotBlank(message = "First Name is Required")
     private String firstName;
+
+    @NotBlank(message = "Last Name is Required")
     private String lastName;
     private String email;
     private String address;
+
+    @NotBlank(message = "Password is Required")
+    @Size(min = 5, message = "Password Must Be Minimum 5 Symbol")
     private String password;
     private String phone;
 
