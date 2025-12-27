@@ -17,6 +17,7 @@ public enum ResponseCodes {
     DELETE_SERVICE_CATALOG_SUBCATEGORY_SUCCESFULY(40, "Service Catalog SubCategory Deleted Succesfully"),
     INVALID_SERIVCE_CATALOG_SERVICES(-11, "Invalid Service Catalog Services"),
     DELETE_SERVICE_CATALOG_SERVICES_SUCCESFULY(45, "Service Catalog Services Deleted Succesfully"),
+    CASE_STATUS_DELETED_SUCCESFULY(50, "Case Status Deleted Succesfully"),
     USERROLEDELETED(10, "User Role Deleted Successfully "),
     USER_DELETED(15, "User  Deleted Successfully "),
     ROLE_DELETED(20, "Role Deleted Successfully "),
