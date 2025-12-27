@@ -1,6 +1,7 @@
 package org.example.incidentmanagement.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.requests.LoginUserDto;
 import org.example.incidentmanagement.dto.requests.RegistrationUserDto;
@@ -22,6 +23,7 @@ public class AuthController {
     private final RegistrationService registrationService;
     private final LoginService loginService;
 
+
     public AuthController(RegistrationService registrationService, LoginService loginService) {
         this.registrationService = registrationService;
         this.loginService = loginService;
@@ -29,6 +31,7 @@ public class AuthController {
 
 
     @PostMapping("/registration")
+    @Operation(summary = "Create New User")
     public RegistrationUserRespDto createUser(@RequestBody RegistrationUserDto registruserdto) {
         RegistrationUserRespDto regUser =  registrationService.registerUser(registruserdto);
         return regUser;
