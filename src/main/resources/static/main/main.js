@@ -1,11 +1,11 @@
 // === ტოკენის დიაგნოსტიკა ===
-console.log("%c🔍 Token Check on Main Page", "background: #2196F3; color: white; font-size: 16px; padding: 10px;");
+console.log("%cToken Check on Main Page", "background: #2196F3; color: white; font-size: 16px; padding: 10px;");
 
 AuthService.requireAuth();
 
 function renderModules() {
     if (!window.ModuleConfig) {
-        console.error("ModuleConfig არ იტვირთება!");
+        console.error("ModuleConfig არ იტვირთება! შეამოწმეთ script-ების თანმიმდევრობა.");
         return;
     }
 
@@ -20,20 +20,31 @@ function renderModules() {
         return;
     }
 
-    // ... დანარჩენი კოდი უცვლელი
     allowedModules.forEach(moduleName => {
         const details = window.ModuleConfig.DETAILS[moduleName];
         if (!details) return;
 
         const card = document.createElement('div');
         card.className = 'module-card';
-        card.onclick = () => window.ModuleConfig.goToModule(moduleName);
+
+        // === აქ არის გამოსწორება: გლობალური goToModule გამოვიყენოთ ===
+        card.onclick = function() {
+            console.log("კლიკი მოდულზე:", moduleName);
+            if (typeof goToModule === 'function') {
+                goToModule(moduleName);
+            } else if (window.ModuleConfig && window.ModuleConfig.goToModule) {
+                window.ModuleConfig.goToModule(moduleName);
+            } else {
+                alert("გადამისამართების ფუნქცია არ მოიძებნა!");
+                console.error("goToModule არ არის განსაზღვრული");
+            }
+        };
 
         card.innerHTML = `
-                <div class="module-icon">${details.icon}</div>
-                <div class="module-title">${details.title}</div>
-                <div class="module-description">${details.description}</div>
-            `;
+            <div class="module-icon">${details.icon}</div>
+            <div class="module-title">${details.title}</div>
+            <div class="module-description">${details.description}</div>
+        `;
 
         grid.appendChild(card);
     });
