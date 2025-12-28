@@ -34,11 +34,12 @@ public class SecurityConfig {
                         // AUTH endpoints
                         .requestMatchers("/api/auth/**").permitAll()
 
-                       // HTML გვერდები (ახალი!)
-                       // ყველა HTML და static resource (ახალი!)
+                       // Favicon და static ფაილები
+                       .requestMatchers("/favicon.svg", "/favicon.ico").permitAll()
+
+                       // ყველა HTML და static resource
                        .requestMatchers("/*.html", "/*.css", "/*.js", "/").permitAll()
                        .requestMatchers("/*/*.html", "/*/*.css", "/*/*.js", "/").permitAll()
-
                         //SWAGGER endpoints (აუცილებელია!)
                         .requestMatchers(
                                 "/swagger-ui/**",
@@ -58,7 +59,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
