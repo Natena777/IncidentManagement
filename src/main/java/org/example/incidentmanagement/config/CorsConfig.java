@@ -9,9 +9,11 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://127.0.0.1:5500")
-                .allowedMethods("*")
-                .allowedHeaders("*");
+        registry.addMapping("/**")  // ყველა endpoint-ისთვის
+                .allowedOrigins("*")  // ყველა დომენიდან (ან კონკრეტული: "http://72.60.32.128:8080")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(false)
+                .maxAge(3600);
     }
 }
