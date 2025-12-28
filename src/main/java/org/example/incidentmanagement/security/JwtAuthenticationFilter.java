@@ -41,7 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.startsWith("/auth/")
                 || path.endsWith(".html")
                 || path.endsWith(".css")
-                || path.endsWith(".js");
+                || path.endsWith(".js")
+                || path.equals("/favicon.svg")      // ← დამატებული!
+                || path.equals("/favicon.ico");
     }
 
 
