@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Incident Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            max-width: 450px;
+            width: 100%;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .auth-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .auth-header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .logo {
+            font-size: 64px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .auth-body {
+            padding: 40px 30px;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .welcome-text h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-text p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            padding: 16px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .auth-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .registration-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .registration-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-icon {
+            margin-right: 8px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            color: #999;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            .auth-container {
+                margin: 10px;
+            }
+
+            .auth-header h1 {
+                font-size: 26px;
+            }
+
+            .logo {
+                font-size: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+    <!-- Header -->
+    <div class="auth-header">
+        <div class="logo">🔐</div>
+        <h1>Incident Management</h1>
+        <p>Secure System Access</p>
+    </div>
+
+    <!-- Body -->
+    <div class="auth-body">
+        <div class="welcome-text">
+            <h2>Welcome!</h2>
+            <p>Please login or create a new account to continue</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="auth-buttons">
+            <button class="auth-btn login-btn" id="loginBtn">
+                <span class="btn-icon">🚀</span>
+                Login to Your Account
+            </button>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <button class="auth-btn registration-btn" id="registrationBtn">
+                <span class="btn-icon">✨</span>
+                Create New Account
+            </button>
+        </div>
+
+        <div class="footer-text">
+            By continuing, you agree to our Terms of Service
+        </div>
+    </div>
+</div>
+
+<script>
+    const registrationBtn = document.getElementById("registrationBtn");
+    const loginBtn = document.getElementById("loginBtn");
+
+    registrationBtn.addEventListener("click", () => {
+        window.location.href = "auth/Registration.html";
+    });
+
+    loginBtn.addEventListener("click", () => {
+        window.location.href = "auth/login.html";
+    });
+</script>
+</body>
+</html>

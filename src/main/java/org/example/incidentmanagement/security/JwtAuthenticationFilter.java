@@ -27,6 +27,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
+
+     // permitAll ენდპოინტებზე ფილტრი საერთოდ არ გაეშვება
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+
+        return path.startsWith("/api/auth/")
+                || path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")
+                || path.equals("/")
+                || path.equals("/index.html")
+                || path.startsWith("/auth/")
+                || path.endsWith(".html")
+                || path.endsWith(".css")
+                || path.endsWith(".js");
+    }
+
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -35,11 +53,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
+        // ❗ დანარჩენ ყველა endpoint-ზე JWT აუცილებელია
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
 
-            if (jwtUtil.isTokenValid(token) && SecurityContextHolder.getContext().getAuthentication() == null) {
-                String username = jwtUtil.extractUsername(token);
+        String token = authHeader.substring(7);
+
+        try {
+            if (!jwtUtil.isTokenValid(token)) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+
+            String username = jwtUtil.extractUsername(token);
+
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 CustomUserPrincipal userDetails =
                         (CustomUserPrincipal) userDetailsService.loadUserByUsername(username);
@@ -51,11 +81,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 userDetails.getAuthorities()
                         );
 
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                authentication.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
 
-                // 🔥 აქ ივსება SecurityContext
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext()
+                        .setAuthentication(authentication);
             }
+
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
         }
 
         filterChain.doFilter(request, response);

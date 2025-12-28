@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <script src="/js/auth.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 32px;
+        }
+
+        .logout-button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #ff6b6b;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .logout-button:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .welcome-section h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .module-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .module-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .module-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .module-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .module-description {
+            font-size: 14px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>🏠 Incident Management System</h1>
+        <button class="logout-button" onclick="AuthService.logout()">Logout 🚪</button>
+    </div>
+
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h2>Welcome Back!</h2>
+        <p>Choose a module below to manage your system</p>
+    </div>
+
+    <!-- Modules Grid -->
+    <div class="modules-grid">
+        <div class="module-card" onclick="goToModule('users')">
+            <div class="module-icon">👥</div>
+            <div class="module-title">Users</div>
+            <div class="module-description">Manage system users and permissions</div>
+        </div>
+
+        <div class="module-card" onclick="goToModule('roles')">
+            <div class="module-icon">🔑</div>
+            <div class="module-title">Roles</div>
+            <div class="module-description">Configure user roles and access levels</div>
+        </div>
+
+        <div class="module-card" onclick="goToModule('userroles')">
+            <div class="module-icon">🔗</div>
+            <div class="module-title">User Roles</div>
+            <div class="module-description">Assign roles to users</div>
+        </div>
+
+        <div class="module-card" onclick="goToModule('assignee-groups')">
+            <div class="module-icon">👨‍👩‍👧‍👦</div>
+            <div class="module-title">Assignee Groups</div>
+            <div class="module-description">Manage assignment groups</div>
+        </div>
+
+        <div class="module-card" onclick="goToModule('case-statuses')">
+            <div class="module-icon">📊</div>
+            <div class="module-title">Case Statuses</div>
+            <div class="module-description">Configure case status workflows</div>
+        </div>
+
+        <div class="module-card" onclick="goToModule('service-catalog')">
+            <div class="module-icon">📋</div>
+            <div class="module-title">Service Catalog</div>
+            <div class="module-description">Manage service catalog items</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // გვერდის ჩატვირთვისას Authentication შემოწმება ✅
+    AuthService.requireAuth();
+
+    function goToModule(moduleName) {
+        // Redirect to the corresponding HTML page
+        if (moduleName === 'users') {
+            window.location.href = '/users/users.html';
+        } else if (moduleName === 'roles') {
+            window.location.href = '/roles/roles.html';
+        } else if (moduleName === 'userroles') {
+            window.location.href = '/userRoles/userroles.html';
+        } else if (moduleName === 'assignee-groups') {
+            window.location.href = '/assigneeGroups/assignee-groups.html';
+        } else if (moduleName === 'case-statuses') {
+            window.location.href = '/caseStatuses/case-statuses.html';
+        } else if (moduleName === 'service-catalog') {
+            window.location.href = '/service_catalog/service-catalog.html';
+        } else {
+            alert("Page not found for " + moduleName);
+        }
+    }
+</script>
+</body>
+</html>

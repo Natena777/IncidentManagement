@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Incident Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .registration-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .registration-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .registration-header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .registration-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .registration-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .response-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .response-box.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .response-box.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            color: #999;
+            font-size: 13px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .registration-container {
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="registration-container">
+    <!-- Header -->
+    <div class="registration-header">
+        <h1>✨ Create New Account</h1>
+        <p>Join our Incident Management System</p>
+    </div>
+
+    <!-- Body -->
+    <div class="registration-body">
+        <form id="registrationForm">
+            <!-- Name Fields -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" placeholder="John" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" placeholder="Doe" required>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="john.doe@example.com" required>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" placeholder="+995 555 123 456" required>
+            </div>
+
+            <!-- Address -->
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" placeholder="123 Main Street, Tbilisi" required>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter secure password" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">🚀 Create Account</button>
+        </form>
+
+        <!-- Response Box -->
+        <div id="response" class="response-box"></div>
+
+        <!-- Divider -->
+        <div class="divider">
+            <span>Already have an account?</span>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="navigation-buttons">
+            <button class="nav-btn" onclick="window.location.href='../index.html'">
+                🏠 Home
+            </button>
+            <button class="nav-btn" onclick="window.location.href='../auth/login.html'">
+                🔑 Login
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById("registrationForm");
+    const responseBox = document.getElementById("response");
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        // Show loading state
+        responseBox.className = "response-box";
+        responseBox.style.display = "block";
+        responseBox.style.backgroundColor = "#e3f2fd";
+        responseBox.style.color = "#0277bd";
+        responseBox.style.border = "1px solid #90caf9";
+        responseBox.innerText = "⏳ Creating your account...";
+
+        const data = {
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            email: document.getElementById("email").value,
+            address: document.getElementById("address").value,
+            password: document.getElementById("password").value,
+            phone: document.getElementById("phone").value
+        };
+
+        fetch("/api/auth/registration", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Registration failed: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(resp => {
+                // Success
+                responseBox.className = "response-box success";
+                responseBox.innerText = "✅ Registration successful! Redirecting to login...";
+
+                // Clear form
+                form.reset();
+
+                // Redirect to login after 2 seconds
+                setTimeout(() => {
+                    window.location.href = "../auth/login.html";
+                }, 2000);
+            })
+            .catch(err => {
+                // Error
+                responseBox.className = "response-box error";
+                responseBox.innerText = "❌ Registration Error: " + err.message;
+                console.error(err);
+            });
+    });
+</script>
+</body>
+</html>

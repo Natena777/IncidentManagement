@@ -16,11 +16,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(final JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
+}
+
 
 
     @Bean
@@ -28,9 +30,14 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm-> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
+               .authorizeHttpRequests(auth -> auth
                         // AUTH endpoints
                         .requestMatchers("/api/auth/**").permitAll()
+
+                       // HTML გვერდები (ახალი!)
+                       // ყველა HTML და static resource (ახალი!)
+                       .requestMatchers("/*.html", "/*.css", "/*.js", "/").permitAll()
+                       .requestMatchers("/*/*.html", "/*/*.css", "/*/*.js", "/").permitAll()
 
                         //SWAGGER endpoints (აუცილებელია!)
                         .requestMatchers(

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users Module</title>
+    <script src="/js/auth.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .top-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .back-button, .logout-button {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 2px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .back-button {
+            background-color: #f0f0f0;
+        }
+
+        .back-button:hover {
+            background-color: #d0d0d0;
+        }
+
+        .logout-button {
+            background-color: #ffcccc;
+        }
+
+        .logout-button:hover {
+            background-color: #ffaaaa;
+        }
+
+        .module-button {
+            display: inline-block;
+            width: 200px;
+            height: 120px;
+            margin: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            vertical-align: middle;
+            border: 2px solid #333;
+            border-radius: 12px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+        }
+
+        .module-button:hover {
+            background-color: #e0e0ff;
+            transform: translateY(-5px);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .module-button span {
+            display: block;
+            line-height: 120px;
+            font-size: 16px;
+        }
+
+        #io-box {
+            margin-top: 25px;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: monospace;
+            background-color: #f0f0f0;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        #io-box input {
+            width: 180px;
+            padding: 6px;
+            margin: 5px;
+            border-radius: 6px;
+            border: 1px solid #999;
+        }
+
+        #output {
+            margin-top: 20px;
+            height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 12px;
+            background-color: #fff;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+            font-family: monospace;
+        }
+
+        .action-button {
+            width: 100px;
+            height: 35px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #333;
+            background-color: #fff;
+            transition: all 0.2s ease;
+        }
+
+        .action-button:hover {
+            background-color: #e0e0ff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top Buttons -->
+<div class="top-buttons">
+    <button class="back-button" onclick="window.location.href='/main/main.html'">← უკან Main-ზე</button>
+    <button class="logout-button" onclick="AuthService.logout()">Logout</button>
+</div>
+
+<h1>Users Module</h1>
+
+<!-- Module Buttons -->
+<div>
+    <div class="module-button" onclick="showIoBox('getAll')">
+        <span>Get All Users</span>
+    </div>
+    <div class="module-button" onclick="showIoBox('getById')">
+        <span>Get User by ID</span>
+    </div>
+    <div class="module-button" onclick="showIoBox('getByEmail')">
+        <span>Get User by Email</span>
+    </div>
+    <div class="module-button" onclick="showIoBox('deleteById')">
+        <span>Delete User by ID</span>
+    </div>
+</div>
+
+<!-- IO Box -->
+<div id="io-box">
+    <h3>Inputs</h3>
+    <div id="inputs"></div>
+
+    <h3>Actions</h3>
+    <div style="display:flex; gap:10px; flex-wrap: wrap; margin-bottom: 20px;">
+        <button id="executeBtn" class="action-button">Execute</button>
+        <button onclick="clearOutput()" class="action-button">Clear</button>
+        <button onclick="hideIoBox()" class="action-button">Close</button>
+    </div>
+
+    <h3>Outputs</h3>
+    <div id="output"></div>
+</div>
+
+<script>
+    // გვერდის ჩატვირთვისას Authentication შემოწმება ✅
+    AuthService.requireAuth();
+
+    const ioBox = document.getElementById("io-box");
+    const inputsDiv = document.getElementById("inputs");
+    const output = document.getElementById("output");
+    const executeBtn = document.getElementById("executeBtn");
+
+    // კონფიგი თითო ფუნქციისთვის
+    const actionsConfig = {
+        getAll: {
+            inputs: [],
+            execute: executeGetAllUsers
+        },
+        getById: {
+            inputs: [{ id: "userIdInput", placeholder: "User ID" }],
+            execute: executeGetUserById
+        },
+        getByEmail: {
+            inputs: [{ id: "userEmailInput", placeholder: "User Email" }],
+            execute: executeGetUserByEmail
+        },
+        deleteById: {
+            inputs: [{ id: "userIdInput", placeholder: "User ID" }],
+            execute: executeDeleteUser
+        }
+    };
+
+    function showIoBox(actionKey) {
+        const config = actionsConfig[actionKey];
+        ioBox.style.display = "block";
+        inputsDiv.innerHTML = "";
+
+        // Input-ების დინამიკური შექმნა
+        config.inputs.forEach(inp => {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.id = inp.id;
+            input.placeholder = inp.placeholder;
+            inputsDiv.appendChild(input);
+        });
+
+        // Execute ღილაკის ფუნქცია
+        executeBtn.onclick = function() { config.execute(); };
+
+        clearOutput();
+    }
+
+    function hideIoBox() {
+        ioBox.style.display = "none";
+        clearOutput();
+    }
+
+    // ✅ AuthService.fetchWithAuth გამოყენება
+    async function executeGetAllUsers() {
+        output.innerText = "Loading...";
+
+        try {
+            const response = await AuthService.fetchWithAuth("/api/users");
+            const data = await response.json();
+            output.innerText = JSON.stringify(data, null, 2);
+        } catch (err) {
+            output.innerText = "Error: " + err.message;
+        }
+    }
+
+    async function executeGetUserById() {
+        const id = document.getElementById("userIdInput").value.trim();
+        if(!id) {
+            alert("Please enter User ID");
+            return;
+        }
+
+        output.innerText = "Loading...";
+
+        try {
+            const response = await AuthService.fetchWithAuth(`/api/users/id/${id}`);
+            const data = await response.json();
+            output.innerText = JSON.stringify(data, null, 2);
+        } catch (err) {
+            output.innerText = "Error: " + err.message;
+        }
+    }
+
+    async function executeGetUserByEmail() {
+        const email = document.getElementById("userEmailInput").value.trim();
+        if(!email) {
+            alert("Please enter User Email");
+            return;
+        }
+
+        output.innerText = "Loading...";
+
+        try {
+            const response = await AuthService.fetchWithAuth(`/api/users/email/${email}`);
+            const data = await response.json();
+            output.innerText = JSON.stringify(data, null, 2);
+        } catch (err) {
+            output.innerText = "Error: " + err.message;
+        }
+    }
+
+    async function executeDeleteUser() {
+        const id = document.getElementById("userIdInput").value.trim();
+        if(!id) {
+            alert("Please enter User ID");
+            return;
+        }
+
+        if(!confirm(`Are you sure you want to delete user with ID ${id}?`)) {
+            return;
+        }
+
+        output.innerText = "Deleting...";
+
+        try {
+            const response = await AuthService.fetchWithAuth(`/api/users/delete/${id}`, {
+                method: "DELETE"
+            });
+            const data = await response.json();
+            output.innerText = "Success!\n" + JSON.stringify(data, null, 2);
+        } catch (err) {
+            output.innerText = "Error: " + err.message;
+        }
+    }
+
+    function clearOutput() {
+        output.innerText = "";
+    }
+</script>
+</body>
+</html>
