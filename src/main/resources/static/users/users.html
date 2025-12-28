@@ -10,7 +10,6 @@
     <script src="users.js"></script>
 
     <link rel="stylesheet" href="users.css">
-
 </head>
 <body>
 
@@ -24,30 +23,30 @@
 
 <!-- Module Buttons -->
 <div>
-    <div class="module-button" onclick="showIoBox('getAll')">
+    <div class="module-button" data-action="getAll">
         <span>Get All Users</span>
     </div>
-    <div class="module-button" onclick="showIoBox('getById')">
+    <div class="module-button" data-action="getById">
         <span>Get User by ID</span>
     </div>
-    <div class="module-button" onclick="showIoBox('getByEmail')">
+    <div class="module-button" data-action="getByEmail">
         <span>Get User by Email</span>
     </div>
-    <div class="module-button" onclick="showIoBox('deleteById')">
+    <div class="module-button" data-action="deleteById">
         <span>Delete User by ID</span>
     </div>
 </div>
 
 <!-- IO Box -->
-<div id="io-box">
+<div id="io-box" style="display:none;">
     <h3>Inputs</h3>
     <div id="inputs"></div>
 
     <h3>Actions</h3>
     <div style="display:flex; gap:10px; flex-wrap: wrap; margin-bottom: 20px;">
         <button id="executeBtn" class="action-button">Execute</button>
-        <button onclick="clearOutput()" class="action-button">Clear</button>
-        <button onclick="hideIoBox()" class="action-button">Close</button>
+        <button id="clearBtn" class="action-button">Clear</button>
+        <button id="closeBtn" class="action-button">Close</button>
     </div>
 
     <h3>Outputs</h3>

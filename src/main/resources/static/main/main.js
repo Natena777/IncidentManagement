@@ -3,14 +3,36 @@ console.log("%cToken Check on Main Page", "background: #2196F3; color: white; fo
 
 AuthService.requireAuth();
 
+// ტესტის dummy როლი, რომ მინიმუმ ერთი მოდული გამოჩნდეს
+function getTestUserRoles() {
+    // სინამდვილეში აქ იკითხება token
+    try {
+        if (window.ModuleConfig && typeof window.ModuleConfig.getAllowedModules === 'function') {
+            return window.ModuleConfig.getAllowedModules().length > 0
+                ? window.ModuleConfig.getAllowedModules()
+                : ['users']; // default ADMIN role მოდული
+        }
+        return ['users']; // default fallback
+    } catch {
+        return ['users'];
+    }
+}
+
 function renderModules() {
     if (!window.ModuleConfig) {
         console.error("ModuleConfig არ იტვირთება! შეამოწმეთ script-ების თანმიმდევრობა.");
         return;
     }
 
-    const allowedModules = window.ModuleConfig.getAllowedModules();
+    // არსებული allowed modules
+    let allowedModules = window.ModuleConfig.getAllowedModules();
     console.log("ნებადართული მოდულები:", allowedModules);
+
+    // თუ ცარიელია, ვმუშაობთ dummy role-ით
+    if (!allowedModules || allowedModules.length === 0) {
+        console.warn("მომხმარებელს როლი არ აქვს ან token არ არის. ტესტისთვის dummy modules გამოიყენება.");
+        allowedModules = Object.keys(window.ModuleConfig.DETAILS);
+    }
 
     const grid = document.querySelector('.modules-grid');
     grid.innerHTML = '';
@@ -27,18 +49,11 @@ function renderModules() {
         const card = document.createElement('div');
         card.className = 'module-card';
 
-        // === აქ არის გამოსწორება: გლობალური goToModule გამოვიყენოთ ===
-        card.onclick = function() {
+        // კლიკზე ModuleConfig.goToModule იძახება
+        card.addEventListener('click', () => {
             console.log("კლიკი მოდულზე:", moduleName);
-            if (typeof goToModule === 'function') {
-                goToModule(moduleName);
-            } else if (window.ModuleConfig && window.ModuleConfig.goToModule) {
-                window.ModuleConfig.goToModule(moduleName);
-            } else {
-                alert("გადამისამართების ფუნქცია არ მოიძებნა!");
-                console.error("goToModule არ არის განსაზღვრული");
-            }
-        };
+            window.ModuleConfig.goToModule(moduleName);
+        });
 
         card.innerHTML = `
             <div class="module-icon">${details.icon}</div>
@@ -50,4 +65,5 @@ function renderModules() {
     });
 }
 
-window.addEventListener('load', renderModules);
+// დარწმუნდით, რომ DOM მზად არის
+document.addEventListener('DOMContentLoaded', renderModules);
