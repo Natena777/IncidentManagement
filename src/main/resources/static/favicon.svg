@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 250">
+    <!-- Definitions -->
+    <defs>
+        <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#1e3a5f;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#0a1628;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="alertGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#ff5964;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#e63946;stop-opacity:1" />
+        </linearGradient>
+        <filter id="glow">
+            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+            <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- Shield outer glow -->
+    <path d="M 20 30 Q 20 10 40 10 L 160 10 Q 180 10 180 30 L 180 150 Q 180 190 100 220 Q 20 190 20 150 Z"
+          fill="#e63946" opacity="0.3" filter="url(#glow)"/>
+
+    <!-- Shield Background with gradient -->
+    <path d="M 20 30 Q 20 10 40 10 L 160 10 Q 180 10 180 30 L 180 150 Q 180 190 100 220 Q 20 190 20 150 Z"
+          fill="url(#shieldGrad)" stroke="#2a4a6f" stroke-width="3"/>
+
+    <!-- Shield highlight -->
+    <path d="M 30 30 Q 30 18 45 18 L 155 18 Q 170 18 170 30 L 170 150 Q 170 182 100 208 Q 30 182 30 150 Z"
+          fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+
+    <!-- Exclamation Mark with gradient and glow -->
+    <g filter="url(#glow)">
+        <rect x="85" y="60" width="30" height="85" rx="15" fill="url(#alertGrad)"/>
+        <circle cx="100" cy="170" r="18" fill="url(#alertGrad)"/>
+    </g>
+
+    <!-- Exclamation Mark highlight -->
+    <rect x="88" y="63" width="12" height="75" rx="6" fill="rgba(255,255,255,0.35)"/>
+    <ellipse cx="96" cy="167" rx="7" ry="9" fill="rgba(255,255,255,0.35)"/>
+</svg>
