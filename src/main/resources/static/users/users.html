@@ -5,6 +5,8 @@
     <title>Users Module</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <script src="/js/auth.js"></script>
+    <script src="/js/ConverToTable.js"></script>
+    <script src="../config.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -216,34 +218,65 @@
         clearOutput();
     }
 
-    // ✅ AuthService.fetchWithAuth გამოყენება
     async function executeGetAllUsers() {
-        output.innerText = "Loading...";
+        output.innerHTML = "<p>Loading...</p>";
 
         try {
             const response = await AuthService.fetchWithAuth("/api/users");
             const data = await response.json();
-            output.innerText = JSON.stringify(data, null, 2);
+
+            output.innerHTML = "";
+
+            // ---- TABLE ----
+            renderTable(data);
+
+            // ---- JSON OUTPUT ----
+            const pre = document.createElement("pre");
+            pre.style.marginTop = "20px";
+            pre.style.background = "#f8f8f8";
+            pre.style.padding = "10px";
+            pre.style.border = "1px solid #ddd";
+            pre.innerText = JSON.stringify(data, null, 2);
+
+            output.appendChild(pre);
+
         } catch (err) {
-            output.innerText = "Error: " + err.message;
+            output.innerHTML = `<p style="color:red">Error: ${err.message}</p>`;
         }
     }
 
     async function executeGetUserById() {
         const id = document.getElementById("userIdInput").value.trim();
-        if(!id) {
+        if (!id) {
             alert("Please enter User ID");
             return;
         }
 
-        output.innerText = "Loading...";
+        // Loading state
+        output.innerHTML = "<p>Loading...</p>";
 
         try {
             const response = await AuthService.fetchWithAuth(`/api/users/id/${id}`);
             const data = await response.json();
-            output.innerText = JSON.stringify(data, null, 2);
+
+            // აქ ვასუფთავებთ output-ს
+            output.innerHTML = "";
+
+            // ---- TABLE
+            renderTable(data);
+
+            // ---- JSON OUTPUT (ქვემოთ) ----
+            const pre = document.createElement("pre");
+            pre.style.marginTop = "20px";
+            pre.style.background = "#f8f8f8";
+            pre.style.padding = "10px";
+            pre.style.border = "1px solid #ddd";
+            pre.textContent = JSON.stringify(data, null, 2);
+
+            output.appendChild(pre);
+
         } catch (err) {
-            output.innerText = "Error: " + err.message;
+            output.innerHTML = `<p style="color:red">Error: ${err.message}</p>`;
         }
     }
 
@@ -254,12 +287,30 @@
             return;
         }
 
-        output.innerText = "Loading...";
+        // Loading state
+        output.innerHTML = "<p>Loading...</p>";
 
         try {
-            const response = await AuthService.fetchWithAuth(`/api/users/email/${email}`);
+            const encodedEmail = encodeURIComponent(email);
+            const response = await AuthService.fetchWithAuth(`/api/users/email/${encodedEmail}`);
             const data = await response.json();
-            output.innerText = JSON.stringify(data, null, 2);
+
+            // 🔥 აქ ვასუფთავებთ output-ს
+            output.innerHTML = "";
+
+            // ---- TABLE
+            renderTable(data);
+
+            // ---- JSON OUTPUT (ქვემოთ) ----
+            const pre = document.createElement("pre");
+            pre.style.marginTop = "20px";
+            pre.style.background = "#f8f8f8";
+            pre.style.padding = "10px";
+            pre.style.border = "1px solid #ddd";
+            pre.textContent = JSON.stringify(data, null, 2);
+
+            output.appendChild(pre);
+
         } catch (err) {
             output.innerText = "Error: " + err.message;
         }

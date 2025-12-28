@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account - Incident Management</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+    <script src="../config.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -294,7 +297,6 @@
     form.addEventListener("submit", function(event) {
         event.preventDefault();
 
-        // Show loading state
         responseBox.className = "response-box";
         responseBox.style.display = "block";
         responseBox.style.backgroundColor = "#e3f2fd";
@@ -311,35 +313,36 @@
             phone: document.getElementById("phone").value
         };
 
-        fetch("/api/auth/registration", {
+        // ← CONFIG.API_BASE_URL + CONFIG.API.AUTH.REGISTER
+        const url = `${CONFIG.API_BASE_URL}${CONFIG.API.AUTH.REGISTER}`;
+
+        console.log("📤 Sending registration to:", url);
+
+        fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         })
             .then(res => {
+                console.log("📥 Response status:", res.status);
                 if (!res.ok) {
                     throw new Error(`Registration failed: ${res.status}`);
                 }
                 return res.json();
             })
             .then(resp => {
-                // Success
+                console.log("✅ Success:", resp);
                 responseBox.className = "response-box success";
                 responseBox.innerText = "✅ Registration successful! Redirecting to login...";
-
-                // Clear form
                 form.reset();
-
-                // Redirect to login after 2 seconds
                 setTimeout(() => {
                     window.location.href = "../auth/login.html";
                 }, 2000);
             })
             .catch(err => {
-                // Error
+                console.error("❌ Error:", err);
                 responseBox.className = "response-box error";
                 responseBox.innerText = "❌ Registration Error: " + err.message;
-                console.error(err);
             });
     });
 </script>

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Incident Management</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Config-ს არ ვიყენებთ index.html-ში, რადგან სრულიად public page-ია -->
+
     <style>
         * {
             margin: 0;
@@ -245,14 +248,17 @@
 </div>
 
 <script>
+    // Simple navigation - არ საჭიროებს config.js-ს
     const registrationBtn = document.getElementById("registrationBtn");
     const loginBtn = document.getElementById("loginBtn");
 
     registrationBtn.addEventListener("click", () => {
+        console.log("📝 Navigating to Registration");
         window.location.href = "auth/Registration.html";
     });
 
     loginBtn.addEventListener("click", () => {
+        console.log("🔑 Navigating to Login");
         window.location.href = "auth/login.html";
     });
 </script>

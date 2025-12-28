@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService {
             logger.info("User with {} not found", id);
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
+        logger.info("User with id {} found", id);
         return userMapper.toResponseDto(user.orElse(null));
 
     }

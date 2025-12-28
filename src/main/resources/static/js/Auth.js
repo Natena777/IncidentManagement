@@ -2,41 +2,39 @@
 
 class AuthService {
 
-    // Token-ის შენახვა localStorage-ში
+    // Token-ის შენახვა
     static saveToken(token) {
-        localStorage.setItem('jwt_token', token);
+        localStorage.setItem(CONFIG.APP.TOKEN_KEY, token);
         console.log("Token saved successfully");
     }
 
-    // Token-ის წამოღება localStorage-დან
+    // Token-ის წამოღება
     static getToken() {
-        return localStorage.getItem('jwt_token');
+        return localStorage.getItem(CONFIG.APP.TOKEN_KEY);
     }
 
-    // Token-ის წაშლა (logout-ისთვის)
+    // Token-ის წაშლა
     static removeToken() {
-        localStorage.removeItem('jwt_token');
+        localStorage.removeItem(CONFIG.APP.TOKEN_KEY);
         console.log("Token removed");
     }
 
-    // შემოწმება: დალოგინებული ხარ თუ არა (ვადის შემოწმებით)
+    // შემოწმება: დალოგინებული ხარ თუ არა
     static isAuthenticated() {
         const token = this.getToken();
-        if (!token) return false;  // token არ არის
+        if (!token) return false;
 
-        // თუ token expired-ია, დააბრუნე false
         if (this.isTokenExpired()) {
             return false;
         }
 
-        return true;  // token არის და ვალიდურია ✅
+        return true;
     }
 
-    // Authorization Headers-ის გენერირება fetch-ისთვის
+    // Authorization Headers
     static getAuthHeaders() {
         const token = this.getToken();
 
-        // თუ token არ არის ან expired-ია
         if (!token || this.isTokenExpired()) {
             throw new Error("No valid authentication token");
         }
@@ -47,12 +45,9 @@ class AuthService {
         };
     }
 
-
-
     // Fetch Wrapper JWT Authentication-ით
     static async fetchWithAuth(url, options = {}) {
         try {
-            // ჯერ შევამოწმოთ token ლოკალურად
             if (this.isTokenExpired()) {
                 alert("Your session has expired. Please login again.");
                 this.removeToken();
@@ -60,19 +55,21 @@ class AuthService {
                 throw new Error("Token expired");
             }
 
-            // Headers-ის დამატება
             const headers = this.getAuthHeaders();
 
-            // Request-ის გაგზავნა
-            const response = await fetch(url, {
+            // ← CONFIG.API_BASE_URL გამოვიყენოთ
+            const fullUrl = url.startsWith('http')
+                ? url
+                : `${CONFIG.API_BASE_URL}${url}`;
+
+            const response = await fetch(fullUrl, {
                 ...options,
                 headers: {
                     ...headers,
-                    ...options.headers  // დამატებითი headers-ები თუ არის
+                    ...options.headers
                 }
             });
 
-            // Backend-იდან 401 შემოწმება
             if (response.status === 401) {
                 alert("Session expired. Please login again.");
                 this.removeToken();
@@ -80,7 +77,6 @@ class AuthService {
                 throw new Error("Unauthorized");
             }
 
-            // სხვა შეცდომების შემოწმება
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
@@ -93,8 +89,7 @@ class AuthService {
         }
     }
 
-
-    // Protected Page-ის დაცვა (გვერდის ჩატვირთვისას)
+    // Protected Page-ის დაცვა
     static requireAuth(redirectUrl = "/auth/login.html") {
         if (!this.isAuthenticated()) {
             alert("You must be logged in to access this page.");
@@ -104,17 +99,14 @@ class AuthService {
         return true;
     }
 
-
-    // Logout - Token-ის წაშლა და Login-ზე გადასვლა
+    // Logout
     static logout() {
         this.removeToken();
         alert("You have been logged out.");
         window.location.href = "/auth/login.html";
     }
 
-
-
-    // JWT Token-ის Decode (payload-ის წასაკითხად) ← ახალი!
+    // JWT Token Decode
     static decodeToken(token) {
         try {
             const base64Url = token.split('.')[1];
@@ -124,7 +116,6 @@ class AuthService {
                     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
                 }).join('')
             );
-
             return JSON.parse(jsonPayload);
         } catch (error) {
             console.error("Token decode error:", error);
@@ -132,26 +123,22 @@ class AuthService {
         }
     }
 
-
     // Token-ის ვადის გასვლის შემოწმება
     static isTokenExpired() {
         const token = this.getToken();
-        if (!token) return true;  // თუ token არ არის → expired-ია
+        if (!token) return true;
 
         const decoded = this.decodeToken(token);
-        if (!decoded || !decoded.exp) return true;  // თუ decode ვერ მოხდა → expired-ია
+        if (!decoded || !decoded.exp) return true;
 
-        // exp არის წამებში, Date.now() არის მილიწამებში
-        const currentTime = Date.now() / 1000;  // გადავაქციოთ წამებში
-
+        const currentTime = Date.now() / 1000;
         const isExpired = decoded.exp < currentTime;
 
         if (isExpired) {
             console.log("Token has expired!");
-            this.removeToken();  // წავშალოთ expired token
+            this.removeToken();
         }
 
         return isExpired;
     }
-
 }

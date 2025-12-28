@@ -6,6 +6,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -20,6 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
+    Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil,
                                    CustomUserDetailsService userDetailsService) {
@@ -33,7 +36,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
 
-        return path.startsWith("/api/auth/")
+        logger.info("Request Path: {} Method: {}", path, request.getMethod());
+
+        boolean shouldSkip = path.startsWith("/api/auth/")
                 || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")
                 || path.equals("/")
@@ -42,8 +47,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.endsWith(".html")
                 || path.endsWith(".css")
                 || path.endsWith(".js")
-                || path.equals("/favicon.svg")      // ← დამატებული!
+                || path.equals("/favicon.svg")
                 || path.equals("/favicon.ico");
+
+
+        return shouldSkip;
     }
 
 
@@ -52,6 +60,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
+
+        logger.info("Called DoFilter For Path {}", request.getServletPath());
 
         String authHeader = request.getHeader("Authorization");
 
@@ -92,10 +102,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
+            logger.error("Exception In JWT Filter: {}", e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
+        logger.info("Filter In JWT Filter SucceFully");
         filterChain.doFilter(request, response);
     }
 }

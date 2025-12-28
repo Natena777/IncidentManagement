@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Incident Management</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    <script src="/js/auth.js"></script>
+
+    <!-- ← CONFIG ჯერ უნდა ჩაიტვირთოს, მერე auth.js -->
+    <script src="../config.js"></script>
+    <script src="../js/auth.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -350,20 +354,28 @@
             password: document.getElementById("password").value
         };
 
-        fetch("/api/auth/login", {
+        // ← CONFIG.API_BASE_URL + CONFIG.API.AUTH.LOGIN გამოვიყენოთ
+        const url = `${CONFIG.API_BASE_URL}${CONFIG.API.AUTH.LOGIN}`;
+
+        console.log("📤 Sending login request to:", url);
+
+        fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         })
             .then(res => {
+                console.log("📥 Response status:", res.status);
                 if (!res.ok) {
                     throw new Error(`Login failed: Invalid credentials`);
                 }
                 return res.json();
             })
             .then(response => {
+                console.log("✅ Login response:", response);
+
                 if (response.token) {
-                    // AuthService-ით token-ის შენახვა ✅
+                    // AuthService-ით token-ის შენახვა
                     AuthService.saveToken(response.token);
 
                     // Success message
@@ -380,9 +392,9 @@
                 }
             })
             .catch(err => {
+                console.error("❌ Login error:", err);
                 responseBox.className = "response-box error";
                 responseBox.innerText = "❌ " + err.message;
-                console.error(err);
             });
     });
 </script>
