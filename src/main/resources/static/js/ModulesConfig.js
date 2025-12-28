@@ -68,9 +68,11 @@ function canAccessModule(moduleName) {
 
 window.ModuleConfig = {
     DETAILS: MODULE_DETAILS,
-    getAllowedModules,
-    canAccessModule,
+    getAllowedModules: getAllowedModules,
+    canAccessModule: canAccessModule,
     goToModule: function(moduleName) {
+        console.log("გადამისამართება მოდულზე:", moduleName); // ტესტისთვის
+
         const routes = {
             users: '/users/users.html',
             roles: '/roles/roles.html',
@@ -79,11 +81,13 @@ window.ModuleConfig = {
             'case-statuses': '/caseStatuses/case-statuses.html',
             'service-catalog': '/service_catalog/service-catalog.html'
         };
+
         const url = routes[moduleName];
         if (url) {
             window.location.href = url;
         } else {
             alert('გვერდი ვერ მოიძებნა: ' + moduleName);
+            console.error("უცნობი მოდული:", moduleName);
         }
     }
 };
