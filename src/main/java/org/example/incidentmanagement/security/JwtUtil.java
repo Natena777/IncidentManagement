@@ -3,6 +3,8 @@ package org.example.incidentmanagement.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,7 @@ public class JwtUtil {
 
     private final SecretKey key;
     private final long expirationMinutes;
+    Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
     public JwtUtil(@Value("${security.jwt.secret}") String secret,
                    @Value("${security.jwt.expiration-minutes}") long expirationMinutes) {
@@ -33,6 +36,7 @@ public class JwtUtil {
                 "userId", principal.getUserId(),
                 "role", principal.getRole()
         );
+
 
         return Jwts.builder()
                 .subject(principal.getUsername())

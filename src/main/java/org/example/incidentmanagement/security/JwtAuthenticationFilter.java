@@ -107,7 +107,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        logger.info("Filter In JWT Filter SucceFully");
+        logger.info("Security Block Operation SucceFully " +
+                        "Method: {} " +
+                        "URL: {} " +
+                        "Client IP: {} " +
+                        "Host: {} " +
+                        "Port: {} "
+                , request.getMethod(),
+                request.getRequestURL(),
+                request.getRemoteAddr(),
+                request.getRemoteHost(),
+                request.getRemotePort());
         filterChain.doFilter(request, response);
     }
 }

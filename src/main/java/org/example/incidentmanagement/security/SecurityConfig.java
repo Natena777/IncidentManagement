@@ -31,33 +31,23 @@ public class SecurityConfig {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(sm-> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-               .authorizeHttpRequests(auth -> auth
-                        // AUTH endpoints
-                        .requestMatchers("/api/auth/**").permitAll()
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> {
+                    // PUBLIC endpoints (რომლებიც უკვე გაქვს)
+                    auth
+                            .requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers("/favicon.svg", "/favicon.ico").permitAll()
+                            .requestMatchers("/*.html", "/*.css", "/*.js", "/").permitAll()
+                            .requestMatchers("/*/*.html", "/*/*.css", "/*/*.js").permitAll()
+                            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
 
-                       // Favicon და static ფაილები
-                       .requestMatchers("/favicon.svg", "/favicon.ico").permitAll()
+                    // აქ გამოვიძახოთ ჩვენი ცალკე კონფიგურაცია
+                    EndpointPermissions.configure(auth);
 
-                       // ყველა HTML და static resource
-                       .requestMatchers("/*.html", "/*.css", "/*.js", "/").permitAll()
-                       .requestMatchers("/*/*.html", "/*/*.css", "/*/*.js", "/").permitAll()
-                        //SWAGGER endpoints (აუცილებელია!)
-                        .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
-
-                        //ADMIN ყველაფერზე
-                        .requestMatchers("/**").hasAuthority("ADMIN")
-
-                        //დანარჩენი — ავტორიზებული
-                        .anyRequest().authenticated()
-                )
+                    // დანარჩენი ყველა API — მაინც authenticated უნდა იყოს
+                    auth.anyRequest().authenticated();
+                })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-
 
         return http.build();
     }
