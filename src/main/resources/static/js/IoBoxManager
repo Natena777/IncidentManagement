@@ -288,6 +288,7 @@ class IoBoxManager {
         pre.style.border = "1px solid #ddd";
         pre.textContent = JSON.stringify(data, null, 2);
         this.output.appendChild(pre);
+        
     }
 }
 
