@@ -5,16 +5,15 @@ public class CreateScSubCategoryRequestDto {
     private String scSubCategoryName;
     private String description;
     private Integer scCategoryId;
-    private String active;
+
 
 
     public CreateScSubCategoryRequestDto() {}
     public CreateScSubCategoryRequestDto(String scSubCategoryName, String description,
-                                         Integer scCategoryId, String active) {
+                                         Integer scCategoryId) {
         this.scSubCategoryName = scSubCategoryName;
         this.description = description;
         this.scCategoryId = scCategoryId;
-        this.active = active;
     }
 
     public String getScSubCategoryName() {
@@ -35,12 +34,7 @@ public class CreateScSubCategoryRequestDto {
     public void setScCategoryId(Integer scCategoryId) {
         this.scCategoryId = scCategoryId;
     }
-    public String getActive() {
-        return active;
-    }
-    public void setActive(String active) {
-        this.active = active;
-    }
+
 
 
 }

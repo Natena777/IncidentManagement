@@ -8,14 +8,14 @@ import java.util.List;
 
 public interface UserRoleService {
 
-    public Boolean existsUserRole(int userId, int roleId);
-    public UserRoleResponseDto findUserRoleById(int id);
-    public UserRoleResponseDto findUserRolesByUserID(int userID);
-    public List<UserRoleResponseDto> findUsersRoleByRoleId(int roleID);
-    public UserRoleResponseDto createUserRole(CreateUserRoleRequestDto createUserRoleRequestDto);
-    public void deleteUserRole(int id);
-    public List<UserRoleResponseDto> findAllUserRoles();
-
+    Boolean existsUserRole(int userId, int roleId);
+    UserRoleResponseDto findUserRoleById(int id);
+    UserRoleResponseDto findUserRolesByUserID(int userID);
+    List<UserRoleResponseDto> findUsersRoleByRoleId(int roleID);
+    UserRoleResponseDto createUserRole(CreateUserRoleRequestDto createUserRoleRequestDto);
+    void deleteUserRole(int id);
+    List<UserRoleResponseDto> findAllUserRoles();
+    Boolean existUserRole(int id, String type);
 
 
 }

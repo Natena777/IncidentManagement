@@ -12,6 +12,7 @@ public class IncidentManagementApplication {
     public static void main(String[] args) {
         SpringApplication.run(IncidentManagementApplication.class, args);
         logger.info("Swagger:  http://localhost:8080/swagger-ui/index.html");
+        logger.info("Website:  http://localhost:8080/index.html");
     }
 
 

@@ -14,9 +14,6 @@ public interface UserRoleMapper {
 
     public UserRoles toEntity(CreateUserRoleRequestDto createUserRoleRequestDto);
 
-    @Mapping(target = "updatedOn", ignore = true)
-    @Mapping(target = "updatedBy", ignore = true)
-    public List<UserRoleResponseDto> toResponseList (List<UserRoles> userRoles);
 
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)

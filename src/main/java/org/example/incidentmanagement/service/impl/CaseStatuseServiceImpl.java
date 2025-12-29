@@ -8,6 +8,7 @@ import org.example.incidentmanagement.mappers.CaseStatusMapper;
 import org.example.incidentmanagement.repository.CaseStatusesRepository;
 import org.example.incidentmanagement.service.CaseStatuseService;
 import org.example.incidentmanagement.service.CurrentUserService;
+import org.example.incidentmanagement.service.DefaultConverter;
 import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +22,16 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
 
     Logger logger = LoggerFactory.getLogger(CaseStatuseServiceImpl.class);
     private CaseStatusesRepository statusesRepository;
-    private UserService userService;
+    private DefaultConverter defaultConverter;
     private CaseStatusMapper caseStatusMapper;
     private CurrentUserService currentUserService;
 
     public CaseStatuseServiceImpl(CaseStatusesRepository statusesRepository,
-                                  UserService userService,
+                                  DefaultConverter defaultConverter,
                                   CaseStatusMapper caseStatusMapper,
                                   CurrentUserService currentUserService) {
         this.statusesRepository = statusesRepository;
-        this.userService = userService;
+        this.defaultConverter = defaultConverter;
         this.caseStatusMapper = caseStatusMapper;
         this.currentUserService = currentUserService;
     }
@@ -48,8 +49,8 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
             throw new IllegalArgumentException("Case Statuses not found");
         }
 
-        String createdBy = userService.getFullName(caseStatuses.getCreatedBy());
-        String updatedBy = userService.getFullName(caseStatuses.getUpdatedBy());
+        String createdBy = defaultConverter.getUserFullName(caseStatuses.getCreatedBy());
+        String updatedBy = defaultConverter.getUserFullName(caseStatuses.getUpdatedBy());
 
         CaseStatusesResponseDto statusResult = new CaseStatusesResponseDto();
         statusResult.setCreatedBy(createdBy);
@@ -68,8 +69,8 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
                 .map(status ->{
                     CaseStatusesResponseDto statusResult = caseStatusMapper.toCaseStatusResponseDto(status);
                     //get creator and update fullname
-                    String createdBy = userService.getFullName(status.getCreatedBy());
-                    String updatedBy = userService.getFullName(status.getUpdatedBy());
+                    String createdBy = defaultConverter.getUserFullName(status.getCreatedBy());
+                    String updatedBy = defaultConverter.getUserFullName(status.getUpdatedBy());
 
                     //set creator and update fullname
                     statusResult.setCreatedBy(createdBy);
@@ -87,6 +88,9 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
         logger.info("Called Create Case Status");
         CaseStatuses casetoSave = caseStatusMapper.toCaseStatusEntity(createCaseStatusesRequestDto);
         casetoSave.setCreatedOn(LocalDateTime.now());
+        casetoSave.setActive("Y");
+        casetoSave.setIsFinal(defaultConverter.booleanToString(createCaseStatusesRequestDto.getIsFinal()));
+        casetoSave.setIsPaused(defaultConverter.booleanToString(createCaseStatusesRequestDto.getIsPaused()));
         casetoSave.setCreatedBy(currentUserService.getCurrentUserId());
 
         statusesRepository.save(casetoSave);

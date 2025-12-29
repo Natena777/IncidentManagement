@@ -28,18 +28,18 @@ public class UserRoles {
     private LocalDateTime createdOn;
 
     @Column(name = "created_by")
-    private String createdBy;
+    private Integer createdBy;
 
     @Column(name = "updated_on")
     private LocalDateTime updatedOn;
 
     @Column(name = "updated_by")
-    private String updatedBy;
+    private Integer updatedBy;
 
 
     public UserRoles() {}
     public UserRoles(int id, int userId, int roleId, String MainRole, String Status,
-                     LocalDateTime createdOn, String createdBy, LocalDateTime updatedOn, String updatedBy) {
+                     LocalDateTime createdOn, Integer createdBy, LocalDateTime updatedOn, Integer updatedBy) {
         this.id = id;
         this.userId = userId;
         this.roleId = roleId;
@@ -87,10 +87,10 @@ public class UserRoles {
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
-    public String getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
     public LocalDateTime getUpdatedOn() {
@@ -99,10 +99,10 @@ public class UserRoles {
     public void setUpdatedOn(LocalDateTime updatedOn) {
         this.updatedOn = updatedOn;
     }
-    public String getUpdatedBy() {
+    public Integer getUpdatedBy() {
         return updatedBy;
     }
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy(Integer updatedBy) {
         this.updatedBy = updatedBy;
     }
 

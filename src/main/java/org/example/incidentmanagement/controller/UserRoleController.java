@@ -33,15 +33,15 @@ public class UserRoleController {
         return userRoleService.findAllUserRoles();
     }
 
-    @GetMapping("/{userID}")
+    @GetMapping("/{userId}")
     @Operation(summary = "Find User All Roles By UserID")
-    public UserRoleResponseDto findUserRolesByUserId(int userId) {
+    public UserRoleResponseDto findUserRolesByUserId(@PathVariable int userId) {
         return userRoleService.findUserRolesByUserID(userId);
     }
 
-    @GetMapping("/roleID")
+    @GetMapping("/id/{roleID}")
     @Operation(summary = "Find Users In Role By RoleID")
-    public List<UserRoleResponseDto> findUsersRoleByRoleID(int roleID) {
+    public List<UserRoleResponseDto> findUsersRoleByRoleID(@PathVariable int roleID) {
         return userRoleService.findUsersRoleByRoleId(roleID);
     }
 

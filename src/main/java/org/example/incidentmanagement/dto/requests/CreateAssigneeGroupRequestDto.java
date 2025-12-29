@@ -3,15 +3,13 @@ package org.example.incidentmanagement.dto.requests;
 public class CreateAssigneeGroupRequestDto {
     private String groupName;
     private String groupDescription;
-    private String active;
 
     public CreateAssigneeGroupRequestDto() {
 
     }
-    public CreateAssigneeGroupRequestDto(String groupName, String groupDescription, String active) {
+    public CreateAssigneeGroupRequestDto(String groupName, String groupDescription) {
         this.groupName = groupName;
         this.groupDescription = groupDescription;
-        this.active = active;
 
     }
 
@@ -27,11 +25,6 @@ public class CreateAssigneeGroupRequestDto {
     public void setGroupDescription(String groupDescription) {
         this.groupDescription = groupDescription;
     }
-    public String getActive() {
-        return active;
-    }
-    public void setActive(String active) {
-        this.active = active;
-    }
+
 
 }

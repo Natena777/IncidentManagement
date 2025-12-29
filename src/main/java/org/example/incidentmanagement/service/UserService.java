@@ -21,6 +21,5 @@ public interface UserService {
 
     Boolean existsUser(int id);
 
-    String getFullName(Integer id);
 
 }

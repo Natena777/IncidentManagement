@@ -5,8 +5,8 @@ public class CreateCaseStatusesRequestDto {
 
     private String statusName;
     private String statusDescription;
-    private String isFinal;
-    private String isPaused;
+    private boolean isFinal;
+    private boolean isPaused;
 
     public String getStatusName() {
         return statusName;
@@ -24,19 +24,19 @@ public class CreateCaseStatusesRequestDto {
         this.statusDescription = statusDescription;
     }
 
-    public String getIsFinal() {
+    public boolean getIsFinal() {
         return isFinal;
     }
 
-    public void setIsFinal(String isFinal) {
+    public void setIsFinal(boolean isFinal) {
         this.isFinal = isFinal;
     }
 
-    public String getIsPaused() {
+    public boolean getIsPaused() {
         return isPaused;
     }
 
-    public void setIsPaused(String isPaused) {
+    public void setIsPaused(boolean isPaused) {
         this.isPaused = isPaused;
     }
 }

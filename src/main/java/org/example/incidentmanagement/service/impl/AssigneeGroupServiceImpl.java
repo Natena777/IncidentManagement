@@ -8,6 +8,7 @@ import org.example.incidentmanagement.mappers.AssigneeGroupMapper;
 import org.example.incidentmanagement.repository.AssigneeGroupRepository;
 import org.example.incidentmanagement.service.AssigneGroupService;
 import org.example.incidentmanagement.service.CurrentUserService;
+import org.example.incidentmanagement.service.DefaultConverter;
 import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,16 +23,16 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     Logger logger = LoggerFactory.getLogger(AssigneeGroupServiceImpl.class);
     private AssigneeGroupRepository assigneeGroupRepository;
     private AssigneeGroupMapper assigneeGroupMapper;
-    private UserService userService;
+    private DefaultConverter defaultConverter;
     private CurrentUserService currentUserService;
 
     public AssigneeGroupServiceImpl(AssigneeGroupRepository assigneeGroupRepository,
                                     AssigneeGroupMapper assigneeGroupMapper,
-                                    UserService userService,
+                                    DefaultConverter defaultConverter,
                                     CurrentUserService currentUserService) {
         this.assigneeGroupRepository = assigneeGroupRepository;
         this.assigneeGroupMapper = assigneeGroupMapper;
-        this.userService = userService;
+        this.defaultConverter = defaultConverter;
         this.currentUserService = currentUserService;
     }
 
@@ -49,7 +50,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
         //Get and Set Created By User
         if (assigneeGroupResult.getCreatedBy() != null) {
-            String createdBy = userService.getFullName(assigneeGroups.getCreatedBy());
+            String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
 
             if (createdBy != null) {
                 assigneeGroupResult.setCreatedBy(createdBy);
@@ -58,7 +59,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
         //Get and Set Updated By User
         if (assigneeGroupResult.getUpdatedBy() != null) {
-            String updatedBy = userService.getFullName(assigneeGroups.getUpdatedBy());
+            String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
             if (updatedBy != null) {
                 assigneeGroupResult.setUpdatedBy(updatedBy);
             }
@@ -78,7 +79,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         //Get and Set Created By User
 
         if (assigneeGroupResult.getCreatedBy() != null) {
-            String createdBy = userService.getFullName(assigneeGroups.getCreatedBy());
+            String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
 
             if (createdBy != null) {
                 assigneeGroupResult.setCreatedBy(createdBy);
@@ -87,7 +88,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
         //Get and Set Updated By User
         if (assigneeGroupResult.getUpdatedBy() != null) {
-            String updatedBy = userService.getFullName(assigneeGroups.getUpdatedBy());
+            String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
             if (updatedBy != null) {
                 assigneeGroupResult.setUpdatedBy(updatedBy);
             }
@@ -109,8 +110,8 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
                     AssigneeGroupResponseDto assigneeGroupResult =
                             assigneeGroupMapper.toGroupResponseDto(group);
 
-                    String createdBy = userService.getFullName(group.getCreatedBy());
-                    String updatedBy = userService.getFullName(group.getUpdatedBy());
+                    String createdBy = defaultConverter.getUserFullName(group.getCreatedBy());
+                    String updatedBy = defaultConverter.getUserFullName(group.getUpdatedBy());
 
                     // Get and Set Created By User
                     if (createdBy != null) {
@@ -132,13 +133,14 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         logger.info("Called Create AssigneeGroup: {}", createAssigneeGroupRequestDto.getGroupName());
         AssigneeGroups assigneeGroups = assigneeGroupMapper.toEntity(createAssigneeGroupRequestDto);
         assigneeGroups.setCreatedOn(LocalDateTime.now());
+        assigneeGroups.setActive("A");
         assigneeGroups.setCreatedBy(currentUserService.getCurrentUserId());
         assigneeGroupRepository.save(assigneeGroups);
 
         AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
 
-        String createdBy = userService.getFullName(assigneeGroups.getCreatedBy());
-        String updatedBy = userService.getFullName(assigneeGroups.getUpdatedBy());
+        String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
+        String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
 
         if (createdBy != null) {
             assigneeGroupResult.setCreatedBy(createdBy);

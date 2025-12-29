@@ -9,6 +9,8 @@ import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.RoleMapper;
 import org.example.incidentmanagement.repository.RoleRepository;
 import org.example.incidentmanagement.service.RoleService;
+import org.example.incidentmanagement.service.UserRoleService;
+import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,8 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
 
-    public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper) {
+    public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper
+                           ) {
         this.roleRepository = roleRepository;
         this.roleMapper = roleMapper;
     }
@@ -52,7 +55,9 @@ public class RoleServiceImpl implements RoleService {
             throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
 
-        return roleMapper.toRoleResponseDto(roleRepository.findByName(roleName));
+        RoleResponseDto roleResult = roleMapper.toRoleResponseDto(roleRepository.findByName(roleName));
+
+        return roleResult;
 
     }
 
@@ -74,7 +79,11 @@ public class RoleServiceImpl implements RoleService {
         role.setStatus("A");
         role.setCreatedBy("Nika"); //აქ უნდა მიეთითოს იუზერი ავტომატში
         roleRepository.save(role);
-        return roleMapper.toRoleResponseDto(role);
+
+
+        RoleResponseDto roleResult = roleMapper.toRoleResponseDto(role);
+        return roleResult;
+
     }
 
     @Override
@@ -93,7 +102,6 @@ public class RoleServiceImpl implements RoleService {
         roleToUpdate.setUpdatedBy("Nika"); //აქ მერე უნდა მიეთითოს იუზერი ავტომატში
 
         Role updatedRole = roleRepository.save(roleToUpdate);
-
         return roleMapper.toRoleResponseDto(updatedRole);
 
     }

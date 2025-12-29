@@ -66,6 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     label: 'Select Role',
                     placeholder: '-- Choose Role --',
                     options: [] // ცარიელი, დინამიურად შეივსება
+                },
+                {
+                    id: 'mainRoleCheckbox',
+                    type: 'checkbox',
+                    label: 'Main Role',
+                    checked: false
                 }
             ],
             execute: executeAddUserRoles,
@@ -99,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 users.forEach(user => {
                     const option = document.createElement('option');
                     option.value = user.id;
-                    option.textContent = `${user.name} (${user.email})`;
+                    option.textContent = `${user.firstName} (${user.email})`;
                     userSelect.appendChild(option);
                 });
             }

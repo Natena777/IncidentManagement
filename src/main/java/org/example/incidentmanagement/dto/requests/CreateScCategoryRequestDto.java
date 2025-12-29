@@ -5,7 +5,6 @@ public class CreateScCategoryRequestDto {
     private String scCategoryName;
     private String description;
     private Integer scDepartmentId;
-    private String active;
 
     public CreateScCategoryRequestDto() {
     }
@@ -24,14 +23,6 @@ public class CreateScCategoryRequestDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getActive() {
-        return active;
-    }
-
-    public void setActive(String active) {
-        this.active = active;
     }
 
     public Integer getScDepartmentId() {

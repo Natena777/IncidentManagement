@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <title>Users Module</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    <script src="/js/Auth.js"></script>
-    <script src="/js/ConverToTable.js"></script>
-    <script src="../config.js"></script>
-    <script src="userRoles.js"></script>
+
 
     <link rel="stylesheet" href="userRoles.css">
 </head>
@@ -27,7 +24,10 @@
         <span>Get All Users</span>
     </div>
     <div class="module-button" data-action="getUserRolesByUserID">
-        <span>Get User by ID</span>
+        <span>Get Roles In User</span>
+    </div>
+    <div class="module-button" data-action="getUserRolesByRoleID">
+        <span>Get Users In Role</span>
     </div>
 </div>
 
@@ -47,5 +47,10 @@
     <div id="output"></div>
 </div>
 
+<script src="/js/Auth.js"></script>
+<script src="/js/IoBoxManager.js" ></script>
+<script src="/js/ConverToTable.js"></script>
+<script src="../config.js"></script>
+<script src="userRoles.js"></script>
 </body>
 </html>

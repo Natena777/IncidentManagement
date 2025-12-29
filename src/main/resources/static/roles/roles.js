@@ -19,11 +19,25 @@ document.addEventListener("DOMContentLoaded", () => {
             execute: executeGetAllRoles
         },
         getByRoleName: {
-            inputs: [{ id: "roleNameInput", placeholder: "Role Name" }],
+            inputs: [
+                {
+                    id: "roleNameInput",
+                    type: "text",
+                    label: "Role Name",
+                    placeholder: "Enter Role Name"
+                }
+            ],
             execute: executeGetRoleByName
         },
         deleteRoleByName: {
-            inputs: [{ id: "RoleNameInput", placeholder: "Role Name" }],
+            inputs: [
+                {
+                    id: "RoleNameInput",
+                    type: "text",
+                    label: "Role Name",
+                    placeholder: "Enter Role Name"
+                }
+            ],
             execute: executeDeleteRoleByName
         }
     };

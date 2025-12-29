@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int id) {
+
         logger.info("Called deleteUser: {}",  findUserById(id));
         userRepository.deleteById(id);
 
@@ -95,10 +96,4 @@ public class UserServiceImpl implements UserService {
         return exists;
     }
 
-    @Override
-    public String getFullName(Integer id) {
-        String userFullName = userRepository.findFullNameById(id).orElse(null);
-        logger.info("Called GetFullName on ID {}  Result: {}", id, userFullName);
-        return userFullName;
-    }
 }

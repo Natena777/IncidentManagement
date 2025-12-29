@@ -67,6 +67,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // ❗ დანარჩენ ყველა endpoint-ზე JWT აუცილებელია
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            logger.info("Security Block Operation SucceFully " +
+                            "Method: {} " +
+                            "URL: {} " +
+                            "Client IP: {} " +
+                            "Host: {} " +
+                            "Port: {} "
+                    , request.getMethod(),
+                    request.getRequestURL(),
+                    request.getRemoteAddr(),
+                    request.getRemoteHost(),
+                    request.getRemotePort());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
@@ -75,6 +86,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             if (!jwtUtil.isTokenValid(token)) {
+                logger.info("Security Block Operation SucceFully " +
+                                "Method: {} " +
+                                "URL: {} " +
+                                "Client IP: {} " +
+                                "Host: {} " +
+                                "Port: {} "
+                        , request.getMethod(),
+                        request.getRequestURL(),
+                        request.getRemoteAddr(),
+                        request.getRemoteHost(),
+                        request.getRemotePort());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
@@ -107,17 +129,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        logger.info("Security Block Operation SucceFully " +
-                        "Method: {} " +
-                        "URL: {} " +
-                        "Client IP: {} " +
-                        "Host: {} " +
-                        "Port: {} "
-                , request.getMethod(),
-                request.getRequestURL(),
-                request.getRemoteAddr(),
-                request.getRemoteHost(),
-                request.getRemotePort());
         filterChain.doFilter(request, response);
     }
 }

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/servicescatalog")
+@RequestMapping("/api/servicesCatalog")
 public class ServiceCatalogServicesController {
 
 

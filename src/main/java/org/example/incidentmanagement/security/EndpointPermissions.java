@@ -16,11 +16,11 @@ public class EndpointPermissions {
 
         // ADMIN only
         auth
-                .requestMatchers("/api/roles/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/user-roles/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/assignee-groups/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/case-statuses/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/service-catalog/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/role/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/userRole/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/assigneeGroup/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/status/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/servicesCatalog/**").hasAuthority("ADMIN")
                 .requestMatchers("/api/users/**").hasAuthority("ADMIN");
 
     }
