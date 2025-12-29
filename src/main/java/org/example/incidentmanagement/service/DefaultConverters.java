@@ -19,11 +19,6 @@ public class DefaultConverters {
             resultText = bool ? "Y" : "N";
         }
         return resultText;
-    }
-
-    public static String returnUserFullName (Integer userID) {
-        String userFullName = userRepository.findFullNameById(userID).orElse(null);
-        logger.info("Called GetFullName on ID {}  Result: {}", userID, userFullName);
-        return userFullName;
+    
     }
 }
