@@ -6,11 +6,10 @@
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <script src="/js/Auth.js"></script>
     <script src="/js/ConverToTable.js"></script>
-    <script src="/js/IoBoxManager.js"></script>
     <script src="../config.js"></script>
-    <script src="roles.js"></script>
+    <script src="userRoles.js"></script>
 
-    <link rel="stylesheet" href="roles.css">
+    <link rel="stylesheet" href="userRoles.css">
 </head>
 <body>
 
@@ -24,14 +23,11 @@
 
 <!-- Module Buttons -->
 <div>
-    <div class="module-button" data-action="getAllRoles">
-        <span>Get All Roles</span>
+    <div class="module-button" data-action="getAllUserRoles">
+        <span>Get All Users</span>
     </div>
-    <div class="module-button" data-action="getByRoleName">
-        <span>Get Role by Name</span>
-    </div>
-    <div class="module-button" data-action="deleteRoleByName">
-        <span>Delete Role by Name</span>
+    <div class="module-button" data-action="getUserRolesByUserID">
+        <span>Get User by ID</span>
     </div>
 </div>
 
@@ -39,7 +35,6 @@
 <div id="io-box" style="display:none;">
     <h3>Inputs</h3>
     <div id="inputs"></div>
-    
 
     <h3>Actions</h3>
     <div style="display:flex; gap:10px; flex-wrap: wrap; margin-bottom: 20px;">
