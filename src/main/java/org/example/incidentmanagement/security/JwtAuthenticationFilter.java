@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
 
-        logger.info("Request Path: {} Method: {}", path, request.getMethod());
+        logger.info(">>> shouldNotFilter check - Path: {}, Method: {}", path, request.getMethod());
 
         boolean shouldSkip = path.startsWith("/api/auth/")
                 || path.startsWith("/swagger-ui")
@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.equals("/favicon.svg")
                 || path.equals("/favicon.ico");
 
-
+        logger.info(">>> shouldNotFilter Result: {}", shouldSkip);
         return shouldSkip;
     }
 
@@ -86,7 +86,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             if (!jwtUtil.isTokenValid(token)) {
-                logger.info("Security Block Operation SucceFully " +
+                logger.warn("Security Blocked Operation SucceFully " +
                                 "Method: {} " +
                                 "URL: {} " +
                                 "Client IP: {} " +
@@ -108,6 +108,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 CustomUserPrincipal userDetails =
                         (CustomUserPrincipal) userDetailsService.loadUserByUsername(username);
 
+                logger.info("User: {} has authorities: {}", username, userDetails.getAuthorities());
+
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
@@ -121,6 +123,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext()
                         .setAuthentication(authentication);
+                logger.info("Authentication Success for User: {}", username);
             }
 
         } catch (Exception e) {
