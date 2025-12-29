@@ -290,3 +290,5 @@ class IoBoxManager {
         this.output.appendChild(pre);
     }
 }
+
+window.IoBoxManager = IoBoxManager;
