@@ -12,11 +12,10 @@ public class CreateUserRoleRequestDto {
     private Integer userId;
 
     @NotNull
-    @Size(max = 1)
-    private String mainRole;
+    private Boolean mainRole;
 
     public CreateUserRoleRequestDto() {}
-    public CreateUserRoleRequestDto(Integer roleId, Integer userId, String mainRole) {
+    public CreateUserRoleRequestDto(Integer roleId, Integer userId, Boolean mainRole) {
         this.roleId = roleId;
         this.userId = userId;
         this.mainRole = mainRole;
@@ -33,12 +32,11 @@ public class CreateUserRoleRequestDto {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-    public String getMainRole() {
+    public Boolean getMainRole() {
         return mainRole;
     }
-    public void setMainRole(String mainRole) {
+    public void setMainRole(Boolean mainRole) {
         this.mainRole = mainRole;
     }
-
 
 }

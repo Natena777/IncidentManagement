@@ -7,6 +7,7 @@ import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.UserRoleMapper;
 import org.example.incidentmanagement.repository.UserRolesRepository;
+import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.service.RoleService;
 import org.example.incidentmanagement.service.UserRoleService;
 import org.example.incidentmanagement.service.UserService;
@@ -26,13 +27,15 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final UserRoleMapper userRoleMapper;
     private final RoleService roleService;
     private final UserService userService;
+    private final CurrentUserService currentUserService;
 
     public UserRoleServiceImpl(UserRolesRepository userRolesRepository, UserRoleMapper userRoleMapper,
-                               RoleService roleService, UserService userService) {
+                               RoleService roleService, UserService userService, CurrentUserService currentUserService) {
         this.userRolesRepository = userRolesRepository;
         this.userRoleMapper = userRoleMapper;
         this.roleService = roleService;
         this.userService = userService;
+        this.currentUserService = currentUserService;
     }
 
 
@@ -71,15 +74,14 @@ public class UserRoleServiceImpl implements UserRoleService {
             throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
 
-
-
         logger.info("Called Create user role with request: {}, {}, {}", createUserRoleRequestDto.getUserId(),
                 createUserRoleRequestDto.getRoleId(), createUserRoleRequestDto.getMainRole());
 
         UserRoles userRoles = userRoleMapper.toEntity(createUserRoleRequestDto);
+
         userRoles.setCreatedOn(LocalDateTime.now());
         userRoles.setStatus("A");
-        userRoles.setCreatedBy("Nika");
+        userRoles.setCreatedBy(currentUserService.getCurrentUserId());
 
         if (!roleService.existsRole(createUserRoleRequestDto.getRoleId())) {
             logger.info("Role with id {} not exists", createUserRoleRequestDto.getRoleId());

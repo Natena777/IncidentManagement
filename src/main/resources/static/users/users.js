@@ -204,6 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
     async function executeAddUserRoles() {
         const userId = document.getElementById("userSelect")?.value;
         const roleId = document.getElementById("roleSelect")?.value;
+        const mainRoleCheckbox = document.getElementById("mainRoleCheckbox");
+        
+        const isMainRole = mainRoleCheckbox ? mainRoleCheckbox.checked : false;
+
 
         if (!userId || !roleId) {
             alert("Please select both User and Role");
@@ -219,7 +223,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 body: JSON.stringify({
                     userId: userId,
-                    roleId: roleId
+                    roleId: roleId,
+                    mainRole: isMainRole
                 })
             });
 

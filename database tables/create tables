@@ -48,9 +48,9 @@ CREATE TABLE sysUserRoles (
     main_role varchar(1) not null,
     status varchar(1) not null,
     created_on timestamp,
-    created_by varchar(250),
+    created_by integer,
     updated_on timestamp,
-    updated_by varchar(250)
+    updated_by integer
 );
 
 -- 4
