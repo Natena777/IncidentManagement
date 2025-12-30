@@ -186,15 +186,27 @@ document.addEventListener("DOMContentLoaded", () => {
                         // Parse response - შეიძლება იყოს ობიექტი ან მასივი
                         let userRoles = [];
                         if (userRoleData.roleName) {
-                            // Single role object
+                            // Single role object from UserRoleResponseDto
+                            // ✅ გამოვიყენოთ roleId თუ არსებობს, თორემ id
+                            const roleId = userRoleData.roleId || userRoleData.id;
                             userRoles = [{
-                                id: userRoleData.id,
+                                id: roleId,  // ეს არის რეალური role-ის ID
                                 name: userRoleData.roleName
                             }];
                         } else if (userRoleData.roles && Array.isArray(userRoleData.roles)) {
                             userRoles = userRoleData.roles;
                         } else if (Array.isArray(userRoleData)) {
-                            userRoles = userRoleData.map(item => item.role || item);
+                            userRoles = userRoleData.map(item => {
+                                if (item.role) return item.role;
+                                // თუ არის roleName, მაშინ UserRoleResponseDto-ა
+                                if (item.roleName) {
+                                    return {
+                                        id: item.roleId || item.id,
+                                        name: item.roleName
+                                    };
+                                }
+                                return item;
+                            });
                         }
 
                         // შეავსე როლების სია
