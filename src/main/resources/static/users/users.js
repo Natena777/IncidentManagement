@@ -258,6 +258,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // იუზერების ჩატვირთვა წაშლისთვის
+    async function loadUsersForDelete() {
+        try {
+            const usersResponse = await AuthService.fetchWithAuth("/api/users", { method: "GET" });
+            const users = await usersResponse.json();
+
+            const userSelectDel = document.getElementById('userSelectDel');
+            if (userSelectDel && Array.isArray(users)) {
+                userSelectDel.innerHTML = '<option value="">-- Choose User --</option>';
+                users.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.id;
+                    option.textContent = `${user.firstName} (${user.email})`;
+                    userSelectDel.appendChild(option);
+                });
+            }
+        } catch (err) {
+            console.error("Error loading users:", err);
+            alert("Failed to load users");
+        }
+    }
+
     // დინამიურად ჩატვირთოს იუზერები და როლები
     async function loadUsersAndRoles() {
         try {
@@ -428,7 +450,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ioBoxManager.showLoading();
 
         try {
-            // 1. იპოვე user-role ID
+            // 1. ჯერ იპოვე user-role ID
             const idResponse = await AuthService.fetchWithAuth(
                 `/api/userRole/getID?p_user=${userId}&p_role=${roleId}`,
                 { method: "GET" }
