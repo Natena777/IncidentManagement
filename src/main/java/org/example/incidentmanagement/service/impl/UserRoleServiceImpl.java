@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class UserRoleServiceImpl implements UserRoleService {
 
-    java.util.logging.Logger logger = LoggerFactory.getLogger(UserRoleServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(UserRoleServiceImpl.class);
 
     private UserRolesRepository userRolesRepository;
     private final UserRoleMapper userRoleMapper;
