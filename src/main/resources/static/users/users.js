@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ================= HELPER FUNCTIONS =================
 
-    // წაშლისთვის - დინამიური ფილტრაცია
+// წაშლისთვის - დინამიური ფილტრაცია
     async function loadUsersAndRolesForDelete() {
         try {
             // ჩატვირთე იუზერები
@@ -159,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (selectedUserId) {
                     // იუზერი არჩეულია → ჩატვირთე მისი როლები
+                    const currentRoleValue = roleSelect.value; // შეინახე არჩეული როლი
                     roleSelect.innerHTML = '<option value="">-- Loading... --</option>';
                     roleSelect.disabled = true;
 
@@ -171,20 +172,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         roleSelect.innerHTML = '<option value="">-- Choose Role --</option>';
 
-                        // თუ ერთი იუზერის როლები დაბრუნდა
+                        // თუ ერთი იუზერის როლები დაბრუნდა (ობიექტი)
                         let userRoles = [];
-                        if (userRoleData.roles && Array.isArray(userRoleData.roles)) {
+                        if (userRoleData.roleName) {
+                            // თუ ერთი როლია (ობიექტი)
+                            userRoles = [{
+                                id: userRoleData.id,
+                                name: userRoleData.roleName
+                            }];
+                        } else if (userRoleData.roles && Array.isArray(userRoleData.roles)) {
                             userRoles = userRoleData.roles;
                         } else if (Array.isArray(userRoleData)) {
                             userRoles = userRoleData.map(item => item.role || item);
                         }
 
+                        // შეავსე როლები
                         userRoles.forEach(role => {
                             const option = document.createElement('option');
                             option.value = role.id;
                             option.textContent = role.name;
                             roleSelect.appendChild(option);
                         });
+
+                        // თუ ადრე არჩეული როლი ახალ სიაშია, დატოვე არჩეული
+                        if (currentRoleValue && userRoles.some(r => r.id == currentRoleValue)) {
+                            roleSelect.value = currentRoleValue;
+                        }
 
                         roleSelect.disabled = false;
                     } catch (err) {
@@ -211,6 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (selectedRoleId) {
                     // როლი არჩეულია → ჩატვირთე ამ როლის მქონე იუზერები
+                    const currentUserValue = userSelect.value; // შეინახე არჩეული იუზერი
                     userSelect.innerHTML = '<option value="">-- Loading... --</option>';
                     userSelect.disabled = true;
 
@@ -225,12 +239,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         if (Array.isArray(usersWithRole)) {
                             usersWithRole.forEach(userRole => {
-                                const user = userRole.user || userRole;
+                                // userRole შეიძლება იყოს ობიექტი userName-ით ან user ობიექტით
+                                let userId, userDisplay;
+
+                                if (userRole.user) {
+                                    // თუ user ობიექტია
+                                    userId = userRole.user.id;
+                                    userDisplay = `${userRole.user.firstName} (${userRole.user.email})`;
+                                } else if (userRole.userName) {
+                                    // თუ userName string-ია
+                                    userId = userRole.id;
+                                    userDisplay = userRole.userName;
+                                } else {
+                                    // პირდაპირ user ობიექტია
+                                    userId = userRole.id;
+                                    userDisplay = `${userRole.firstName} (${userRole.email})`;
+                                }
+
                                 const option = document.createElement('option');
-                                option.value = user.id;
-                                option.textContent = `${user.firstName} (${user.email})`;
+                                option.value = userId;
+                                option.textContent = userDisplay;
                                 userSelect.appendChild(option);
                             });
+                        }
+
+                        // თუ ადრე არჩეული იუზერი ახალ სიაშია, დატოვე არჩეული
+                        if (currentUserValue) {
+                            const hasUser = Array.from(userSelect.options).some(opt => opt.value == currentUserValue);
+                            if (hasUser) {
+                                userSelect.value = currentUserValue;
+                            }
                         }
 
                         userSelect.disabled = false;
@@ -438,10 +476,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Execute delete function
     async function executeDeleteUserRole() {
         const userId = document.getElementById("userSelectDelRole")?.value;
         const roleId = document.getElementById("roleSelectDelRole")?.value;
 
+        // CHECK: ორივე უნდა იყოს არჩეული
         if (!userId || !roleId) {
             alert("Please select both User and Role");
             return;
@@ -450,7 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ioBoxManager.showLoading();
 
         try {
-            // 1. ჯერ იპოვე user-role ID
+            // 1. იპოვე user-role ID
             const idResponse = await AuthService.fetchWithAuth(
                 `/api/userRole/getID?p_user=${userId}&p_role=${roleId}`,
                 { method: "GET" }
@@ -490,9 +530,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 // თავიდან ჩატვირთე სელექტები
                 await loadUsersAndRolesForDelete();
             } else {
-                throw new Error("Delete failed");
+                const errorData = await deleteResponse.json();
+                throw new Error(errorData.message || "Delete failed");
             }
         } catch (err) {
+            console.error("Delete error:", err);
             ioBoxManager.showError(err.message);
         }
     }
