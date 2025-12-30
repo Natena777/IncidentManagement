@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             throw new Error("Failed to fetch user roles");
                         }
 
-                        const data = await response.json(response);
+                        const data = await response.json();
 
 
                         roleSelect.innerHTML = '<option value="">-- Choose Role --</option>';
