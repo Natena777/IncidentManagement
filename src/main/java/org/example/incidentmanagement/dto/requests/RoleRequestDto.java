@@ -2,12 +2,14 @@ package org.example.incidentmanagement.dto.requests;
 
 public class RoleRequestDto {
     private String roleName;
+    private String roleDescription;
 
     public RoleRequestDto() {}
 
 
-    public RoleRequestDto(String roleName) {
+    public RoleRequestDto(String roleName, String roleDescription) {
         this.roleName = roleName;
+        this.roleDescription = roleDescription;
     }
 
     public String getRoleName() {
@@ -16,6 +18,14 @@ public class RoleRequestDto {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public String getRoleDescription(){
+        return roleDescription;
+    }
+
+    public void setRoleDescription(String roleDescription){
+        this.roleDescription = roleDescription;
     }
 
 
