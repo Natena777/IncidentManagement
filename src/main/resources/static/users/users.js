@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             //User Selector Change
-            userSelect.addEventListener("change", async () => {
+            userSelect.addEventListener("change", async (e) => {
                 const userId = e.target.value;
 
                 if (!roleSelect) {
