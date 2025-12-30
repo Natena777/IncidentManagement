@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
             userSelect.addEventListener("change", async (e) => {
                 const userId = e.target.value;
 
-                if (!roleSelect) {
+                if (userId && !roleSelect.value) {
                     try {
                         // 🔹 backend call
                         const response = await AuthService.fetchWithAuth("/api/userRole/${userId}/roles",
