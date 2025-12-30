@@ -188,7 +188,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (userRoleData.roleName) {
                             // Single role object from UserRoleResponseDto
                             // ✅ გამოვიყენოთ roleId თუ არსებობს, თორემ id
-                            const roleId = userRoleData.roleId || userRoleData.id;
+
+                            const roleResponse = await AuthService.fetchWithAuth(`/api/role/${userRoleData.roleName}`,
+                                { method: "GET" });
+
+                            const roleId = roleResponse.id;
                             userRoles = [{
                                 id: roleId,  // ეს არის რეალური role-ის ID
                                 name: userRoleData.roleName
@@ -267,15 +271,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                                 if (userRole.user) {
                                     // Nested user object
-                                    userId = userRole.user.id;
+                                    userId = userRole.userId;
                                     userDisplay = `${userRole.user.firstName} (${userRole.user.email})`;
                                 } else if (userRole.userName) {
                                     // userName string format
-                                    userId = userRole.id;
-                                    userDisplay = userRole.userName;
+                                    userId = userRole.userId;
+                                    userDisplay = "userRole.userName";
                                 } else {
                                     // Direct user object
-                                    userId = userRole.id;
+                                    userId = userRole.userId;
                                     userDisplay = `${userRole.firstName} (${userRole.email})`;
                                 }
 
