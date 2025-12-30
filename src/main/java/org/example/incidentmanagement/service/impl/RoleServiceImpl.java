@@ -99,7 +99,7 @@ public class RoleServiceImpl implements RoleService {
 
         roleMapper.updateFromDto(role, roleToUpdate);
         roleToUpdate.setUpdatedOn(LocalDateTime.now());
-        roleToUpdate.setUpdatedBy("Nika"); //აქ მერე უნდა მიეთითოს იუზერი ავტომატში
+        //roleToUpdate.setUpdatedBy("Nika"); //აქ მერე უნდა მიეთითოს იუზერი ავტომატში
 
         Role updatedRole = roleRepository.save(roleToUpdate);
         return roleMapper.toRoleResponseDto(updatedRole);
