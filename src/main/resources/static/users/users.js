@@ -43,13 +43,15 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteById: {
             inputs: [
                 { 
-                    id: "userIdInput", 
-                    type: "text",
-                    label: "User ID",
-                    placeholder: "Enter User ID to Delete" 
+                    id: "userSelectDel", 
+                    type: "select",
+                    label: "Select User",
+                    placeholder: "Choose User For Delete",
+                     
                 }
             ],
-            execute: executeDeleteUser
+            execute: executeDeleteUser,
+            onShow: loadUsersAndRoles
         },
         AddUserRoles: {
             inputs: [
@@ -58,14 +60,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     type: 'select',
                     label: 'Select User',
                     placeholder: '-- Choose User --',
-                    options: [] // ცარიელი, დინამიურად შეივსება
+                    options: [] 
                 },
                 { 
                     id: 'roleSelect', 
                     type: 'select',
                     label: 'Select Role',
                     placeholder: '-- Choose Role --',
-                    options: [] // ცარიელი, დინამიურად შეივსება
+                    options: [] 
                 },
                 {
                     id: 'mainRoleCheckbox',
@@ -127,6 +129,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    async function loadUserRoles(){
+        
+    }
+
     // ================= API FUNCTIONS =================
 
     async function executeGetAllUsers() {
@@ -185,16 +191,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function executeDeleteUser() {
-        const id = document.getElementById("userIdInput")?.value.trim();
-        if (!id) { 
-            alert("Please enter User ID"); 
+        const userID = document.getElementById("userSelectDel")?.value.trim();
+        if (!userID) { 
+            alert("Please Choose  User"); 
             return; 
         }
-        if (!confirm(`Are you sure you want to delete user with ID ${id}?`)) return;
+        if (!confirm(`Are you sure you want to delete user with ID ${userID}?`)) return;
 
         ioBoxManager.showLoading();
         try {
-            const response = await AuthService.fetchWithAuth(`/api/users/delete/${id}`, { method: "DELETE" });
+            const response = await AuthService.fetchWithAuth(`/api/users/delete/${userID}`, { method: "DELETE" });
             if (response.ok) {
                 const data = await response.json();
                 ioBoxManager.showSuccess("User deleted successfully!");
@@ -245,4 +251,22 @@ document.addEventListener("DOMContentLoaded", () => {
             ioBoxManager.showError(err.message);
         }
     }
+
+
+    async function executeDeleteUserRole(){
+        const userId = document.getElementById("userSelect")?.value;
+        const roleId = document.getElementById("roleSelect")?.value;
+
+        if (!userId || !roleId) {
+            alert("Please select both User and Role");
+            return;
+        }
+
+        ioBoxManager.showLoading();
+        try{
+            const response = await AuthService.fetchWithAuth("/api/userRole/delete/{id}")
+        }
+
+    }
+
 });
