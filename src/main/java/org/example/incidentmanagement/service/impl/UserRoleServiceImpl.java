@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserRoleServiceImpl implements UserRoleService {
@@ -135,7 +136,7 @@ public class UserRoleServiceImpl implements UserRoleService {
             logger.info("User with id {} not exists", createUserRoleRequestDto.getUserId());
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
-        UserRoles beforeSaveCheck = userRolesRepository.findByUserId(createUserRoleRequestDto.getUserId());
+        UserRoles beforeSaveCheck = userRolesRepository.existUserRolesbyUserID(createUserRoleRequestDto.getUserId());
 
         if (beforeSaveCheck != null) {
             logger.info("User with id {} already exists", createUserRoleRequestDto.getUserId());
@@ -150,7 +151,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public void deleteUserRole(int id) {
         logger.info("Deleting user role with id: {}", id);
-        UserRoles userRoles = userRolesRepository.findById(id);
+        Optional<UserRoles> userRoles = userRolesRepository.findById(id);
 
         if (userRoles == null) {
             logger.info("User role with id {} not exists", id);
