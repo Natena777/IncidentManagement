@@ -150,6 +150,44 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
 
+            //User Selector Change
+            userSelect.addEventListener("change", async () => {
+                const userId = e.target.value;
+
+                if (!roleSelect) {
+                    try {
+                        // 🔹 backend call
+                        const response = await AuthService.fetchWithAuth("/api/userRole/${userId}/roles",
+                            {method: "GET"});
+
+                        if (!response.ok){
+                            throw new Error("Failed to fetch user roles");
+                        }
+
+                        const data = await response.json(response);
+
+
+                        roleSelect.innerHTML = '<option value="">-- Choose Role --</option>';
+
+                        const option = document.createElement("option");
+                        option.value = data.roleName;
+
+                        roleSelect.appendChild(option);
+
+                    } catch (error) {
+                        console.error("Error loading user roles:", error);
+                        alert("Failed to load roles");
+                    }
+
+
+
+                }
+
+
+            })
+
+
+
         } catch (err) {
             console.error("Error loading users and roles for delete:", err);
             alert("Failed to load users and roles");
