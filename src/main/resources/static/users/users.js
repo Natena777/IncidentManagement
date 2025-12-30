@@ -119,17 +119,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const rolesResponse = await AuthService.fetchWithAuth("/api/role", { method: "GET" });
             const roles = await rolesResponse.json();
 
-            const userSelectDel = document.getElementById('userSelectDelRole');
-            const roleSelectDel = document.getElementById('roleSelectDelRole');
+            // ✅ პირველ რიგში მოძებნე სელექტები
+            let userSelect = document.getElementById('userSelectDelRole');
+            let roleSelect = document.getElementById('roleSelectDelRole');
 
-            // წაშალე ძველი ივენთ ლისენერები
-            const newUserSelect = userSelectDel.cloneNode(false);
-            const newRoleSelect = roleSelectDel.cloneNode(false);
-            userSelectDel.parentNode.replaceChild(newUserSelect, userSelectDel);
-            roleSelectDel.parentNode.replaceChild(newRoleSelect, roleSelectDel);
+            if (!userSelect || !roleSelect) {
+                console.error("Selects not found!");
+                return;
+            }
 
-            const userSelect = document.getElementById('userSelectDelRole');
-            const roleSelect = document.getElementById('roleSelectDelRole');
+            // ✅ წაშალე ძველი event listeners-ები (cloneNode ტრიუკით)
+            const newUserSelect = userSelect.cloneNode(false);
+            const newRoleSelect = roleSelect.cloneNode(false);
+            userSelect.parentNode.replaceChild(newUserSelect, userSelect);
+            roleSelect.parentNode.replaceChild(newRoleSelect, roleSelect);
+
+            // ✅ განაახლე რეფერენსები
+            userSelect = document.getElementById('userSelectDelRole');
+            roleSelect = document.getElementById('roleSelectDelRole');
 
             // შეავსე user select ყველა იუზერით
             if (userSelect && Array.isArray(users)) {
@@ -153,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
 
-            // User select change ივენთი
+            // ============= USER SELECT CHANGE EVENT =============
             userSelect.addEventListener('change', async (e) => {
                 const selectedUserId = e.target.value;
 
@@ -172,10 +179,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         roleSelect.innerHTML = '<option value="">-- Choose Role --</option>';
 
-                        // თუ ერთი იუზერის როლები დაბრუნდა (ობიექტი)
+                        // Parse response - შეიძლება იყოს ობიექტი ან მასივი
                         let userRoles = [];
                         if (userRoleData.roleName) {
-                            // თუ ერთი როლია (ობიექტი)
+                            // Single role object
                             userRoles = [{
                                 id: userRoleData.id,
                                 name: userRoleData.roleName
@@ -186,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             userRoles = userRoleData.map(item => item.role || item);
                         }
 
-                        // შეავსე როლები
+                        // შეავსე როლების სია
                         userRoles.forEach(role => {
                             const option = document.createElement('option');
                             option.value = role.id;
@@ -218,15 +225,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // Role select change ივენთი
+            // ============= ROLE SELECT CHANGE EVENT =============
             roleSelect.addEventListener('change', async (e) => {
                 const selectedRoleId = e.target.value;
 
                 if (selectedRoleId) {
                     // როლი არჩეულია → ჩატვირთე ამ როლის მქონე იუზერები
-                    const currentUserValue = userSelect.value; // ✅ შეინახე არჩეული იუზერი
-
-                    // ❌ არ ვაცლით userSelect.value-ს აქ!
+                    const currentUserValue = userSelect.value; // შეინახე არჩეული იუზერი
                     userSelect.innerHTML = '<option value="">-- Loading... --</option>';
                     userSelect.disabled = true;
 
@@ -241,19 +246,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         if (Array.isArray(usersWithRole)) {
                             usersWithRole.forEach(userRole => {
-                                // userRole შეიძლება იყოს ობიექტი userName-ით ან user ობიექტით
+                                // Parse different response formats
                                 let userId, userDisplay;
 
                                 if (userRole.user) {
-                                    // თუ user ობიექტია
+                                    // Nested user object
                                     userId = userRole.user.id;
                                     userDisplay = `${userRole.user.firstName} (${userRole.user.email})`;
                                 } else if (userRole.userName) {
-                                    // თუ userName string-ია
+                                    // userName string format
                                     userId = userRole.id;
                                     userDisplay = userRole.userName;
                                 } else {
-                                    // პირდაპირ user ობიექტია
+                                    // Direct user object
                                     userId = userRole.id;
                                     userDisplay = `${userRole.firstName} (${userRole.email})`;
                                 }
