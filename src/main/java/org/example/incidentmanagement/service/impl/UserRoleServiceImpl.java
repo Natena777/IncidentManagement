@@ -59,26 +59,29 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public UserRoleResponseDto findUserRolesByUserID(int userID) {
+    public List<UserRoleResponseDto> findUserRolesByUserID(int userID) {
         logger.info("Called find user role by user id {}", userID);
-        UserRoles userRoles = userRolesRepository.findByUserId(userID);
+        List<UserRoles> userRoles = userRolesRepository.findByUserId(userID);
         if (userRoles == null) {
-            throw new CustomException(ResponseCodes.INVALID_USER);
+            throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
+        List<UserRoleResponseDto> userRoleResponseDtos = userRoles.stream()
+                .map(userRole -> {
+                    UserRoleResponseDto userRoleResult = userRoleMapper.toResponse(userRole);
 
-        String createdBy = defaultConverter.getUserFullName(userRoles.getCreatedBy());
-        String updatedBy = defaultConverter.getUserFullName(userRoles.getUpdatedBy());
-        String roleName = defaultConverter.getRoleName(userRoles.getRoleId()); ;
-        String userName = defaultConverter.getUserFullName(userRoles.getUserId());
+                    String createdBy = defaultConverter.getUserFullName(userRole.getCreatedBy());
+                    String updatedBy = defaultConverter.getUserFullName(userRole.getUpdatedBy());
+                    String roleName = defaultConverter.getRoleName(userRole.getRoleId()); ;
+                    String userName = defaultConverter.getUserFullName(userRole.getUserId());
 
-        UserRoleResponseDto userRoleResult = userRoleMapper.toResponse(userRoles);
+                    userRoleResult.setUserName(userName);
+                    userRoleResult.setRoleName(roleName);
+                    userRoleResult.setCreatedBy(createdBy);
+                    userRoleResult.setUpdatedBy(updatedBy);
 
-        userRoleResult.setUserName(userName);
-        userRoleResult.setRoleName(roleName);
-        userRoleResult.setCreatedBy(createdBy);
-        userRoleResult.setUpdatedBy(updatedBy);
-
-        return userRoleResult;
+                    return userRoleResult;
+                }).toList();
+        return userRoleResponseDtos;
     }
 
     @Override
