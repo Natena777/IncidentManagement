@@ -2,12 +2,12 @@
 
 // მოდულების უფლებები როლების მიხედვით
 const MODULE_PERMISSIONS = {
-    users: ['ADMIN', 'CREATOR'],           // CREATOR-საც უნდა შეეძლოს Users-ის მართვა
-    roles: ['ADMIN'],                      // მხოლოდ ADMIN
-    userroles: ['ADMIN'],                  // მხოლოდ ADMIN (როლების მინიჭება)
-    'assignee-groups': ['ADMIN'],
-    'case-statuses': ['ADMIN'],
-    'service-catalog': ['ADMIN']
+    users: ['SUPER_ADMIN', 'CREATOR'],           // CREATOR-საც უნდა შეეძლოს Users-ის მართვა
+    roles: ['SUPER_ADMIN'],                      // მხოლოდ SUPER_ADMIN
+    userroles: ['SUPER_ADMIN'],                  // მხოლოდ SUPER_ADMIN (როლების მინიჭება)
+    assigneegroups: ['SUPER_ADMIN'],
+    casestatuses: ['SUPER_ADMIN'],
+    servicecatalog: ['SUPER_ADMIN']
 };
 
 // მოდულების ვიზუალური ინფორმაცია (იგივე რაც HTML-ში გაქვს)
@@ -15,9 +15,9 @@ const MODULE_DETAILS = {
     users: { icon: '👥', title: 'Users', description: 'Manage system users and permissions' },
     roles: { icon: '🔑', title: 'Roles', description: 'Configure user roles and access levels' },
     userroles: { icon: '🔗', title: 'User Roles', description: 'Assign roles to users' },
-    'assignee-groups': { icon: '👨‍👩‍👧‍👦', title: 'Assignee Groups', description: 'Manage assignment groups' },
-    'case-statuses': { icon: '📊', title: 'Case Statuses', description: 'Configure case status workflows' },
-    'service-catalog': { icon: '📋', title: 'Service Catalog', description: 'Manage service catalog items' }
+    assigneegroups: { icon: '👨‍👩‍👧‍👦', title: 'Assignee Groups', description: 'Manage assignment groups' },
+    casestatuses: { icon: '📊', title: 'Case Statuses', description: 'Configure case status workflows' },
+    servicecatalog: { icon: '📋', title: 'Service Catalog', description: 'Manage service catalog items' }
 };
 
 //იუზერისგან როლის ამოსაღები ფუნცია
@@ -77,9 +77,9 @@ window.ModuleConfig = {
             users: '/users/users.html',
             roles: '/roles/roles.html',
             userroles: '/userRoles/userroles.html',
-            'assignee-groups': '/assigneeGroups/assignee-groups.html',
-            'case-statuses': '/caseStatuses/case-statuses.html',
-            'service-catalog': '/service_catalog/service-catalog.html'
+            assigneegroups: '/assigneeGroups/assigneegroups.html',
+            casestatuses: '/caseStatuses/casestatuses.html',
+            servicecatalog: '/serviceCatalog/servicecatalog.html'
         };
 
         const url = routes[moduleName];

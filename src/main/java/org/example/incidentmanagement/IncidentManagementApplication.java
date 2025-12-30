@@ -16,6 +16,7 @@ public class IncidentManagementApplication {
         logger.info("Swagger:  http://localhost:8080/swagger-ui/index.html");
         logger.info("Website:  http://localhost:8080/index.html");
         logger.info("Application Started At: {}", LocalDateTime.now());
+        
     }
 
 
