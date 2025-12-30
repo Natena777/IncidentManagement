@@ -33,13 +33,13 @@ public class UserRoleController {
         return userRoleService.findAllUserRoles();
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{userId}/roles")
     @Operation(summary = "Find User All Roles By UserID")
     public UserRoleResponseDto findUserRolesByUserId(@PathVariable int userId) {
         return userRoleService.findUserRolesByUserID(userId);
     }
 
-    @GetMapping("/id/{roleID}")
+    @GetMapping("/{roleID}/users")
     @Operation(summary = "Find Users In Role By RoleID")
     public List<UserRoleResponseDto> findUsersRoleByRoleID(@PathVariable int roleID) {
         return userRoleService.findUsersRoleByRoleId(roleID);
@@ -66,5 +66,9 @@ public class UserRoleController {
     }
 
 
+    @GetMapping("/getID")
+    public Integer findUserRoleId (@RequestBody Integer p_user, Integer p_role){
+        return userRoleService.findUserRoleId(p_user, p_role);
+    } 
 
 }

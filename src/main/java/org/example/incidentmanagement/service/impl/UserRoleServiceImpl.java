@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class UserRoleServiceImpl implements UserRoleService {
 
-    Logger logger = LoggerFactory.getLogger(UserRoleServiceImpl.class);
+    java.util.logging.Logger logger = LoggerFactory.getLogger(UserRoleServiceImpl.class);
 
     private UserRolesRepository userRolesRepository;
     private final UserRoleMapper userRoleMapper;
@@ -197,4 +197,16 @@ public class UserRoleServiceImpl implements UserRoleService {
         return true;
     }
 
+
+    @Override
+    public Integer findUserRoleId(Integer userID, Integer roleID){
+        logger.info("Called Get User Roles ID");
+        if (userID == null || roleID == null ){
+            throw new CustomException(ResponseCodes.INVALID_USER_ROLE);
+        }
+
+        Integer resultId = userRolesRepository.findUserRoleId(userID, roleID);
+
+        return resultId;
+    }
 }
