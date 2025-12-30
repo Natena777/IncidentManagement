@@ -11,17 +11,17 @@ public class EndpointPermissions {
         //დაცული Enpoint ები
         // კონკრეტულ როლებზე დამატებული წვდომები.
         auth
-                .requestMatchers(HttpMethod.GET,"/api/users/**").hasAnyAuthority("CREATOR", "ADMIN");
+                .requestMatchers(HttpMethod.GET,"/api/users/**").hasAnyAuthority("CREATOR", "SUPER_ADMIN");
 
 
         // ADMIN only
         auth
-                .requestMatchers("/api/role/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/userRole/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/assigneeGroup/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/status/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/servicesCatalog/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/users/**").hasAuthority("ADMIN");
+                .requestMatchers("/api/role/**").hasAuthority("SUPER_ADMIN")
+                .requestMatchers("/api/userRole/**").hasAuthority("SUPER_ADMIN")
+                .requestMatchers("/api/assigneeGroup/**").hasAuthority("SUPER_ADMIN")
+                .requestMatchers("/api/status/**").hasAuthority("SUPER_ADMIN")
+                .requestMatchers("/api/servicesCatalog/**").hasAuthority("SUPER_ADMIN")
+                .requestMatchers("/api/users/**").hasAuthority("SUPER_ADMIN");
 
     }
 
