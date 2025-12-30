@@ -163,14 +163,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (!response.ok){
                             throw new Error("Failed to fetch user roles");
                         }
-
                         const data = await response.json();
+
+                        const responseRoleID = await AuthService.fetchWithAuth(`/api/role/${data.roleName}`,
+                            {method: "GET"});
+
+                        const roleData = await responseRoleID.json();
 
 
                         roleSelect.innerHTML = '<option value="">-- Choose Role --</option>';
 
                         const option = document.createElement("option");
-                        option.value = data.roleName;
+                        option.value = roleData.id;
+                        option.textContent = data.roleName;
 
                         roleSelect.appendChild(option);
 

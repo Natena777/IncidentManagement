@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class RoleResponseDto {
 
+    private int id;
     private String role;
     private String description;
     private String status;
@@ -20,6 +21,12 @@ public class RoleResponseDto {
         this.createdBy = createdBy;
     }
 
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getRole() {
         return role;
     }
