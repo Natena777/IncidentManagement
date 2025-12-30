@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // შექმენით IoBoxManager ინსტანსი
     const ioBoxManager = new IoBoxManager(
         "io-box",
-        "inputs", 
+        "inputs",
         "output",
         "executeBtn",
         "clearBtn",
@@ -20,30 +20,30 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         getById: {
             inputs: [
-                { 
-                    id: "userIdInput", 
+                {
+                    id: "userIdInput",
                     type: "text",
                     label: "User ID",
-                    placeholder: "Enter User ID" 
+                    placeholder: "Enter User ID"
                 }
             ],
             execute: executeGetUserById
         },
         getByEmail: {
             inputs: [
-                { 
-                    id: "userEmailInput", 
+                {
+                    id: "userEmailInput",
                     type: "email",
                     label: "User Email",
-                    placeholder: "Enter User Email" 
+                    placeholder: "Enter User Email"
                 }
             ],
             execute: executeGetUserByEmail
         },
         deleteById: {
             inputs: [
-                { 
-                    id: "userSelectDel", 
+                {
+                    id: "userSelectDel",
                     type: "select",
                     label: "Select User",
                     placeholder: "Choose User For Delete"
@@ -54,19 +54,19 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         AddUserRoles: {
             inputs: [
-                { 
-                    id: 'userSelect', 
+                {
+                    id: 'userSelect',
                     type: 'select',
                     label: 'Select User',
                     placeholder: '-- Choose User --',
-                    options: [] 
+                    options: []
                 },
-                { 
-                    id: 'roleSelect', 
+                {
+                    id: 'roleSelect',
                     type: 'select',
                     label: 'Select Role',
                     placeholder: '-- Choose Role --',
-                    options: [] 
+                    options: []
                 },
                 {
                     id: 'mainRoleCheckbox',
@@ -80,19 +80,19 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         deleteUserRole: {
             inputs: [
-                { 
-                    id: 'userSelectDelRole', 
+                {
+                    id: 'userSelectDelRole',
                     type: 'select',
                     label: 'Select User',
                     placeholder: '-- Choose User --',
-                    options: [] 
+                    options: []
                 },
-                { 
-                    id: 'roleSelectDelRole', 
+                {
+                    id: 'roleSelectDelRole',
                     type: 'select',
                     label: 'Select Role',
                     placeholder: '-- Choose Role --',
-                    options: [] 
+                    options: []
                 }
             ],
             execute: executeDeleteUserRole,
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const userSelectDel = document.getElementById('userSelectDelRole');
             const roleSelectDel = document.getElementById('roleSelectDelRole');
 
-            // შეავსე user select
+            // შეავსე user select ყველა იუზერით
             if (userSelectDel && Array.isArray(users)) {
                 userSelectDel.innerHTML = '<option value="">-- Choose User --</option>';
                 users.forEach(user => {
@@ -133,38 +133,35 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
 
-            roleSelectDel.innerHTML = '<option value="">-- Choose Role --</option>';
+            // შეავსე role select ყველა როლით
+            if (roleSelectDel && Array.isArray(roles)) {
+                roleSelectDel.innerHTML = '<option value="">-- Choose Role --</option>';
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = role.name;
+                    roleSelectDel.appendChild(option);
+                });
+            }
 
-            if (Array.isArray(userRoleData)) {
-                userRoleData.forEach(item => {
-                const role = item.role || item; // ორივე სტრუქტურას ერგება
-                const option = document.createElement('option');
-                option.value = role.id;
-                option.textContent = role.name;
-                roleSelectDel.appendChild(option);
-    });
-}
-
-roleSelectDel.disabled = false;
-
-            // დაამატე ივენთები დინამიური ფილტრაციისთვის
+            // დაამატე ივენთი იუზერის არჩევისთვის
             userSelectDel.addEventListener('change', async (e) => {
                 if (e.target.value) {
                     // იუზერი არჩეულია → გასუფთავე role და ჩატვირთე მისი როლები
                     roleSelectDel.value = "";
                     roleSelectDel.innerHTML = '<option value="">-- Loading... --</option>';
                     roleSelectDel.disabled = true;
-                    
+
                     try {
                         const userId = parseInt(e.target.value);
                         const response = await AuthService.fetchWithAuth(
-                            `/api/userRole/${userId}/roles`, 
+                            `/api/userRole/${userId}/roles`,
                             { method: "GET" }
                         );
                         const userRoleData = await response.json();
 
                         roleSelectDel.innerHTML = '<option value="">-- Choose Role --</option>';
-                        
+
                         // თუ roles არის მასივი
                         if (userRoleData.roles && Array.isArray(userRoleData.roles)) {
                             userRoleData.roles.forEach(role => {
@@ -174,11 +171,22 @@ roleSelectDel.disabled = false;
                                 roleSelectDel.appendChild(option);
                             });
                         }
-                        
+                        // თუ პირდაპირ მასივია
+                        else if (Array.isArray(userRoleData)) {
+                            userRoleData.forEach(item => {
+                                const role = item.role || item;
+                                const option = document.createElement('option');
+                                option.value = role.id;
+                                option.textContent = role.name;
+                                roleSelectDel.appendChild(option);
+                            });
+                        }
+
                         roleSelectDel.disabled = false;
                     } catch (err) {
                         console.error("Error loading user roles:", err);
                         roleSelectDel.innerHTML = '<option value="">-- Error loading roles --</option>';
+                        roleSelectDel.disabled = false;
                     }
                 } else {
                     // user გასუფთავდა → აღადგინე ყველა როლი
@@ -193,23 +201,24 @@ roleSelectDel.disabled = false;
                 }
             });
 
+            // დაამატე ივენთი როლის არჩევისთვის
             roleSelectDel.addEventListener('change', async (e) => {
                 if (e.target.value) {
                     // როლი არჩეულია → გასუფთავე user და ჩატვირთე იუზერები
                     userSelectDel.value = "";
                     userSelectDel.innerHTML = '<option value="">-- Loading... --</option>';
                     userSelectDel.disabled = true;
-                    
+
                     try {
                         const roleId = parseInt(e.target.value);
                         const response = await AuthService.fetchWithAuth(
-                            `/api/userRole/${roleId}/users`, 
+                            `/api/userRole/${roleId}/users`,
                             { method: "GET" }
                         );
                         const usersWithRole = await response.json();
 
                         userSelectDel.innerHTML = '<option value="">-- Choose User --</option>';
-                        
+
                         if (Array.isArray(usersWithRole)) {
                             usersWithRole.forEach(userRole => {
                                 // თუ userRole შიგნით არის user ობიექტი
@@ -220,11 +229,12 @@ roleSelectDel.disabled = false;
                                 userSelectDel.appendChild(option);
                             });
                         }
-                        
+
                         userSelectDel.disabled = false;
                     } catch (err) {
                         console.error("Error loading users with role:", err);
                         userSelectDel.innerHTML = '<option value="">-- Error loading users --</option>';
+                        userSelectDel.disabled = false;
                     }
                 } else {
                     // role გასუფთავდა → აღადგინე ყველა იუზერი
@@ -325,9 +335,9 @@ roleSelectDel.disabled = false;
 
     async function executeGetUserById() {
         const id = document.getElementById("userIdInput")?.value.trim();
-        if (!id) { 
-            alert("Please enter User ID"); 
-            return; 
+        if (!id) {
+            alert("Please enter User ID");
+            return;
         }
 
         ioBoxManager.showLoading();
@@ -345,9 +355,9 @@ roleSelectDel.disabled = false;
 
     async function executeGetUserByEmail() {
         const email = document.getElementById("userEmailInput")?.value.trim();
-        if (!email) { 
-            alert("Please enter User Email"); 
-            return; 
+        if (!email) {
+            alert("Please enter User Email");
+            return;
         }
 
         ioBoxManager.showLoading();
@@ -366,9 +376,9 @@ roleSelectDel.disabled = false;
 
     async function executeDeleteUser() {
         const userID = document.getElementById("userSelectDel")?.value.trim();
-        if (!userID) { 
-            alert("Please Choose User"); 
-            return; 
+        if (!userID) {
+            alert("Please Choose User");
+            return;
         }
         if (!confirm(`Are you sure you want to delete user with ID ${userID}?`)) return;
 
@@ -391,7 +401,7 @@ roleSelectDel.disabled = false;
         const userId = document.getElementById("userSelect")?.value;
         const roleId = document.getElementById("roleSelect")?.value;
         const mainRoleCheckbox = document.getElementById("mainRoleCheckbox");
-        
+
         const isMainRole = mainRoleCheckbox ? mainRoleCheckbox.checked : false;
 
         if (!userId || !roleId) {
@@ -435,7 +445,7 @@ roleSelectDel.disabled = false;
         }
 
         ioBoxManager.showLoading();
-        
+
         try {
             // 1. ჯერ იპოვე user-role ID
             const idResponse = await AuthService.fetchWithAuth(
@@ -461,7 +471,7 @@ roleSelectDel.disabled = false;
 
             // 3. წაშალე user-role
             const deleteResponse = await AuthService.fetchWithAuth(
-                `/api/userRole/delete/${userRoleId}`, 
+                `/api/userRole/delete/${userRoleId}`,
                 { method: "DELETE" }
             );
 
@@ -469,10 +479,13 @@ roleSelectDel.disabled = false;
                 const data = await deleteResponse.json();
                 ioBoxManager.showSuccess("User-Role deleted successfully!");
                 ioBoxManager.renderJSON(data);
-                
+
                 // გაასუფთავე სელექტები
                 document.getElementById("userSelectDelRole").value = "";
                 document.getElementById("roleSelectDelRole").value = "";
+
+                // თავიდან ჩატვირთე სელექტები
+                await loadUsersAndRolesForDelete();
             } else {
                 throw new Error("Delete failed");
             }
