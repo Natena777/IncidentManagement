@@ -128,15 +128,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // ✅ წაშალე ძველი event listeners-ები (cloneNode ტრიუკით)
-            const newUserSelect = userSelect.cloneNode(false);
-            const newRoleSelect = roleSelect.cloneNode(false);
-            userSelect.parentNode.replaceChild(newUserSelect, userSelect);
-            roleSelect.parentNode.replaceChild(newRoleSelect, roleSelect);
+            // ✅ წაშალე ძველი event listeners-ები (თუ არსებობს)
+            // cloneNode აკოპირებს ელემენტს ყველა event listener-ის გარეშე
+            if (userSelect.parentNode) {
+                const newUserSelect = userSelect.cloneNode(false); // false = ბავშვები არ აკოპირდება
+                userSelect.parentNode.replaceChild(newUserSelect, userSelect);
+                userSelect = document.getElementById('userSelectDelRole'); // განაახლე რეფერენსი
+            }
 
-            // ✅ განაახლე რეფერენსები
-            userSelect = document.getElementById('userSelectDelRole');
-            roleSelect = document.getElementById('roleSelectDelRole');
+            if (roleSelect.parentNode) {
+                const newRoleSelect = roleSelect.cloneNode(false);
+                roleSelect.parentNode.replaceChild(newRoleSelect, roleSelect);
+                roleSelect = document.getElementById('roleSelectDelRole'); // განაახლე რეფერენსი
+            }
 
             // შეავსე user select ყველა იუზერით
             if (userSelect && Array.isArray(users)) {
