@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("Security Load user by username: {}", username);
         User user = userRepository.findByUsername(username);
-        UserRoles userRoles = userRolesRepository.existUserRolesbyUserID(user.getId());
+        UserRoles userRoles = userRolesRepository.findByUserId(user.getId());
 
 
         if (user == null) {
