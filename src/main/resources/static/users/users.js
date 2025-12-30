@@ -156,8 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (userId && !roleSelect.value) {
                     try {
-                        // 🔹 backend call
-                        const response = await AuthService.fetchWithAuth("/api/userRole/${userId}/roles",
+                        // 🔹 backend call`/api/users/id/${id}`
+                        const response = await AuthService.fetchWithAuth(`/api/userRole/${userId}/roles`,
                             {method: "GET"});
 
                         if (!response.ok){
