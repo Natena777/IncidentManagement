@@ -9,15 +9,12 @@ import java.util.List;
 public interface UserRolesRepository extends JpaRepository<UserRoles, Integer> {
 
     public Boolean existsByUserIdAndRoleId(int userId, int roleId);
-    UserRoles findUserRolesByID(int id);
-    public List<UserRoles> findByUserId(int userId);
+    public UserRoles findById(int id);
+    public UserRoles findByUserId(int userId);
     public List<UserRoles> findByRoleId(int roleID);
 
     @Query("select ur.id from UserRoles ur where ur.userId = :userID and ur.roleId = :roleID" )
     public Integer findUserRoleId(Integer userID, Integer roleID);
-
-    @Query("select ur.* from UserRoles ur where ur.userId = :userID")
-    UserRoles existUserRolesbyUserID(Integer userID);
 
 
 }

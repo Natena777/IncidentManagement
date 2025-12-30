@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserRoleServiceImpl implements UserRoleService {
@@ -50,7 +49,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public UserRoleResponseDto findUserRoleById(int id) {
         logger.info("Find user role by id: {}",  id);
-        UserRoles userroles = userRolesRepository.findUserRolesByID(id);
+        UserRoles userroles = userRolesRepository.findById(id);
 
         if (userroles == null) {
             throw new CustomException(ResponseCodes.INVALID_USER_ROLE);
@@ -60,29 +59,26 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public List<UserRoleResponseDto> findUserRolesByUserID(int userID) {
+    public UserRoleResponseDto findUserRolesByUserID(int userID) {
         logger.info("Called find user role by user id {}", userID);
-        List<UserRoles> userRoles = userRolesRepository.findByUserId(userID);
+        UserRoles userRoles = userRolesRepository.findByUserId(userID);
         if (userRoles == null) {
-            throw new CustomException(ResponseCodes.INVALID_ROLE);
+            throw new CustomException(ResponseCodes.INVALID_USER);
         }
-        List<UserRoleResponseDto> userRoleResponseDtos = userRoles.stream()
-                .map(userRole -> {
-                    UserRoleResponseDto userRoleResult = userRoleMapper.toResponse(userRole);
 
-                    String createdBy = defaultConverter.getUserFullName(userRole.getCreatedBy());
-                    String updatedBy = defaultConverter.getUserFullName(userRole.getUpdatedBy());
-                    String roleName = defaultConverter.getRoleName(userRole.getRoleId()); ;
-                    String userName = defaultConverter.getUserFullName(userRole.getUserId());
+        String createdBy = defaultConverter.getUserFullName(userRoles.getCreatedBy());
+        String updatedBy = defaultConverter.getUserFullName(userRoles.getUpdatedBy());
+        String roleName = defaultConverter.getRoleName(userRoles.getRoleId()); ;
+        String userName = defaultConverter.getUserFullName(userRoles.getUserId());
 
-                    userRoleResult.setUserName(userName);
-                    userRoleResult.setRoleName(roleName);
-                    userRoleResult.setCreatedBy(createdBy);
-                    userRoleResult.setUpdatedBy(updatedBy);
+        UserRoleResponseDto userRoleResult = userRoleMapper.toResponse(userRoles);
 
-                    return userRoleResult;
-                }).toList();
-        return userRoleResponseDtos;
+        userRoleResult.setUserName(userName);
+        userRoleResult.setRoleName(roleName);
+        userRoleResult.setCreatedBy(createdBy);
+        userRoleResult.setUpdatedBy(updatedBy);
+
+        return userRoleResult;
     }
 
     @Override
@@ -136,7 +132,7 @@ public class UserRoleServiceImpl implements UserRoleService {
             logger.info("User with id {} not exists", createUserRoleRequestDto.getUserId());
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
-        UserRoles beforeSaveCheck = userRolesRepository.existUserRolesbyUserID(createUserRoleRequestDto.getUserId());
+        UserRoles beforeSaveCheck = userRolesRepository.findByUserId(createUserRoleRequestDto.getUserId());
 
         if (beforeSaveCheck != null) {
             logger.info("User with id {} already exists", createUserRoleRequestDto.getUserId());
@@ -151,7 +147,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public void deleteUserRole(int id) {
         logger.info("Deleting user role with id: {}", id);
-        Optional<UserRoles> userRoles = userRolesRepository.findById(id);
+        UserRoles userRoles = userRolesRepository.findById(id);
 
         if (userRoles == null) {
             logger.info("User role with id {} not exists", id);
