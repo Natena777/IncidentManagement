@@ -50,7 +50,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public UserRoleResponseDto findUserRoleById(int id) {
         logger.info("Find user role by id: {}",  id);
-        UserRoles userroles = userRolesRepository.findById(id);
+        UserRoles userroles = userRolesRepository.findUserRolesByID(id);
 
         if (userroles == null) {
             throw new CustomException(ResponseCodes.INVALID_USER_ROLE);
