@@ -133,16 +133,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
 
-            // შეავსე role select
-            if (roleSelectDel && Array.isArray(roles)) {
-                roleSelectDel.innerHTML = '<option value="">-- Choose Role --</option>';
-                roles.forEach(role => {
-                    const option = document.createElement('option');
-                    option.value = role.id;
-                    option.textContent = role.name;
-                    roleSelectDel.appendChild(option);
-                });
-            }
+            roleSelectDel.innerHTML = '<option value="">-- Choose Role --</option>';
+
+            if (Array.isArray(userRoleData)) {
+                userRoleData.forEach(item => {
+                const role = item.role || item; // ორივე სტრუქტურას ერგება
+                const option = document.createElement('option');
+                option.value = role.id;
+                option.textContent = role.name;
+                roleSelectDel.appendChild(option);
+    });
+}
+
+roleSelectDel.disabled = false;
 
             // დაამატე ივენთები დინამიური ფილტრაციისთვის
             userSelectDel.addEventListener('change', async (e) => {
