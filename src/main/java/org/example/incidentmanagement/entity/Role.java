@@ -15,14 +15,14 @@ public class Role {
     private String name;
     private String description;
     private String status;
-    private String createdBy;
+    private Integer createdBy;
     private LocalDateTime createdOn;
-    private String updatedBy;
+    private Integer updatedBy;
     private LocalDateTime updatedOn;
 
     public Role() {}
 
-    public Role(int id, String name,  String description, String status, String createdBy, LocalDateTime createdOn, LocalDateTime updatedOn) {
+    public Role(int id, String name,  String description, String status, Integer createdBy, LocalDateTime createdOn, LocalDateTime updatedOn, Integer updatedBy ) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -57,10 +57,10 @@ public class Role {
     public void setStatus(String status) {
         this.status = status;
     }
-    public String getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
     public LocalDateTime getCreatedOn() {
@@ -69,10 +69,10 @@ public class Role {
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
-    public String getUpdatedBy() {
+    public Integer getUpdatedBy() {
         return updatedBy;
     }
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy(Integer updatedBy) {
         this.updatedBy = updatedBy;
     }
     public LocalDateTime getUpdatedOn() {

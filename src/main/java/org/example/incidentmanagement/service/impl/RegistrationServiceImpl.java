@@ -65,7 +65,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setCreatedOn(LocalDateTime.now());
         user.setFullName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setActive("A");
-        user.setCreatedBy("Nika");
+        //user.setCreatedBy();
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User savedUser = userRepository.save(user);
 

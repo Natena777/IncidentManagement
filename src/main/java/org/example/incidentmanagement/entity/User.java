@@ -17,10 +17,10 @@ public class User {
     private LocalDateTime createdOn;
 
     @Column(name = "created_by")
-    private String CreatedBy;
+    private Integer CreatedBy;
 
     @Column(name = "modified_by")
-    private String UpdatedBy;
+    private Integer UpdatedBy;
 
     @Column(name = "modified_on")
     private LocalDateTime updatedOn;
@@ -70,8 +70,8 @@ public class User {
     public User() {
     }
 
-    public User(int id, LocalDateTime createdOn, String createdBy,
-                LocalDateTime updatedOn, String updatedBy, String username,
+    public User(int id, LocalDateTime createdOn, Integer createdBy,
+                LocalDateTime updatedOn, Integer updatedBy, String username,
                 String firstName, String lastName, String fullName,
                 String firstNameEn, String lastNameEn, String fullNameEn,
                 String password,
@@ -119,16 +119,16 @@ public class User {
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
-    public String getCreatedBy() {
+    public Integer getCreatedBy() {
         return CreatedBy;
     }
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.CreatedBy = createdBy;
     }
-    public String getUpdatedBy() {
+    public Integer getUpdatedBy() {
         return UpdatedBy;
     }
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy(Integer updatedBy) {
         this.UpdatedBy = updatedBy;
     }
     public LocalDateTime getUpdatedOn() {

@@ -77,7 +77,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = roleMapper.toEntity(roledto);
         role.setCreatedOn(LocalDateTime.now());
         role.setStatus("A");
-        role.setCreatedBy("Nika"); //აქ უნდა მიეთითოს იუზერი ავტომატში
+        //role.setCreatedBy("Nika"); //აქ უნდა მიეთითოს იუზერი ავტომატში
         roleRepository.save(role);
 
 
