@@ -11,7 +11,6 @@ public class CreateUserRoleRequestDto {
     @NotNull
     private Integer userId;
 
-    @NotNull
     private Boolean mainRole;
 
     public CreateUserRoleRequestDto() {}

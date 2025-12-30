@@ -10,7 +10,7 @@ BEGIN
     DROP TABLE IF EXISTS sys_assignee_groups_users CASCADE;
     DROP TABLE IF EXISTS sys_assignee_groups CASCADE;
     DROP TABLE IF EXISTS case_statuses CASCADE;
-    DROP TABLE IF EXISTS sys_user_roles CASCADE;
+    DROP TABLE IF EXISTS sysuserroles CASCADE;
     DROP TABLE IF EXISTS sys_roles CASCADE;
     DROP TABLE IF EXISTS sys_users CASCADE;
 END

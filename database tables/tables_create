@@ -5,9 +5,9 @@ CREATE TABLE sys_users (
     id integer generated always as identity
         constraint sys_users_pk primary key,
     created_on    timestamp,
-    created_by    varchar(250),
+    created_by    integer,
     modified_on   timestamp,
-    modified_by   varchar(250),
+    modified_by   integer,
     first_name    varchar(250),
     last_name     varchar(250),
     full_name     varchar(250),
@@ -31,9 +31,9 @@ CREATE TABLE sys_roles (
     name        varchar(50)  not null,
     description varchar(250),
     status      varchar(1)   not null,
-    created_by  varchar(250) not null,
+    created_by  integer,
     created_on  timestamp,
-    updated_by  varchar(250),
+    updated_by  integer,
     updated_on  timestamp
 );
 
