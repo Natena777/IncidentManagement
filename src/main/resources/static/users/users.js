@@ -224,7 +224,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (selectedRoleId) {
                     // როლი არჩეულია → ჩატვირთე ამ როლის მქონე იუზერები
-                    const currentUserValue = userSelect.value; // შეინახე არჩეული იუზერი
+                    const currentUserValue = userSelect.value; // ✅ შეინახე არჩეული იუზერი
+
+                    // ❌ არ ვაცლით userSelect.value-ს აქ!
                     userSelect.innerHTML = '<option value="">-- Loading... --</option>';
                     userSelect.disabled = true;
 
