@@ -29,6 +29,24 @@ document.addEventListener("DOMContentLoaded", () => {
             ],
             execute: executeGetRoleByName
         },
+        createNewRole: {
+            
+            inputs: [ 
+            {
+                id: "RoleNameInputeReg",
+                type: "text",
+                label: "Role Name",
+                placeholder: "Enter Role Name"
+            },
+            {
+                id: "RoleDescriptionReg",
+                type: "text",
+                label: "Role Description",
+                placeholder: "Enter Role Description"
+            }
+        ],
+        execute: executeCreateRole
+    },
         deleteRoleByName: {
             inputs: [
                 {
@@ -100,4 +118,44 @@ document.addEventListener("DOMContentLoaded", () => {
             ioBoxManager.showError(err.message);
         }
     }
+
+    async function executeCreateRole() {
+    const roleName = document.getElementById("RoleNameInputeReg")?.value.trim();
+    const roleDescription = document.getElementById("RoleDescriptionReg")?.value.trim();
+
+    if (!roleName) {
+        alert("Please enter Role Name");
+        return;
+    }
+
+    const payload = {
+        roleName: roleName,
+        roleDescription: roleDescription
+    };
+
+    ioBoxManager.showLoading();
+
+    try {
+        const response = await AuthService.fetchWithAuth("/api/role/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error("Create role failed");
+        }
+
+        const data = await response.json();
+
+        ioBoxManager.showSuccess("Role created successfully!");
+        ioBoxManager.renderJSON(data);
+
+    } catch (err) {
+        ioBoxManager.showError(err.message);
+    }
+}
+
 });
