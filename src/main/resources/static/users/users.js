@@ -122,35 +122,45 @@ document.addEventListener("DOMContentLoaded", () => {
             const userSelectDel = document.getElementById('userSelectDelRole');
             const roleSelectDel = document.getElementById('roleSelectDelRole');
 
+            // წაშალე ძველი ივენთ ლისენერები (თუ არსებობს)
+            const newUserSelect = userSelectDel.cloneNode(false);
+            const newRoleSelect = roleSelectDel.cloneNode(false);
+            userSelectDel.parentNode.replaceChild(newUserSelect, userSelectDel);
+            roleSelectDel.parentNode.replaceChild(newRoleSelect, roleSelectDel);
+
+            // განაახლე რეფერენსები
+            const userSelect = document.getElementById('userSelectDelRole');
+            const roleSelect = document.getElementById('roleSelectDelRole');
+
             // შეავსე user select ყველა იუზერით
-            if (userSelectDel && Array.isArray(users)) {
-                userSelectDel.innerHTML = '<option value="">-- Choose User --</option>';
+            if (userSelect && Array.isArray(users)) {
+                userSelect.innerHTML = '<option value="">-- Choose User --</option>';
                 users.forEach(user => {
                     const option = document.createElement('option');
                     option.value = user.id;
                     option.textContent = `${user.firstName} (${user.email})`;
-                    userSelectDel.appendChild(option);
+                    userSelect.appendChild(option);
                 });
             }
 
             // შეავსე role select ყველა როლით
-            if (roleSelectDel && Array.isArray(roles)) {
-                roleSelectDel.innerHTML = '<option value="">-- Choose Role --</option>';
+            if (roleSelect && Array.isArray(roles)) {
+                roleSelect.innerHTML = '<option value="">-- Choose Role --</option>';
                 roles.forEach(role => {
                     const option = document.createElement('option');
                     option.value = role.id;
                     option.textContent = role.name;
-                    roleSelectDel.appendChild(option);
+                    roleSelect.appendChild(option);
                 });
             }
 
             // დაამატე ივენთი იუზერის არჩევისთვის
-            userSelectDel.addEventListener('change', async (e) => {
+            userSelect.addEventListener('change', async (e) => {
                 if (e.target.value) {
-                    // იუზერი არჩეულია → გასუფთავე role და ჩატვირთე მისი როლები
-                    roleSelectDel.value = "";
-                    roleSelectDel.innerHTML = '<option value="">-- Loading... --</option>';
-                    roleSelectDel.disabled = true;
+                    // იუზერი არჩეულია → ჩატვირთე მისი როლები და გაფილტრე role select
+                    const currentRoleValue = roleSelect.value; // შეინახე არჩეული როლი
+                    roleSelect.innerHTML = '<option value="">-- Loading... --</option>';
+                    roleSelect.disabled = true;
 
                     try {
                         const userId = parseInt(e.target.value);
@@ -160,54 +170,61 @@ document.addEventListener("DOMContentLoaded", () => {
                         );
                         const userRoleData = await response.json();
 
-                        roleSelectDel.innerHTML = '<option value="">-- Choose Role --</option>';
+                        roleSelect.innerHTML = '<option value="">-- Choose Role --</option>';
 
+                        let userRoles = [];
                         // თუ roles არის მასივი
                         if (userRoleData.roles && Array.isArray(userRoleData.roles)) {
-                            userRoleData.roles.forEach(role => {
-                                const option = document.createElement('option');
-                                option.value = role.id;
-                                option.textContent = role.name;
-                                roleSelectDel.appendChild(option);
-                            });
+                            userRoles = userRoleData.roles;
                         }
                         // თუ პირდაპირ მასივია
                         else if (Array.isArray(userRoleData)) {
-                            userRoleData.forEach(item => {
-                                const role = item.role || item;
-                                const option = document.createElement('option');
-                                option.value = role.id;
-                                option.textContent = role.name;
-                                roleSelectDel.appendChild(option);
-                            });
+                            userRoles = userRoleData.map(item => item.role || item);
                         }
 
-                        roleSelectDel.disabled = false;
+                        userRoles.forEach(role => {
+                            const option = document.createElement('option');
+                            option.value = role.id;
+                            option.textContent = role.name;
+                            roleSelect.appendChild(option);
+                        });
+
+                        // თუ ადრე არჩეული როლი ახალ სიაშია, დატოვე არჩეული
+                        if (currentRoleValue && userRoles.some(r => r.id == currentRoleValue)) {
+                            roleSelect.value = currentRoleValue;
+                        }
+
+                        roleSelect.disabled = false;
                     } catch (err) {
                         console.error("Error loading user roles:", err);
-                        roleSelectDel.innerHTML = '<option value="">-- Error loading roles --</option>';
-                        roleSelectDel.disabled = false;
+                        roleSelect.innerHTML = '<option value="">-- Error loading roles --</option>';
+                        roleSelect.disabled = false;
                     }
                 } else {
                     // user გასუფთავდა → აღადგინე ყველა როლი
-                    roleSelectDel.innerHTML = '<option value="">-- Choose Role --</option>';
+                    const currentRoleValue = roleSelect.value;
+                    roleSelect.innerHTML = '<option value="">-- Choose Role --</option>';
                     roles.forEach(role => {
                         const option = document.createElement('option');
                         option.value = role.id;
                         option.textContent = role.name;
-                        roleSelectDel.appendChild(option);
+                        roleSelect.appendChild(option);
                     });
-                    roleSelectDel.disabled = false;
+                    // დატოვე არჩეული როლი თუ იყო
+                    if (currentRoleValue) {
+                        roleSelect.value = currentRoleValue;
+                    }
+                    roleSelect.disabled = false;
                 }
             });
 
             // დაამატე ივენთი როლის არჩევისთვის
-            roleSelectDel.addEventListener('change', async (e) => {
+            roleSelect.addEventListener('change', async (e) => {
                 if (e.target.value) {
                     // როლი არჩეულია → გასუფთავე user და ჩატვირთე იუზერები
-                    userSelectDel.value = "";
-                    userSelectDel.innerHTML = '<option value="">-- Loading... --</option>';
-                    userSelectDel.disabled = true;
+                    userSelect.value = "";
+                    userSelect.innerHTML = '<option value="">-- Loading... --</option>';
+                    userSelect.disabled = true;
 
                     try {
                         const roleId = parseInt(e.target.value);
@@ -217,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         );
                         const usersWithRole = await response.json();
 
-                        userSelectDel.innerHTML = '<option value="">-- Choose User --</option>';
+                        userSelect.innerHTML = '<option value="">-- Choose User --</option>';
 
                         if (Array.isArray(usersWithRole)) {
                             usersWithRole.forEach(userRole => {
@@ -226,15 +243,15 @@ document.addEventListener("DOMContentLoaded", () => {
                                 const option = document.createElement('option');
                                 option.value = user.id;
                                 option.textContent = `${user.firstName} (${user.email})`;
-                                userSelectDel.appendChild(option);
+                                userSelect.appendChild(option);
                             });
                         }
 
-                        userSelectDel.disabled = false;
+                        userSelect.disabled = false;
                     } catch (err) {
                         console.error("Error loading users with role:", err);
-                        userSelectDel.innerHTML = '<option value="">-- Error loading users --</option>';
-                        userSelectDel.disabled = false;
+                        userSelect.innerHTML = '<option value="">-- Error loading users --</option>';
+                        userSelect.disabled = false;
                     }
                 } else {
                     // role გასუფთავდა → აღადგინე ყველა იუზერი
