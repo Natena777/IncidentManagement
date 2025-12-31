@@ -111,15 +111,15 @@ document.addEventListener("DOMContentLoaded", () => {
 // წაშლისთვის - ფილტრაციის გარეშე (სრული დატა ყოველთვის)
     async function loadUsersAndRolesForDelete() {
         try {
-            // ჩატვირთე იუზერები
+            // Get User Data
             const usersResponse = await AuthService.fetchWithAuth("/api/users", { method: "GET" });
             const users = await usersResponse.json();
 
-            // ჩატვირთე როლები
+            // Get Role Data
             const rolesResponse = await AuthService.fetchWithAuth("/api/role", { method: "GET" });
             const roles = await rolesResponse.json();
 
-            // მოძებნე სელექტები
+            // Get Elements From Action Config
             const userSelect = document.getElementById('userSelectDelRole');
             const roleSelect = document.getElementById('roleSelectDelRole');
 
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // შეავსე user select ყველა იუზერით
+            // Fill All System Users
             if (Array.isArray(users)) {
                 userSelect.innerHTML = '<option value="">-- Choose User --</option>';
                 users.forEach(user => {
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
 
-            // შეავსე role select ყველა როლით
+            // Fill Role Select With All Roles
             if (Array.isArray(roles)) {
                 roleSelect.innerHTML = '<option value="">-- Choose Role --</option>';
                 roles.forEach(role => {
@@ -150,48 +150,58 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
 
-            //User Selector Change
+            //Get Role Data When Select User
             userSelect.addEventListener("change", async (e) => {
                 const userId = e.target.value;
 
                 if (userId && !roleSelect.value) {
                     try {
-                        // 🔹 backend call`/api/users/id/${id}`
+                        //Call User Roles
                         const response = await AuthService.fetchWithAuth(`/api/userRole/${userId}/roles`,
                             {method: "GET"});
 
                         if (!response.ok){
                             throw new Error("Failed to fetch user roles");
                         }
+                        //Save Respnose of User Roles Details
                         const data = await response.json();
 
-                        const responseRoleID = await AuthService.fetchWithAuth(`/api/role/${data.roleName}`,
-                            {method: "GET"});
-
-                        const roleData = await responseRoleID.json();
-
-
+                        //Clear Options Value
                         roleSelect.innerHTML = '<option value="">-- Choose Role --</option>';
 
-                        const option = document.createElement("option");
-                        option.value = roleData.id;
-                        option.textContent = data.roleName;
+                        //Handle Single Objects and Array List too and Save in roles.
+                        const roles = Array.isArray(data) ? data : [data];
 
-                        roleSelect.appendChild(option);
+                        //Fetch and add Each Role Name in Options
+                        for (const roleDetails of roles){
+                            try{
+                                //Get Role Detail From Java
+                                const responseRoleDetail = await AuthService.fetchWithAuth(`/api/role/${roleDetails.roleName}`,
+                                {method: "GET"});
+                                    
+                                if (!responseRoleDetail.ok){
+                                    throw new Error("Failed to fetch Role ID");
+                                }
+                                //Save Role Data From Java
+                                const roleData = await responseRoleDetail.json();
+                                
+                                //Create Option Element and Set Data
+                                const option = document.createElement("option");
+                                option.value = roleData.id;
+                                option.textContent = roleDetails.roleName;
+                                roleSelect.appendChild(option);
 
+                            } catch (roleError) {
+                                console.error(`Error loading role ${roleDetails.roleName}:`, roleError);
+                            }
+                        }
                     } catch (error) {
                         console.error("Error loading user roles:", error);
                         alert("Failed to load roles");
                     }
 
-
-
                 }
-
-
             })
-
-
 
         } catch (err) {
             console.error("Error loading users and roles for delete:", err);
