@@ -132,12 +132,12 @@ public class UserRoleServiceImpl implements UserRoleService {
             logger.info("User with id {} not exists", createUserRoleRequestDto.getUserId());
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
-        UserRoles beforeSaveCheck = userRolesRepository.findByUserId(createUserRoleRequestDto.getUserId());
+    //    UserRoles beforeSaveCheck = userRolesRepository.findByUserId(createUserRoleRequestDto.getUserId());
 
-        if (beforeSaveCheck != null) {
-            logger.info("User with id {} already exists", createUserRoleRequestDto.getUserId());
-            throw new CustomException(ResponseCodes.USER_ROLE_EXIST);
-        }
+    //    if (beforeSaveCheck != null) {
+    //        logger.info("User with id {} already exists", createUserRoleRequestDto.getUserId());
+    //        throw new CustomException(ResponseCodes.USER_ROLE_EXIST);
+    //    }
         userRolesRepository.save(userRoles);
 
         return userRoleMapper.toResponse(userRoles);
