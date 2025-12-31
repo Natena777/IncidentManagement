@@ -35,7 +35,7 @@ public class UserRoleController {
 
     @GetMapping("/{userId}/roles")
     @Operation(summary = "Find User All Roles By UserID")
-    public List<UserRoleResponseDto> findUserRolesByUserId(@PathVariable int userId) {
+    public UserRoleResponseDto findUserRolesByUserId(@PathVariable int userId) {
         return userRoleService.findAllUserRolesByUserID(userId);
     }
 
