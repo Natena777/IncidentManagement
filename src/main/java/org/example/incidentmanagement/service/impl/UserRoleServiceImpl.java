@@ -58,6 +58,36 @@ public class UserRoleServiceImpl implements UserRoleService {
         return userRoleMapper.toResponse(userroles);
     }
 
+
+    @Override
+    public  List<UserRoleResponseDto> findAllUserRolesByUserID(int userID){
+         logger.info("Called find user role by role id {}", userID);
+        List<UserRoles> userRoles = userRolesRepository.findAllUserRolesUserId(userID);
+
+        if (userRoles == null) {
+            throw new CustomException(ResponseCodes.INVALID_ROLE);
+        }
+        List<UserRoleResponseDto> userRoleResponseDtos = userRoles.stream()
+                .map(userRole -> {
+                    UserRoleResponseDto userRoleResult = userRoleMapper.toResponse(userRole);
+
+                    String createdBy = defaultConverter.getUserFullName(userRole.getCreatedBy());
+                    String updatedBy = defaultConverter.getUserFullName(userRole.getUpdatedBy());
+                    String roleName = defaultConverter.getRoleName(userRole.getRoleId()); ;
+                    String userName = defaultConverter.getUserFullName(userRole.getUserId());
+
+                    userRoleResult.setUserName(userName);
+                    userRoleResult.setRoleName(roleName);
+                    userRoleResult.setCreatedBy(createdBy);
+                    userRoleResult.setUpdatedBy(updatedBy);
+
+                    return userRoleResult;
+                }).toList();
+        return userRoleResponseDtos;
+    }
+
+
+
     @Override
     public UserRoleResponseDto findUserRolesByUserID(int userID) {
         logger.info("Called find user role by user id {}", userID);
