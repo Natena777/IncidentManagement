@@ -12,6 +12,7 @@ public interface UserRoleService {
     UserRoleResponseDto findUserRoleById(int id);
     UserRoleResponseDto findUserRolesByUserID(int userID);
     List<UserRoleResponseDto> findUsersRoleByRoleId(int roleID);
+    List<UserRoleResponseDto> findAllUserRolesByUserID(int userID);
     UserRoleResponseDto createUserRole(CreateUserRoleRequestDto createUserRoleRequestDto);
     void deleteUserRole(int id);
     List<UserRoleResponseDto> findAllUserRoles();
