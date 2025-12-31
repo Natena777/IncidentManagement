@@ -1,0 +1,22 @@
+ბრენჩების შემოწმება: git branch
+ყველა ბრენჩი ლოკალური + remote:  git branch -a
+
+->>ახალი ბრენჩის შექმნა
+მოგვაქვს ბოლო ვერსია: git pull origin main
+ვქმნით ახალ ბრენჩს: git switch -c <სახელი>
+გადართვა დეველოპმენტ ბრენჩზე: git checkout development
+
+->>ახალი ვერსიის ატვირთვა Development ბრენჩზე
+ვამოწმებთ რომელ ბრენჩზე ვართ:git branch
+თუ არ ვართ სწორ ბრენჩზე მაშინ: git switch Development
+მოგვაქვს ბოლო ცვლილება ამ ბრენჩიდან: git pull origin Development
+ვნახულობთ ცვლილებებს: git status
+ვამატებთ ბოლო ცვლილებებს: git add .
+ვაკომიტებთ ამ ცვლილებებს: git commit -m "Add Logic Comment"
+თუ ბევრი ვმუშაობთ პროექტზე და სხვადასხვა ვფუშავთ მაშინ ბოლოს ჩვენი კომიტის მერეც მოგვაქვს ბოლო განახლებები: git pull origin development
+თუ პირველად ვფუშავთ მაშინ: git push -u origin Development
+თუ პირველად არ ვფუშავთ მაშინ: git push
+
+
+->>Development ბრენჩიდან მეინზე გადატანა ცვლილებების
+
