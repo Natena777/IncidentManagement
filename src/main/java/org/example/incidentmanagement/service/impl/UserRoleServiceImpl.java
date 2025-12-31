@@ -59,7 +59,6 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
 
-
     @Override
     public UserRoleResponseDto findUserRolesByUserID(int userID) {
         logger.info("Called find user role by user id {}", userID);
