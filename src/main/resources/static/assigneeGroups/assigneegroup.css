@@ -1,0 +1,112 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.top-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.back-button, .logout-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.back-button {
+    background-color: #f0f0f0;
+}
+
+.back-button:hover {
+    background-color: #d0d0d0;
+}
+
+.logout-button {
+    background-color: #ffcccc;
+}
+
+.logout-button:hover {
+    background-color: #ffaaaa;
+}
+
+.module-button {
+    display: inline-block;
+    width: 200px;
+    height: 120px;
+    margin: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    border: 2px solid #333;
+    border-radius: 12px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+}
+
+.module-button:hover {
+    background-color: #e0e0ff;
+    transform: translateY(-5px);
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+}
+
+.module-button span {
+    display: block;
+    line-height: 120px;
+    font-size: 16px;
+}
+
+#io-box {
+    margin-top: 25px;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+    font-family: monospace;
+    background-color: #f0f0f0;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+    display: none;
+}
+
+#io-box input {
+    width: 180px;
+    padding: 6px;
+    margin: 5px;
+    border-radius: 6px;
+    border: 1px solid #999;
+}
+
+#output {
+    margin-top: 20px;
+    height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 12px;
+    background-color: #fff;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+    font-family: monospace;
+}
+
+.action-button {
+    width: 100px;
+    height: 35px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #333;
+    background-color: #fff;
+    transition: all 0.2s ease;
+}
+
+.action-button:hover {
+    background-color: #e0e0ff;
+}
