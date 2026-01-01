@@ -1,12 +1,15 @@
 package org.example.incidentmanagement.dto.response;
 
+
 import java.time.LocalDateTime;
 
 public class UserRoleResponseDto {
 
 
-    private int id;
+    private Integer id;
+    private Integer roleId;
     private String roleName;
+    private Integer userId;
     private String userName;
     private String mainRole;
     private LocalDateTime createdOn;
@@ -16,10 +19,12 @@ public class UserRoleResponseDto {
 
 
     public UserRoleResponseDto() {}
-    public UserRoleResponseDto(int id, String roleName, String userName, String mainRole,
+    public UserRoleResponseDto(Integer id, Integer roleId, String roleName, Integer userId, String userName, String mainRole,
                                LocalDateTime createdOn, String createdBy, LocalDateTime updatedOn, String updatedBy) {
         this.id = id;
+        this.roleId = roleId;
         this.roleName = roleName;
+        this.userId = userId;
         this.userName = userName;
         this.mainRole = mainRole;
         this.createdOn = createdOn;
@@ -28,12 +33,27 @@ public class UserRoleResponseDto {
         this.updatedBy = updatedBy;
     }
 
+    public Integer getRoleId() {
+        return roleId;
+    }
 
-    public int getId() {
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

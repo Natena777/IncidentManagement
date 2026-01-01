@@ -38,12 +38,12 @@ public class UserRoleController {
     public List<UserRoleResponseDto> findUserRolesByUserId(@PathVariable int userId) {
         return userRoleService.findUserAllRoles(userId);
     }
-    
+
 
     @GetMapping("/{roleID}/users")
     @Operation(summary = "Find Users In Role By RoleID")
     public List<UserRoleResponseDto> findUsersRoleByRoleID(@PathVariable int roleID) {
-        return userRoleService.findUsersRoleByRoleId(roleID);
+        return userRoleService.findUsersInRoleById(roleID);
     }
 
     @PostMapping("/create")

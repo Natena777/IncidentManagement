@@ -52,7 +52,7 @@ public class AuthController {
     public LoginResponseDto login(@RequestBody LoginUserDto loginuserdto) {
         User user = loginService.login(loginuserdto.getUsername(), loginuserdto.getPassword());
 
-        CustomUserPrincipal principal = (CustomUserPrincipal) userDetailsService.loadUserByUsername(loginuserdto.getUsername());
+        CustomUserPrincipal principal = (CustomUserPrincipal) userDetailsService.loadUserByUsername(user.getUsername());
 
         //ტოკენის გენერაცია
         String token = jwtUtil.generateToken(principal);

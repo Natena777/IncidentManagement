@@ -97,16 +97,7 @@ public class User {
         this.lastNameEn = lastNameEn;
         this.fullNameEn = fullNameEn;
     }
-
-    private User(int id, String username, String password, String email, LocalDateTime startDate, LocalDateTime endDate) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
+    
     public int getId() {
         return id;
     }

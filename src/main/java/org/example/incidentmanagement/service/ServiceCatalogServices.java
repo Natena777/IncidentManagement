@@ -1,12 +1,9 @@
 package org.example.incidentmanagement.service;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.example.incidentmanagement.dto.requests.*;
 import org.example.incidentmanagement.dto.response.*;
-import org.example.incidentmanagement.entity.ScServices;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ServiceCatalogServices {
 
