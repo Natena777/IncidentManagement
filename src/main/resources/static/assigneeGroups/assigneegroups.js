@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function executeGetAssigneeGroupsByName(){
         
-        const groupName = document.getElementById()?.value.trim();
+        const groupName = document.getElementById("findGroupName")?.value.trim();
 
         if(!groupName){
             alert("Please Enter Assignee Group Name");
