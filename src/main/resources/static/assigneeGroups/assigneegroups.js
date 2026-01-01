@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "closeBtn"
     );
 
-    let currentAction = null;
 
     // კონფიგი თითოეული მოქმედებისთვის
     const actionsConfig = {
@@ -34,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         createAssigneeGroup:{
             inputs: [
                 {
-                    id: "groupIdInput",
+                    id: "groupNameInput",
                     type: "text",
                     label: "Group Name",
                     placeholder: "Enter Group Name"
@@ -56,54 +55,80 @@ document.addEventListener("DOMContentLoaded", () => {
     // დააკავშირეთ ღილაკები
     ioBoxManager.attachModuleButtons(".module-button");
 
+
     // ================= API FUNCTIONS =================
-    
+
     async function executeGetAllAssigneeGroups() {
-        output.innerHTML = "<p>Loading...</p>";
+        ioBoxManager.showLoading();
         try {
             const response = await AuthService.fetchWithAuth("/api/assigneeGroup", { method: "GET" });
             const data = await response.json();
-            output.innerHTML = ConverToTable.convert(data);
 
-        } catch (error) {
-            output.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            ioBoxManager.output.innerHTML = "";
+            renderTable(data);
+            ioBoxManager.renderJSON(data);
+        } catch (err) {
+            ioBoxManager.showError(err.message);
         }
     }
 
     async function executeGetAssigneeGroupsByID() {
-        output.innerHTML = "<p>Loading...</p>";
-        try {
-            const assigneeGroupId = document.getElementById("assigneeGroupIdInput").value;
-            const response = await AuthService.fetchWithAuth(`/api/assigneeGroup/${assigneeGroupId}`, { method: "GET" });
-            const data = await response.json();
-            output.innerHTML = ConverToTable.convert(data);
+        const id = document.getElementById("assigneeGroupIdInput")?.value.trim();
+        if (!id) {
+            alert("Please enter Assignee Group ID");
+            return;
+        }
 
-        } catch (error) {
-            output.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+        ioBoxManager.showLoading();
+        try {
+            const response = await AuthService.fetchWithAuth(`/api/assigneeGroup/id/${id}`, { method: "GET" });
+            const data = await response.json();
+
+            ioBoxManager.output.innerHTML = "";
+            renderTable(data);
+            ioBoxManager.renderJSON(data);
+        } catch (err) {
+            ioBoxManager.showError(err.message);
         }
     }
-    
+
     async function executeCreateAssigneeGroup() {
-        output.innerHTML = "<p>Loading...</p>";
-        try {
-            const roleId = document.getElementById("roleIdInput").value;
-            const response = await AuthService.fetchWithAuth(`/api/assigneeGroup`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ roleId })
-            });
-            const data = await response.json();
-            output.innerHTML = ConverToTable.convert(data);
-            
-        }
-        catch (error) {
-            output.innerHTML = `<p class="error">Error: ${error.message}</p>`;
-        }
+    const assigneeGroupName = document.getElementById("groupNameInput")?.value.trim();
+    const assigneeGroupNameDescription = document.getElementById("groupDescriptionInput")?.value.trim();
 
-
+    if (!roleName) {
+        alert("Please enter Assignee Group Name");
+        return;
     }
 
+    const payload = {
+        groupName: assigneeGroupName,
+        groupDescription: assigneeGroupNameDescription
+    };
+
+    ioBoxManager.showLoading();
+
+    try {
+        const response = await AuthService.fetchWithAuth("/api/assigneeGroup/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error("Create Assignee Group failed");
+        }
+
+        const data = await response.json();
+
+        ioBoxManager.showSuccess("Assignee Group created successfully!");
+        ioBoxManager.renderJSON(data);
+
+    } catch (err) {
+        ioBoxManager.showError(err.message);
+    }
+}
 
 });
