@@ -30,6 +30,17 @@ document.addEventListener("DOMContentLoaded", () => {
             ],
             execute: executeGetAssigneeGroupsByID
         },
+        getAssigneeGroupsByName: {
+            inputs: [
+                {
+                    id: "findGroupName",
+                    type: "text",
+                    label: "Group Name",
+                    placeholder: "Enter Assignee Group Name" 
+                }
+            ],
+            execute: executeGetAssigneeGroupsByName
+        },
         createAssigneeGroup:{
             inputs: [
                 {
@@ -46,6 +57,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             ],
             execute: executeCreateAssigneeGroup
+        },
+        deleteAssigneeGroup: {
+            inputs: [
+                {
+                    id: "assigneeGroupIdDel",
+                    type: "text",
+                    label: "Assigne Group ID",
+                    placeholder: "Enter Assignee Group ID"
+                }
+            ],
+            execute: executeDeleteAssigneeGroup 
+
         }
     };
 
@@ -92,11 +115,33 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    async function executeGetAssigneeGroupsByName(){
+        
+        const groupName = document.getElementById()?.value.trim();
+
+        if(!groupName){
+            alert("Please Enter Assignee Group Name");
+            return;
+        }
+        ioBoxManager.showLoading();
+
+         try {
+            const response = await AuthService.fetchWithAuth(`/api/assigneeGroup/name/${groupName}`, { method: "GET" });
+            const data = await response.json();
+
+            ioBoxManager.output.innerHTML = "";
+            renderTable(data);
+            ioBoxManager.renderJSON(data);
+        } catch (err) {
+            ioBoxManager.showError(err.message);
+        }
+    }
+
     async function executeCreateAssigneeGroup() {
     const assigneeGroupName = document.getElementById("groupNameInput")?.value.trim();
     const assigneeGroupNameDescription = document.getElementById("groupDescriptionInput")?.value.trim();
 
-    if (!roleName) {
+    if (!assigneeGroupName) {
         alert("Please enter Assignee Group Name");
         return;
     }
@@ -130,5 +175,35 @@ document.addEventListener("DOMContentLoaded", () => {
         ioBoxManager.showError(err.message);
     }
 }
+
+    async function executeDeleteAssigneeGroup(){
+        const assigneeGroupID = document.getElementById("assigneeGroupIdDel")?.value.trim();
+
+        if (!assigneeGroupID){
+            alert("Please Enter Assignee Group ID");
+            return;
+        }
+
+        if (!confirm(
+            `Are You Sure You Want To Delete Assignee Group With ID ${assigneeGroupID}?`))
+            return;
+    
+        
+        ioBoxManager.showLoading();
+  
+        try {
+            const response = await AuthService.fetchWithAuth(`/api/assigneeGroup/${assigneeGroupID}`, { method: "DELETE" });
+            if (response.ok) {
+                const data = await response.json();
+                ioBoxManager.showSuccess("Success!");
+                ioBoxManager.renderJSON(data);
+            } else {
+                throw new Error("Delete failed");
+            }
+        } catch (err) {
+            ioBoxManager.showError(err.message);
+        }
+
+    }
 
 });

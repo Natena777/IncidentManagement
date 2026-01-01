@@ -102,7 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
     async function executeDeleteRoleByName() {
         const name = document.getElementById("RoleNameInput")?.value.trim();
         if (!name) { alert("Please enter Role Name"); return; }
-        if (!confirm(`Are you sure you want to delete user with Name ${name}?`)) return;
+        if (!confirm(`Are you sure you want to delete user with Name ${name}?`)) 
+            return;
 
         ioBoxManager.showLoading();
         try {
