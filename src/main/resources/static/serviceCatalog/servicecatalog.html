@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Catalog Module</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="stylesheet" href="servicecatalog.css">
+</head>
+<body>
+
+<!-- Top Buttons -->
+<div class="top-buttons">
+    <button class="back-button" onclick="window.location.href='/main/main.html'">← უკან Main-ზე</button>
+    <button class="logout-button" onclick="AuthService.logout()">Logout</button>
+</div>
+
+<h1>Service Catalog Module</h1>
+
+<!-- Module Buttons -->
+<div>
+    <div class="module-button" data-action="getScFullFlow">
+        <span>Get SC Full Flow</span>
+    </div>
+    <div class="module-button" data-action="getAllScDepartments">
+        <span>Get All Departments</span>
+    </div>
+    <div class="module-button" data-action="getScDepartmentById">
+        <span>Get Department By ID</span>
+    </div>
+    <div class="module-button" data-action="getScDepartmentByName">
+        <span>Get Department By Name</span>
+    </div>
+    <div class="module-button" data-action="createScDepartment">
+        <span>Create Department</span>
+    </div>
+    <div class="module-button" data-action="deleteScDepartment">
+        <span>Delete Department</span>
+    </div>
+    <div class="module-button" data-action="getAllScCategories">
+        <span>Get All Categories</span>
+    </div>
+    <div class="module-button" data-action="getScCategoryById">
+        <span>Get Category By ID</span>
+    </div>
+    <div class="module-button" data-action="getScCategoryByName">
+        <span>Get Category By Name</span>
+    </div>
+    <div class="module-button" data-action="createScCategory">
+        <span>Create Category</span>
+    </div>
+    <div class="module-button" data-action="deleteScCategory">
+        <span>Delete Category</span>
+    </div>
+    <div class="module-button" data-action="getAllScSubCategories">
+        <span>Get All SubCategories</span>
+    </div>
+    <div class="module-button" data-action="getScSubCategoryById">
+        <span>Get SubCategory By ID</span>
+    </div>
+    <div class="module-button" data-action="getScSubCategoryByName">
+        <span>Get SubCategory By Name</span>
+    </div>
+    <div class="module-button" data-action="createScSubCategory">
+        <span>Create SubCategory</span>
+    </div>
+    <div class="module-button" data-action="deleteScSubCategory">
+        <span>Delete SubCategory</span>
+    </div>
+    <div class="module-button" data-action="getAllScServices">
+        <span>Get All Services</span>
+    </div>
+    <div class="module-button" data-action="getScServicesById">
+        <span>Get Service By ID</span>
+    </div>
+    <div class="module-button" data-action="getScServicesByName">
+        <span>Get Service By Name</span>
+    </div>
+    <div class="module-button" data-action="createScServices">
+        <span>Create Service</span>
+    </div>
+    <div class="module-button" data-action="deleteScServices">
+        <span>Delete Service</span>
+    </div>
+</div>
+
+<!-- IO Box -->
+<div id="io-box" style="display:none;">
+    <h3>Inputs</h3>
+    <div id="inputs"></div>
+
+    <h3>Actions</h3>
+    <div style="display:flex; gap:10px; flex-wrap: wrap; margin-bottom: 20px;">
+        <button id="executeBtn" class="action-button">Execute</button>
+        <button id="clearBtn" class="action-button">Clear</button>
+        <button id="closeBtn" class="action-button">Close</button>
+    </div>
+
+    <h3>Outputs</h3>
+    <div id="output"></div>
+</div>
+
+<script src="/js/Auth.js"></script>
+<script src="/js/IoBoxManager.js"></script>
+<script src="/js/ConverToTable.js"></script>
+<script src="../config.js"></script>
+<script src="servicecatalog.js"></script>
+</body>
+</html>
