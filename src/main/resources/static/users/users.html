@@ -2,88 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users Module</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    <link rel="stylesheet" href="users.css">
 
+
+    <link rel="stylesheet" href="users.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>⚡ USERS MODULE</h1>
-            <div class="header-buttons">
-                <button class="btn btn-back" onclick="window.location.href='/main/main.html'">
-                    ← BACK
-                </button>
-                <button class="btn btn-logout" onclick="alert('Logout functionality')">
-                    🚪 LOGOUT
-                </button>
-            </div>
-        </div>
 
-        <!-- Module Cards -->
-        <div class="modules-grid">
-            <div class="module-card" data-action="getAll">
-                <div class="module-icon">👥</div>
-                <div class="module-title">Get All System Users</div>
-                <div class="module-subtitle">Retrieve complete user database</div>
-            </div>
+<!-- Top Buttons -->
+<div class="top-buttons">
+    <button class="back-button" onclick="window.location.href='/main/main.html'">← უკან Main-ზე</button>
+    <button class="logout-button" onclick="AuthService.logout()">Logout</button>
+</div>
 
-            <div class="module-card" data-action="getById">
-                <div class="module-icon">🔍</div>
-                <div class="module-title">Get User by ID</div>
-                <div class="module-subtitle">Search by unique identifier</div>
-            </div>
+<h1>Users Module</h1>
 
-            <div class="module-card" data-action="getByEmail">
-                <div class="module-icon">📧</div>
-                <div class="module-title">Get User by Email</div>
-                <div class="module-subtitle">Lookup via email address</div>
-            </div>
-
-            <div class="module-card" data-action="deleteById">
-                <div class="module-icon">🗑️</div>
-                <div class="module-title">Delete System User</div>
-                <div class="module-subtitle">Remove user from database</div>
-            </div>
-
-            <div class="module-card" data-action="AddUserRoles">
-                <div class="module-icon">➕</div>
-                <div class="module-title">Add Role on User</div>
-                <div class="module-subtitle">Assign permissions and roles</div>
-            </div>
-
-            <div class="module-card" data-action="deleteUserRole">
-                <div class="module-icon">➖</div>
-                <div class="module-title">Delete Role From User</div>
-                <div class="module-subtitle">Revoke user permissions</div>
-            </div>
-        </div>
-
-        <!-- IO Box -->
-        <div id="io-box">
-            <h3 class="section-title">INPUTS</h3>
-            <div id="inputs"></div>
-
-            <h3 class="section-title">ACTIONS</h3>
-            <div class="actions-row">
-                <button id="executeBtn" class="action-btn btn-execute">▶ EXECUTE</button>
-                <button id="clearBtn" class="action-btn btn-clear">🔄 CLEAR</button>
-                <button id="closeBtn" class="action-btn btn-close">✕ CLOSE</button>
-            </div>
-
-            <h3 class="section-title">OUTPUTS</h3>
-            <div id="output">&gt; System ready. Select a module to begin...</div>
-        </div>
+<!-- Module Buttons -->
+<div>
+    <div class="module-button" data-action="getAll">
+        <span>Get All System Users</span>
     </div>
+    <div class="module-button" data-action="getById">
+        <span>Get System User by ID</span>
+    </div>
+    <div class="module-button" data-action="getByEmail">
+        <span>Get System User by Email</span>
+    </div>
+    <div class="module-button" data-action="deleteById">
+        <span>Delete System User</span>
+    </div>
+    <div class="module-button" data-action="AddUserRoles">
+        <span>Add Role on User</span>
+    </div>
+    <div class="module-button" data-action="deleteUserRole">
+        <span>Delete Role From User</span>
+    </div>
+    
+</div>
 
-    <script src="/js/Auth.js"></script>
-    <script src="/js/IoBoxManager.js"></script>
-    <script src="/js/ConverToTable.js"></script>
-    <script src="../config.js"></script>
-    <script src="users.js"></script>
+<!-- IO Box -->
+<div id="io-box" style="display:none;">
+    <h3>Inputs</h3>
+    <div id="inputs"></div>
 
+    <h3>Actions</h3>
+    <div style="display:flex; gap:10px; flex-wrap: wrap; margin-bottom: 20px;">
+        <button id="executeBtn" class="action-button">▶ EXECUTE</button>
+        <button id="clearBtn" class="action-button">🔄 CLEAR</button>
+        <button id="closeBtn" class="action-button">✕ CLOSE</button>
+    </div>
+    <h3>Outputs</h3>
+    <div id="output"></div>
+</div>
+
+
+    <script src="/js/Auth.js" ></script>
+    <script src="/js/IoBoxManager.js" ></script>
+    <script src="/js/ConverToTable.js" ></script>
+    <script src="../config.js" ></script>
+    <script src="users.js" ></script>
 </body>
 </html>
