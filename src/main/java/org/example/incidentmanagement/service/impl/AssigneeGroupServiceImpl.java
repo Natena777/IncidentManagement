@@ -9,7 +9,6 @@ import org.example.incidentmanagement.repository.AssigneeGroupRepository;
 import org.example.incidentmanagement.service.AssigneGroupService;
 import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.service.DefaultConverter;
-import org.example.incidentmanagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

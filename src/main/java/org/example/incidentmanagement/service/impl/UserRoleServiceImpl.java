@@ -38,14 +38,6 @@ public class UserRoleServiceImpl implements UserRoleService {
         this.defaultConverter = defaultConverter;
     }
 
-
-    @Override
-    public Boolean existsUserRole(int userId, int roleId) {
-        Boolean exists = userRolesRepository.existsByUserIdAndRoleId(userId, roleId);
-        logger.info("Called Check existsUserRole({}, {}, {})", userId, roleId, exists);
-        return exists;
-    }
-
     @Override
     public UserRoleResponseDto findUserRoleById(int id) {
         logger.info("Find user role by id: {}",  id);
@@ -83,7 +75,34 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public List<UserRoleResponseDto> findUsersRoleByRoleId(int roleID) {
+    public List<UserRoleResponseDto> findUserAllRoles(int userId) {
+        logger.info("Called find user all role by user id {}", userId);
+        List<UserRoles> userRoles = userRolesRepository.findUserAllRoles(userId);
+
+        if (userRoles == null) {
+            throw new CustomException(ResponseCodes.INVALID_USER_ROLE);
+        }
+        List<UserRoleResponseDto> userRoleResponseDtos = userRoles.stream()
+                .map(userRole -> {
+                    UserRoleResponseDto userRoleResult = userRoleMapper.toResponse(userRole);
+
+                    String createdBy = defaultConverter.getUserFullName(userRole.getCreatedBy());
+                    String updatedBy = defaultConverter.getUserFullName(userRole.getUpdatedBy());
+                    String roleName = defaultConverter.getRoleName(userRole.getRoleId()); ;
+                    String userName = defaultConverter.getUserFullName(userRole.getUserId());
+
+                    userRoleResult.setUserName(userName);
+                    userRoleResult.setRoleName(roleName);
+                    userRoleResult.setCreatedBy(createdBy);
+                    userRoleResult.setUpdatedBy(updatedBy);
+
+                    return userRoleResult;
+                }).toList();
+        return userRoleResponseDtos;
+    }
+
+    @Override
+    public List<UserRoleResponseDto> findUsersInRoleById(int roleID) {
         logger.info("Called find user role by role id {}", roleID);
         List<UserRoles> userRoles = userRolesRepository.findByRoleId(roleID);
 
@@ -141,7 +160,20 @@ public class UserRoleServiceImpl implements UserRoleService {
     //    }
         userRolesRepository.save(userRoles);
 
-        return userRoleMapper.toResponse(userRoles);
+        String createdBy = defaultConverter.getUserFullName(userRoles.getCreatedBy());
+        String updatedBy = defaultConverter.getUserFullName(userRoles.getUpdatedBy());
+        String roleName = defaultConverter.getRoleName(userRoles.getRoleId());
+        String userName = defaultConverter.getUserFullName(userRoles.getUserId());
+
+        UserRoleResponseDto createResult = userRoleMapper.toResponse(userRoles);
+
+        createResult.setUserName(userName);
+        createResult.setRoleName(roleName);
+        createResult.setCreatedBy(createdBy);
+        createResult.setUpdatedBy(updatedBy);
+
+
+        return createResult;
     }
 
 
@@ -184,18 +216,24 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public Boolean existUserRole(int id, String type){
-        logger.info("Called existUserRole({}, {}, {})", id, type);
-        Boolean existsUserRole;
+        logger.info("Called existUserRole({}, {})", id, type);
+        Boolean existsUserRole = true;
         if (type.equals("ROLE")){
-            existsUserRole = true;
-            return existsUserRole;
+            List<UserRoles> rolesExists = userRolesRepository.findByRoleId(id);
+            
+            if (rolesExists.isEmpty()){
+                existsUserRole = false;
+            }else 
+                existsUserRole = true;
         }
         if (type.equals("USER")){
-            existsUserRole = false;
-            return existsUserRole;
+            List<UserRoles> userExists = userRolesRepository.findUserAllRoles(id);
+            if (userExists.isEmpty()){
+                existsUserRole = false;
+            }else
+                existsUserRole = true;
         }
-
-        return true;
+        return existsUserRole;
     }
 
 

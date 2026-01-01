@@ -4,12 +4,13 @@ public class UpdateUserRoleRequestDto {
 
     private int userId;
     private int roleId;
-    private String mainRole;
+    private Boolean mainRole;
 
     public UpdateUserRoleRequestDto() {}
-    public UpdateUserRoleRequestDto(int userId, int roleId) {
+    public UpdateUserRoleRequestDto(int userId, int roleId, Boolean mainRole) {
         this.userId = userId;
         this.roleId = roleId;
+        this.mainRole = mainRole;
     }
 
     public int getUserId() {
@@ -24,6 +25,14 @@ public class UpdateUserRoleRequestDto {
     }
     public void setRoleId(int roleId) {
         this.roleId = roleId;
+    }
+
+    public Boolean getMainRole(){
+        return mainRole;
+    }
+
+    public void setMainRole(Boolean mainRole){
+        this.mainRole = mainRole;
     }
 
 
