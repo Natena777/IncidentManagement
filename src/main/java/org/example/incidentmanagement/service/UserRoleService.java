@@ -17,6 +17,6 @@ public interface UserRoleService {
     List<UserRoleResponseDto> findAllUserRoles();
     Boolean existUserRole(int id, String type);
     Integer findUserRoleId(Integer userID, Integer roleID);
-
+    List<UserRoleResponseDto> findUserAllRoles(int userId);
 
 }

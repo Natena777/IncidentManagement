@@ -14,6 +14,8 @@ public interface UserRolesRepository extends JpaRepository<UserRoles, Integer> {
     public List<UserRoles> findByRoleId(int roleID);
     
 
+    @Query("select ur from UserRoles ur where ur.userId = :userId")
+    public List<UserRoles> findUserAllRoles(int userId);
 
     @Query("select ur.id from UserRoles ur where ur.userId = :userID and ur.roleId = :roleID" )
     public Integer findUserRoleId(Integer userID, Integer roleID);
