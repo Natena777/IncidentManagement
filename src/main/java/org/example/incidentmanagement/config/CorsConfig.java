@@ -11,7 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/api/**")  // მხოლოდ API endpoint-ები
                 .allowedOrigins(
                     "http://localhost:5173",  // Vite dev server
-                    "http://72.60.32.128:3000" // Production frontend
+                    "http://72.60.32.128" // Production frontend
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
