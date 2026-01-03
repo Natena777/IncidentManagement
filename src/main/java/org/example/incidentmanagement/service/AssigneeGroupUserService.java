@@ -6,7 +6,7 @@ import org.example.incidentmanagement.dto.response.AssigneeGroupUsersResponseDto
 
 
 
-public interface AssigneeGroupUsersService {
+public interface AssigneeGroupUserService {
 
     
     CreateAssigneeGroupUsersResponseDto addUserInAssigneeGroup (CreateAssigneeGroupUsersRequestDto createAssigneeGroupUsersRequestDto);
