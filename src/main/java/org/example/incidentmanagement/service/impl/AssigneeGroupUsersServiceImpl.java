@@ -19,7 +19,7 @@ public class AssigneeGroupUsersImpl implements AssigneGroupService {
 
 
     @Override
-    public findById(Integer id) {
+    public AssigneeGroupUsersResponseDto findById(Integer id) {
         return null;
     }
 
