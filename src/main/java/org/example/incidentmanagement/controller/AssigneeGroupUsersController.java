@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
-import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupRequestDto;
+import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupUsersRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupUsersResponseDto;
 
 
@@ -25,8 +25,8 @@ public class AssigneeGroupUsersController {
 
     @PostMapping("/addUsers")
     @Operation(summary = "add Users to Assignee Group")
-    public CreateAssigneeGroupUsersResponseDto createAssigneeGroup(@RequestBody CreateAssigneeGroupRequestDto createAssigneeGroupRequestDto){
-        CreateAssigneeGroupUsersResponseDto result = assigneeGroupUsersService.addUserInAssigneeGroup(createAssigneeGroupRequestDto);
+    public CreateAssigneeGroupUsersResponseDto createAssigneeGroup(@RequestBody CreateAssigneeGroupUsersRequestDto createAssigneeGroupUsersRequestDto){
+        CreateAssigneeGroupUsersResponseDto result = assigneeGroupUsersService.addUserInAssigneeGroup(createAssigneeGroupUsersRequestDto);
         return result;
     }
 
