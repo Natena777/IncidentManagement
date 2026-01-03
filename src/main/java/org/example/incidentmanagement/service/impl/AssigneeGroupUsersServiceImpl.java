@@ -18,7 +18,7 @@ public class AssigneeGroupUserServiceimpl implements AssigneeGroupUserService {
     private final AssigneeGroupUsersMapper assigneeGroupUsersMapper;
     private final CurrentUserService currentUserService;
 
-    public AssigneeGroupUsersImpl(AssigneeGroupUsersRepository assigneeGroupUsersRepository, AssigneeGroupUsersMapper assigneeGroupUsersMapper,
+    public AssigneeGroupUserServiceimpl(AssigneeGroupUsersRepository assigneeGroupUsersRepository, AssigneeGroupUsersMapper assigneeGroupUsersMapper,
                                     CurrentUserService currentUserService) {
         this.assigneeGroupUsersRepository = assigneeGroupUsersRepository;
         this.assigneeGroupUsersMapper = assigneeGroupUsersMapper;
