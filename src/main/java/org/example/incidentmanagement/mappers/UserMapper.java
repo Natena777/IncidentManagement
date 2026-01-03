@@ -25,6 +25,7 @@ public interface UserMapper {
             entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
             entity.setStartDate(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
             entity.setActive("A");
+            return entity;
 
         } 
 
