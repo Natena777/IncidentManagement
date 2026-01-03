@@ -186,7 +186,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                 createScCategoryRequestDto.getDescription());
 
 
-        ScCategory scCategory = scCategoryMapper.toScCategoryEntityDefaults(createScCategoryRequestDto, urrentUserService.getCurrentUserId());
+        ScCategory scCategory = scCategoryMapper.toScCategoryEntityDefaults(createScCategoryRequestDto, currentUserService.getCurrentUserId());
         scCategoryRepository.save(scCategory);
 
 
