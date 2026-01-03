@@ -6,6 +6,8 @@ public class AssigneeGroupUsersResponse {
     private Integer userId;
     private Integer assigneeGroupId;
 
+    public AssigneeGroupUsersResponse() {}
+
 
     // Getters and Setters
     public Integer getId() {

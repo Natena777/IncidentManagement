@@ -9,6 +9,8 @@ public class CreateAssigneeGroupUsersRequestDto {
     private Integer assigneeGroupId;
     private String active;
 
+    public CreateAssigneeGroupUsersRequestDto() {}
+
 
     // Getters and Setters
     public Integer getId() {
