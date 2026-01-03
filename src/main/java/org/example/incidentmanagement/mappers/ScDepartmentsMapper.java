@@ -27,7 +27,7 @@ public interface ScDepartmentsMapper {
 
     default ScDepartments toScDepartmentsEntityDefaults(CreateScDepartmentsRequestDto createScDepartmentsRequestDto, Integer currentUserId){
         ScDepartments entity = toScDepartmentsEntity(createScDepartmentsRequestDto);
-        entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
+        entity.setCreatedDate(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
         entity.setActive("A");
         entity.setCreatedBy(currentUserId);
         return entity;
