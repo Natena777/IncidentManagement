@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -45,24 +44,11 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
             throw new CustomException(ResponseCodes.INVALID_ASSIGNEE_GROUP);
         }
 
-        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
+        String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
+        String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
 
-        //Get and Set Created By User
-        if (assigneeGroupResult.getCreatedBy() != null) {
-            String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
+        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDtoWithUserNames(assigneeGroups, createdBy, updatedBy);
 
-            if (createdBy != null) {
-                assigneeGroupResult.setCreatedBy(createdBy);
-            }
-        }
-
-        //Get and Set Updated By User
-        if (assigneeGroupResult.getUpdatedBy() != null) {
-            String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
-            if (updatedBy != null) {
-                assigneeGroupResult.setUpdatedBy(updatedBy);
-            }
-        }
 
 
         return assigneeGroupResult;
@@ -73,25 +59,11 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         logger.info("Called Find AssigneeGroups by Group Name: {}", groupName);
         AssigneeGroups assigneeGroups = assigneeGroupRepository.findByGroupName(groupName);
 
-        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
+        String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
+        String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
 
-        //Get and Set Created By User
+        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDtoWithUserNames(assigneeGroups, createdBy, updatedBy);
 
-        if (assigneeGroupResult.getCreatedBy() != null) {
-            String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
-
-            if (createdBy != null) {
-                assigneeGroupResult.setCreatedBy(createdBy);
-            }
-        }
-
-        //Get and Set Updated By User
-        if (assigneeGroupResult.getUpdatedBy() != null) {
-            String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
-            if (updatedBy != null) {
-                assigneeGroupResult.setUpdatedBy(updatedBy);
-            }
-        }
 
 
         return assigneeGroupResult;
@@ -106,19 +78,10 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         //Get List With UserNames
         List<AssigneeGroupResponseDto> result = groups.stream()
                 .map(group -> {
-                    AssigneeGroupResponseDto assigneeGroupResult =
-                            assigneeGroupMapper.toGroupResponseDto(group);
-
                     String createdBy = defaultConverter.getUserFullName(group.getCreatedBy());
                     String updatedBy = defaultConverter.getUserFullName(group.getUpdatedBy());
 
-                    // Get and Set Created By User
-                    if (createdBy != null) {
-                        assigneeGroupResult.setCreatedBy(createdBy);
-                    }
-                     if (updatedBy != null) {
-                         assigneeGroupResult.setUpdatedBy(updatedBy);
-                     }
+                    AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDtoWithUserNames(group, createdBy, updatedBy);
 
                     return assigneeGroupResult;
                 })
@@ -130,23 +93,13 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     @Override
     public AssigneeGroupResponseDto createAssigneeGroup(CreateAssigneeGroupRequestDto createAssigneeGroupRequestDto) {
         logger.info("Called Create AssigneeGroup: {}", createAssigneeGroupRequestDto.getGroupName());
-        AssigneeGroups assigneeGroups = assigneeGroupMapper.toEntity(createAssigneeGroupRequestDto);
-        assigneeGroups.setCreatedOn(LocalDateTime.now());
-        assigneeGroups.setActive("A");
-        assigneeGroups.setCreatedBy(currentUserService.getCurrentUserId());
+        AssigneeGroups assigneeGroups = assigneeGroupMapper.toEntityWithDefaults(createAssigneeGroupRequestDto, currentUserService.getCurrentUserId());
         assigneeGroupRepository.save(assigneeGroups);
-
-        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
 
         String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
         String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
 
-        if (createdBy != null) {
-            assigneeGroupResult.setCreatedBy(createdBy);
-        }
-        if (updatedBy != null) {
-            assigneeGroupResult.setUpdatedBy(updatedBy);
-        }
+        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDtoWithUserNames(assigneeGroups, createdBy, updatedBy);
 
         return assigneeGroupResult;
     }

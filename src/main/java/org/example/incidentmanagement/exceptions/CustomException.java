@@ -4,6 +4,7 @@ public class CustomException extends RuntimeException {
 
     private final ResponseCodes responseCodes;
 
+    
     public CustomException(ResponseCodes responseCodes) {
         super(responseCodes.getMessage());
         this.responseCodes = responseCodes;
