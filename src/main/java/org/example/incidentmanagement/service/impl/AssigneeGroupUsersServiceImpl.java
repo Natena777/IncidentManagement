@@ -1,6 +1,5 @@
 package org.example.incidentmanagement.service.impl;
 
-import org.example.incidentmanagement.service.AssigneGroupService;
 import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupUsersRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupUsersResponseDto;
@@ -12,10 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AssigneeGroupUsersImpl implements AssigneGroupService {
+public class AssigneeGroupUserServiceimpl implements AssigneeGroupUserService {
 
     private final AssigneeGroupUsersRepository assigneeGroupUsersRepository;
-    private final Logger logger = LoggerFactory.getLogger(AssigneeGroupUsersImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(AssigneeGroupUserServiceimpl.class);
     private final AssigneeGroupUsersMapper assigneeGroupUsersMapper;
     private final CurrentUserService currentUserService;
 
