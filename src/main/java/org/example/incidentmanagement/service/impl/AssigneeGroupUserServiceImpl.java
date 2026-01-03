@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AssigneeGroupUserServiceImpl implements AssigneeGroupUsersService {
+public class AssigneeGroupUserServiceImpl implements AssigneeGroupUserService {
 
     private final AssigneeGroupUsersRepository assigneeGroupUsersRepository;
     private final Logger logger = LoggerFactory.getLogger(AssigneeGroupUserServiceImpl.class);
