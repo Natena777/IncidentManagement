@@ -26,6 +26,7 @@ public interface UserMapper {
             entity.setStartDate(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
             entity.setActive("A");
             return entity;
+
         } 
 
     UserResponseDto toResponseDto(User user);

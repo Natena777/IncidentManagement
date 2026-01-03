@@ -34,7 +34,13 @@ public class AssigneeGroupUsersController {
     @Operation(summary = "Remove User From Assignee Group By ID")
     public ResponseEntity<ApiResponse> deleteAssigneeGroupUsers(@PathVariable Integer id) {
         assigneeGroupUserService.removeUserFromAssigneeGroup(id);
-        return ResponseEntity.ok(new ApiResponse("Assignee Group Users deleted successfully"));
+
+        ApiResponse apiResponse = new ApiResponse(
+                ResponseCodes.ASSIGNEE_GROUP_DELETED.getCode(),
+                ResponseCodes.ASSIGNEE_GROUP_DELETED.getMessage());
+
+        return ResponseEntity.ok(apiResponse);
+    }
     }
 
 
