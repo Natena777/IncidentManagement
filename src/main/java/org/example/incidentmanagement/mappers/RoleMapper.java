@@ -32,7 +32,7 @@ public interface RoleMapper {
         Role entity = toEntity(roleRequestDto);
         entity.setCreatedBy(currentUserId);
         entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
-        entity.setStatus('A');
+        entity.setStatus("A");
         return entity;
     }
 
