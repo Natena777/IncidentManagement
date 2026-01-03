@@ -150,10 +150,9 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     public CreateScDepartmentsResponseDto createScDepartments(CreateScDepartmentsRequestDto createScDepartmentsRequestDto) {
         logger.info("Called Create Department {}, {} ", createScDepartmentsRequestDto.getDepartmentName(),
                 createScDepartmentsRequestDto.getDescription());
-        ScDepartments scDepartments = scDepartmentsMapper.toScDepartmentsEntity(createScDepartmentsRequestDto);
-        scDepartments.setCreatedBy(currentUserService.getCurrentUserId());
-        scDepartments.setCreatedDate(LocalDateTime.now());
-        scDepartments.setActive("A");
+        
+        //Map and Save
+        ScDepartments scDepartments = scDepartmentsMapper.toScDepartmentsEntityDefaults(createScDepartmentsRequestDto, currentUserService.getCurrentUserId());
         scDepartmentsRepository.save(scDepartments);
 
         CreateScDepartmentsResponseDto result = scDepartmentsMapper.toCreateScDepartmentsResponseDto(scDepartments);
@@ -186,14 +185,10 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         logger.info("Called Create Service Catalog Category {}, {}", createScCategoryRequestDto.getScCategoryName(),
                 createScCategoryRequestDto.getDescription());
 
-        ScCategory scCategory = scCategoryMapper.toScCategoryEntity(createScCategoryRequestDto);
 
-        logger.info("AFTER MAPPING: name={}", scCategory.getScCategoryName());
-
-        scCategory.setCreatedBy(currentUserService.getCurrentUserId());
-        scCategory.setCreatedOn(LocalDateTime.now());
-        scCategory.setActive("A");
+        ScCategory scCategory = scCategoryMapper.toScCategoryEntityDefaults(createScCategoryRequestDto, urrentUserService.getCurrentUserId());
         scCategoryRepository.save(scCategory);
+
 
 
         logger.info("AFTER SAVE: name={}", scCategory.getScCategoryName());
@@ -367,10 +362,8 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         logger.info("Called Create Service Catalog Category {}, {}", createScSubCategoryRequestDto.getScSubCategoryName(),
                 createScSubCategoryRequestDto.getDescription());
 
-        ScSubCategory scSubCategory = scSubCategoryMapper.toScSubCategory(createScSubCategoryRequestDto);
-        scSubCategory.setCreatedBy(currentUserService.getCurrentUserId());
-        scSubCategory.setCreatedOn(LocalDateTime.now());
-        scSubCategory.setActive("A");
+        //Map And Save
+        ScSubCategory scSubCategory = scSubCategoryMapper.toScSubCategoryEntityDefaults(createScSubCategoryRequestDto, currentUserService.getCurrentUserId());
         scSubCategoryRepository.save(scSubCategory);
 
         String scCategoryName = getScCategoryName(createScSubCategoryRequestDto.getScCategoryId());
@@ -489,9 +482,8 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     public CreateScServicesResponseDto createScServices(CreateScServicesRequestDto createScServicesRequestDto) {
         logger.info("Called Create Service Catalog Service ");
 
-        ScServices scServices = scServicesMapper.toScServicesEntity(createScServicesRequestDto);
-        scServices.setCreatedBy(currentUserService.getCurrentUserId());
-        scServices.setCreatedDate(LocalDateTime.now());
+        //Map And Save
+        ScServices scServices = scServicesMapper.toScServicesEntityDefaults(createScServicesRequestDto, currentUserService.getCurrentUserId());
         scServicesRepository.save(scServices);
 
         String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());

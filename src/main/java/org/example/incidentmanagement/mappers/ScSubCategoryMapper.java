@@ -17,5 +17,12 @@ public interface ScSubCategoryMapper {
 
     ScSubCategory toScSubCategory(CreateScSubCategoryRequestDto createScSubCategory);
 
+        default ScSubCategory toScSubCategoryEntityDefaults(CreateScSubCategoryRequestDto createScSubCategory, Integer currentUserId){
+        ScSubCategory entity = toScSubCategory(createScSubCategory);
+        entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
+        entity.setActive("A");
+        entity.setCreatedBy(currentUserId);
+        return entity;
+    }
 
 }
