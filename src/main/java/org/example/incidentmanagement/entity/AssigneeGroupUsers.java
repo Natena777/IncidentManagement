@@ -1,6 +1,8 @@
 package org.example.src.incidentmanagement.entity;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "sys_assignee_groups_users")
@@ -18,7 +20,7 @@ public class AssigneeGroupUsers {
 
     @Column(name = "active")
     private String active;
-    
+
     @Column(name = "created_by")
     private Integer createdBy;
 
