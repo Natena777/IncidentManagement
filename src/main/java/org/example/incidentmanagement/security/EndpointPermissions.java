@@ -21,7 +21,8 @@ public class EndpointPermissions {
                 .requestMatchers("/api/assigneeGroup/**").hasAuthority("SUPER_ADMIN")
                 .requestMatchers("/api/status/**").hasAuthority("SUPER_ADMIN")
                 .requestMatchers("/api/servicesCatalog/**").hasAuthority("SUPER_ADMIN")
-                .requestMatchers("/api/users/**").hasAuthority("SUPER_ADMIN");
+                .requestMatchers("/api/users/**").hasAuthority("SUPER_ADMIN")
+                .requestMatchers("/api/assigneeGroupusers/**").hasAuthority("SUPER_ADMIN");
 
     }
 
