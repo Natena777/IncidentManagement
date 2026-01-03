@@ -16,7 +16,14 @@ public interface ScCategoryMapper {
    
     ScCategory toScCategoryEntity(CreateScCategoryRequestDto createScCategoryRequestDto);
 
-    
+    default ScCategory toScCategoryEntityDefaults(CreateScCategoryRequestDto createScCategoryRequestDto,  Integer currentUserId){
+        ScCategory entity = toScCategoryEntity(createScCategoryRequestDto);
+        entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
+        entity.setActive("A");
+        entity.setCreatedBy(currentUserId);
+        return entity;
+    }
 
+    
 
 }

@@ -23,4 +23,12 @@ public interface ScDepartmentsMapper {
     //Create Assignee Group to Entity
     ScDepartments toScDepartmentsEntity (CreateScDepartmentsRequestDto createScDepartmentsRequestDto);
 
+    default ScDepartments toScDepartmentsEntityDefaults(CreateScDepartmentsRequestDto createScDepartmentsRequestDto, Integer currentUserId){
+        ScDepartments entity = toScDepartmentsEntity(createScDepartmentsRequestDto);
+        entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
+        entity.setActive("A");
+        entity.setCreatedBy(currentUserId);
+        return entity;
+    }
+
 }

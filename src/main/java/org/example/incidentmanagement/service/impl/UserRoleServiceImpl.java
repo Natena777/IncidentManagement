@@ -134,13 +134,8 @@ public class UserRoleServiceImpl implements UserRoleService {
         logger.info("Called Create user role with request: {}, {}, {}", createUserRoleRequestDto.getUserId(),
                 createUserRoleRequestDto.getRoleId(), createUserRoleRequestDto.getMainRole());
 
-
-        UserRoles userRoles = userRoleMapper.toEntity(createUserRoleRequestDto);
-
-        userRoles.setCreatedOn(LocalDateTime.now());
-        userRoles.setStatus("A");
-        userRoles.setMainRole(defaultConverter.booleanToString(createUserRoleRequestDto.getMainRole()));
-        userRoles.setCreatedBy(currentUserService.getCurrentUserId());
+        String mainRole = defaultConverter.booleanToString(createUserRoleRequestDto.getMainRole());
+        UserRoles userRoles = userRoleMapper.toEntityDetails(createUserRoleRequestDto, currentUserService.getCurrentUserId(), mainRole);
 
 
         if (!roleService.existsRole(createUserRoleRequestDto.getRoleId())) {

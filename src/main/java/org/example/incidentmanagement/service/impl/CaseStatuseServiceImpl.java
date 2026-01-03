@@ -85,12 +85,14 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
     @Override
     public CreateCaseStatusesResponseDto createCaseStatuses(CreateCaseStatusesRequestDto createCaseStatusesRequestDto) {
         logger.info("Called Create Case Status");
-        CaseStatuses casetoSave = caseStatusMapper.toCaseStatusEntity(createCaseStatusesRequestDto);
-        casetoSave.setCreatedOn(LocalDateTime.now());
-        casetoSave.setActive("Y");
-        casetoSave.setIsFinal(defaultConverter.booleanToString(createCaseStatusesRequestDto.getIsFinal()));
-        casetoSave.setIsPaused(defaultConverter.booleanToString(createCaseStatusesRequestDto.getIsPaused()));
-        casetoSave.setCreatedBy(currentUserService.getCurrentUserId());
+        String isFinal = defaultConverter.booleanToString(createCaseStatusesRequestDto.getIsFinal());
+        String isPaused = defaultConverter.booleanToString(createCaseStatusesRequestDto.getIsPaused());
+
+        CaseStatuses casetoSave = caseStatusMapper.toCaseStatusEntityDefaults(createCaseStatusesRequestDto, 
+                                                                            currentUserService.getCurrentUserId(),
+                                                                            isFinal,
+                                                                            isPaused);
+ 
 
         statusesRepository.save(casetoSave);
 

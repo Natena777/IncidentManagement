@@ -8,6 +8,7 @@ import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.RoleMapper;
 import org.example.incidentmanagement.repository.RoleRepository;
+import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +24,14 @@ public class RoleServiceImpl implements RoleService {
     Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
+    private CurrentUserService currentUserService;
 
-    public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper
+
+    public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper, CurrentUserService currentUserService
                            ) {
         this.roleRepository = roleRepository;
         this.roleMapper = roleMapper;
+        this.currentUserService = currentUserService;
     }
 
 
@@ -72,10 +76,7 @@ public class RoleServiceImpl implements RoleService {
             throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
 
-        Role role = roleMapper.toEntity(roledto);
-        role.setCreatedOn(LocalDateTime.now());
-        role.setStatus("A");
-        //role.setCreatedBy("Nika"); //აქ უნდა მიეთითოს იუზერი ავტომატში
+        Role role = roleMapper.toEntityDetails(roledto, currentUserService.getCurrentUserId());
         roleRepository.save(role);
 
 

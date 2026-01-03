@@ -13,6 +13,16 @@ public interface UserRoleMapper {
 
     public UserRoles toEntity(CreateUserRoleRequestDto createUserRoleRequestDto);
 
+    default UserRoles toEntityDetails(CreateUserRoleRequestDto createUserRoleRequestDto, Integer currentUserId, String mainRole){
+        UserRoles entity = toEntity(createUserRoleRequestDto);
+        entity.setCreatedBy = currentUserId;
+        entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
+        entity.setMainRole(mainRole);
+        entity.setStatus('A');
+        return entity;
+    }
+
+
 
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)

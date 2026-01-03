@@ -7,6 +7,7 @@ import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.repository.UserRepository;
+import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.service.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +23,14 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private CurrentUserService currentUserService;
 
     public RegistrationServiceImpl(UserRepository userRepository, UserMapper userMapper,
-                                   PasswordEncoder passwordEncoder) {
+                                   PasswordEncoder passwordEncoder, CurrentUserService currentUserService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.currentUserService = currentUserService;
     }
 
 
@@ -58,15 +61,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         }
 
-        User user = userMapper.toEntity(userDto);
-        //Set User Info
-        user.setUsername(extractUsername(user.getEmail()));
-        user.setStartDate(LocalDateTime.now());
-        user.setCreatedOn(LocalDateTime.now());
-        user.setFullName(userDto.getFirstName() + " " + userDto.getLastName());
-        user.setActive("A");
-        //user.setCreatedBy();
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        String userName = extractUsername(userDto.getEmail());
+        String fullName = userDto.getFirstName() + " " + userDto.getLastName();
+        String password = passwordEncoder.encode(userDto.getPassword());
+            
+        User user = userMapper.toEntityDetails(userDto, userName, fullName, password);
         User savedUser = userRepository.save(user);
 
         return userMapper.toRegistrationResp(savedUser);
