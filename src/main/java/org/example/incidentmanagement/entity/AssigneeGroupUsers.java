@@ -1,4 +1,4 @@
-package org.example.src.incidentmanagement.entity;
+package org.example.incidentmanagement.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
