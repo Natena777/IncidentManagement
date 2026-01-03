@@ -20,7 +20,7 @@ public interface UserRoleMapper {
         entity.setCreatedBy(currentUserId);
         entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
         entity.setMainRole(mainRole);
-        entity.setStatus('A');
+        entity.setStatus("A");
         return entity;
     }
 
