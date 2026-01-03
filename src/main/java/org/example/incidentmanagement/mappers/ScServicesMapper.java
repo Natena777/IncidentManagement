@@ -21,7 +21,7 @@ public interface ScServicesMapper {
     
         default ScServices toScServicesEntityDefaults(CreateScServicesRequestDto createScServicesRequestDto, Integer currentUserId){
             ScServices entity = toScServicesEntity(createScServicesRequestDto);
-            entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
+            entity.setCreatedDate(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
             entity.setCreatedBy(currentUserId);
             return entity;
     }
