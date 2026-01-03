@@ -5,6 +5,8 @@ import org.example.incidentmanagement.dto.response.CaseStatusesResponseDto;
 import org.example.incidentmanagement.dto.response.CreateCaseStatusesResponseDto;
 import org.example.incidentmanagement.entity.CaseStatuses;
 import org.mapstruct.Mapper;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Mapper(componentModel = "spring")
 public interface CaseStatusMapper {
