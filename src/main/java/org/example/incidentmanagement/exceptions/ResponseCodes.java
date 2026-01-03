@@ -35,7 +35,7 @@ public enum ResponseCodes {
 
     //Other Errors
     INVALID_USER_ROLE(-13, "Invalid User Role"),
-    VALIDATION_ERROR(-999, "Validation Error");
+    VALIDATION_ERROR(-998, "Validation Error");
 
     private int code;
     private String message;
