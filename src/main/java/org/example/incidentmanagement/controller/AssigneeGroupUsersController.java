@@ -41,7 +41,7 @@ public class AssigneeGroupUsersController {
 
         return ResponseEntity.ok(apiResponse);
     }
-    }
+    
 
 
     @GetMapping("/id/{id}")
