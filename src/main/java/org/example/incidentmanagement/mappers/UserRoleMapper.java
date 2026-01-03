@@ -17,10 +17,10 @@ public interface UserRoleMapper {
 
     default UserRoles toEntityDetails(CreateUserRoleRequestDto createUserRoleRequestDto, Integer currentUserId, String mainRole){
         UserRoles entity = toEntity(createUserRoleRequestDto);
-        entity.setCreatedBy = currentUserId;
+        entity.setCreatedBy(currentUserId);
         entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
         entity.setMainRole(mainRole);
-        entity.setStatus('A');
+        entity.setStatus("A");
         return entity;
     }
 
