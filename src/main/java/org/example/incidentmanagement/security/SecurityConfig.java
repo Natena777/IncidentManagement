@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    // PUBLIC endpoints (რომლებიც უკვე გაქვს)
+                    //PUBLIC endpoints
                     auth
                             .requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("/favicon.svg", "/favicon.ico").permitAll()
@@ -46,10 +46,10 @@ public class SecurityConfig {
                             .requestMatchers("/*/*.html", "/*/*.css", "/*/*.js").permitAll()
                             .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
 
-                    // აქ გამოვიძახოთ ჩვენი ცალკე კონფიგურაცია
+                    //Protected Endpoints Configuration Call
                     EndpointPermissions.configure(auth);
 
-                    // დანარჩენი ყველა API — მაინც authenticated უნდა იყოს
+                    // Any other request must be authenticated
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

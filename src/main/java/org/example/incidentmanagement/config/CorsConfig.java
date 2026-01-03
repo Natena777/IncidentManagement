@@ -6,14 +6,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")  // ყველა endpoint-ისთვის
-                .allowedOrigins("*")  // ყველა დომენიდან (ან კონკრეტული: "http://72.60.32.128:8080")
+        registry.addMapping("/api/**")  // მხოლოდ API endpoint-ები
+                .allowedOrigins(
+                    "http://localhost:5173",  // Vite dev server
+                    "http://72.60.32.128" // Production frontend
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(false)
+                .allowCredentials(true)
                 .maxAge(3600);
     }
 }

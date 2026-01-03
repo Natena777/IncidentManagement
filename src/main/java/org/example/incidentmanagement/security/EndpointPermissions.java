@@ -8,13 +8,12 @@ public class EndpointPermissions {
 
     public static void configure(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
 
-        //დაცული Enpoint ები
-        // კონკრეტულ როლებზე დამატებული წვდომები.
+        //Protected Endpoints Permissions on Roles
         auth
                 .requestMatchers(HttpMethod.GET,"/api/users/**").hasAnyAuthority("CREATOR", "SUPER_ADMIN");
 
 
-        // ADMIN only
+        //System Owner Role  Permissions
         auth
                 .requestMatchers("/api/role/**").hasAuthority("SUPER_ADMIN")
                 .requestMatchers("/api/userRole/**").hasAuthority("SUPER_ADMIN")

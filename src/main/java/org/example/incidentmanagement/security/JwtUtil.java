@@ -27,11 +27,12 @@ public class JwtUtil {
         this.expirationMinutes = expirationMinutes;
     }
 
+
     public String generateToken(CustomUserPrincipal principal) {
         Instant now = Instant.now();
         Instant exp = now.plusSeconds(expirationMinutes * 60);
 
-
+        
         Map<String, Object> claims = Map.of(
                 "userId", principal.getUserId(),
                 "role", principal.getRole()

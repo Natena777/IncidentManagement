@@ -34,21 +34,22 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("Security Load user by username: {}", username);
         User user = userRepository.findByUsername(username);
-        UserRoles userRoles = userRolesRepository.findByUserId(user.getId());
-
 
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        };
 
+        // Get User Roles
+        UserRoles userRoles = userRolesRepository.findByUserId(user.getId());
         Role role = roleRepository.findById(userRoles.getRoleId())
                 .orElseThrow(() -> new UsernameNotFoundException("Role not found "));
 
 
+        // Return User Details.
         return new CustomUserPrincipal(
                 user.getId(),
                 user.getUsername(),
-                user.getUsername(),
+                user.getPassword(),
                 role.getName()
         );
     }

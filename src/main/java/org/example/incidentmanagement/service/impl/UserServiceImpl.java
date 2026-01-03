@@ -36,7 +36,8 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
 
-        return userMapper.toResponseDto(user);
+        UserResponseDto responseResult = userMapper.toResponseDto(user);
+        return responseResult;
 
     }
 
@@ -50,7 +51,8 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
 
-        return userMapper.toResponseDto(user);
+        UserResponseDto responseResult = userMapper.toResponseDto(user);
+        return responseResult;
     }
 
     @Override
@@ -63,7 +65,8 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
         logger.info("User with id {} found", id);
-        return userMapper.toResponseDto(user.orElse(null));
+        UserResponseDto responseResult = userMapper.toResponseDto(user.orElse(null));
+        return responseResult;
 
     }
 
@@ -71,12 +74,12 @@ public class UserServiceImpl implements UserService {
     public List<UserResponseDto> findAllUsers() {
         logger.info("Called findAllUsers");
         List<User> users = userRepository.findAll();
-        return userMapper.toResponseDtoList(users);
+        List<UserResponseDto> responseResult = userMapper.toResponseDtoList(users);
+        return responseResult;
     }
 
     @Override
     public void deleteUser(int id) {
-
         logger.info("Called deleteUser: {}",  findUserById(id));
         userRepository.deleteById(id);
 

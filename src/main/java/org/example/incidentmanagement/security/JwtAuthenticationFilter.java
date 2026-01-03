@@ -31,12 +31,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
 
-     // permitAll ენდპოინტებზე ფილტრი საერთოდ არ გაეშვება
+    //Permission Access Check for Public Endpoints
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-
-        logger.info(">>> shouldNotFilter check - Path: {}, Method: {}", path, request.getMethod());
 
         boolean shouldSkip = path.startsWith("/api/auth/")
                 || path.startsWith("/swagger-ui")
@@ -50,7 +48,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.equals("/favicon.svg")
                 || path.equals("/favicon.ico");
 
-        logger.info(">>> shouldNotFilter Result: {}", shouldSkip);
+        logger.info("""
+                >>> shouldNotFilter Request [Path: {}, 
+                                            Method: {}, 
+                                            URL: {}, 
+                                            Client IP: {},  
+                                            Host: {},  
+                                            Port: {}], 
+                                    Response [shouldSkip: {}]  
+                """, 
+                path, request.getMethod(), request.getRequestURL(), request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort(), shouldSkip);
         return shouldSkip;
     }
 
@@ -67,18 +74,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // ❗ დანარჩენ ყველა endpoint-ზე JWT აუცილებელია
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            logger.info("Security Block Operation SucceFully " +
-                            "Method: {} " +
-                            "URL: {} " +
-                            "Client IP: {} " +
-                            "Host: {} " +
-                            "Port: {} "
-                    , request.getMethod(),
-                    request.getRequestURL(),
-                    request.getRemoteAddr(),
-                    request.getRemoteHost(),
-                    request.getRemotePort());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            logger.info("""
+                >>> shouldNotFilter Request [Method: {}, 
+                                            URL: {}, 
+                                            Client IP: {},  
+                                            Host: {},  
+                                            Port: {}], 
+                                    Response: {}  
+                """, 
+                request.getMethod(), request.getRequestURL(), request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort(), response.getStatus());
             return;
         }
 
