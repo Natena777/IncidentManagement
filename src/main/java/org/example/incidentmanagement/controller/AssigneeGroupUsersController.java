@@ -1,7 +1,6 @@
 package org.example.incidentmanagement.controller;
 
 import org.example.incidentmanagement.dto.response.CreateAssigneeGroupUsersResponseDto;
-import org.example.incidentmanagement.entity.AssigneeGroupUsers;
 import org.example.incidentmanagement.service.AssigneeGroupUsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +40,7 @@ public class AssigneeGroupUsersController {
 
     @GetMapping("/id/{id}")
     @Operation(summary = "Find Assignee Group Users By ID")
-    public AssigneeGroupUsersResponse findById(@PathVariable Integer id) {
+    public AssigneeGroupUsersResponseDto findById(@PathVariable Integer id) {
         return assigneeGroupUsersService.findById(id);
     }  
     
