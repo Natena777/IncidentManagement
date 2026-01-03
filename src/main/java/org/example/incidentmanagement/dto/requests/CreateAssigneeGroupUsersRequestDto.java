@@ -1,15 +1,14 @@
 package org.example.incidentmanagement.dto.requests;
 
+
+
 public class CreateAssigneeGroupUsersRequestDto {
 
     private Integer id;
     private Integer userId;
     private Integer assigneeGroupId;
     private String active;
-    private Integer createdBy;
-    private LocalDateTime createdOn;
-    private Integer updatedBy;
-    private LocalDateTime updatedOn;
+
 
     // Getters and Setters
     public Integer getId() {
@@ -36,30 +35,6 @@ public class CreateAssigneeGroupUsersRequestDto {
     }
     public void setActive(String active) {
         this.active = active;
-    }
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
-    public Integer getUpdatedBy() {
-        return updatedBy;
-    }
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-    public LocalDateTime getUpdatedOn() {
-        return updatedOn;
-    }
-    public void setUpdatedOn(LocalDateTime updatedOn) {
-        this.updatedOn = updatedOn;
     }
 
 }
