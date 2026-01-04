@@ -1,6 +1,7 @@
 package org.example.incidentmanagement.service;
 
 
+import org.example.incidentmanagement.repository.CaseStatusesRepository;
 import org.example.incidentmanagement.repository.RoleRepository;
 import org.example.incidentmanagement.repository.UserRepository;
 import org.example.incidentmanagement.repository.AssigneeGroupRepository;
@@ -15,14 +16,17 @@ public class DefaultConverter {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private AssigneeGroupRepository assigneeGroupRepository;
+    private CaseStatusesRepository statusesRepository;
     Logger logger = LoggerFactory.getLogger(DefaultConverter.class);
 
     public DefaultConverter(UserRepository userRepository,
                             RoleRepository roleRepository,
-                            AssigneeGroupRepository assigneeGroupRepository) {
+                            AssigneeGroupRepository assigneeGroupRepository,
+                            CaseStatusesRepository statusesRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.assigneeGroupRepository = assigneeGroupRepository;
+        this.statusesRepository = statusesRepository;
     }
 
     public String getUserFullName(Integer id) {
@@ -41,6 +45,12 @@ public class DefaultConverter {
         logger.info("Called Get AssigneeGroupName on ID {}", id);
         String groupName = assigneeGroupRepository.findGroupNameById(id).orElse(null);
         return groupName;
+    }
+
+    public String getCaseStatusName(Integer id){
+        logger.info("Called GetCaseStatusName on ID {}", id);
+        String statusName = statusesRepository.getNameById(id);
+        return statusName;
     }
 
     public String booleanToString(boolean b) {
