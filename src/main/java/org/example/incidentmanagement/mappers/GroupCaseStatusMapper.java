@@ -22,7 +22,7 @@ public interface GroupCaseStatusMapper {
         }
 
     CrGroupCaseStatResponseDto toCaseStatusResponse(AssigneeGroupCaseStatus assigneeGroupCaseStatus);
-        default CrGroupCaseStatResponseDto toCaseStatusResponse (AssigneeGroupCaseStatus assigneeGroupCaseStatus, String curStatus,
+        default CrGroupCaseStatResponseDto toCaseStatusResponseDetails (AssigneeGroupCaseStatus assigneeGroupCaseStatus, String curStatus,
                                                                  String prevStatus, String nextStatus, String assigneeGroup,
                                                                  String createdBy, String updatedBy) {
             CrGroupCaseStatResponseDto responseDto = toCaseStatusResponse(assigneeGroupCaseStatus);
