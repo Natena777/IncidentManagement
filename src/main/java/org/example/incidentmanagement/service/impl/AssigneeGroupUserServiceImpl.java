@@ -1,6 +1,7 @@
 package org.example.incidentmanagement.service.impl;
 
 import org.example.incidentmanagement.service.CurrentUserService;
+import org.example.incidentmanagement.service.DefaultConverter;
 import org.example.incidentmanagement.entity.AssigneeGroupUsers;
 import org.example.incidentmanagement.service.AssigneeGroupUserService;
 import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupUsersRequestDto;
@@ -19,18 +20,30 @@ public class AssigneeGroupUserServiceImpl implements AssigneeGroupUserService {
     private final Logger logger = LoggerFactory.getLogger(AssigneeGroupUserServiceImpl.class);
     private final AssigneeGroupUsersMapper assigneeGroupUsersMapper;
     private final CurrentUserService currentUserService;
+    private final DefaultConverter defaultConverter;
 
     public AssigneeGroupUserServiceImpl(AssigneeGroupUsersRepository assigneeGroupUsersRepository, AssigneeGroupUsersMapper assigneeGroupUsersMapper,
-                                    CurrentUserService currentUserService) {
+                                    CurrentUserService currentUserService, DefaultConverter defaultConverter) {
         this.assigneeGroupUsersRepository = assigneeGroupUsersRepository;
         this.assigneeGroupUsersMapper = assigneeGroupUsersMapper;
         this.currentUserService = currentUserService;
+        this.defaultConverter = defaultConverter;
     }
 
 
     @Override
     public AssigneeGroupUsersResponseDto findById(Integer id) {
-        return null;
+
+        AssigneeGroupUsers groupUsers = assigneeGroupUsersRepository.findById(id).orElse(null);
+        
+        String fullName = defaultConverter.getUserFullName(groupUsers.getUserId());
+        String groupName = defaultConverter.getAssigneeGroupName(groupUsers.getAssigneeGroupId());
+        String createdBy = defaultConverter.getUserFullName(groupUsers.getCreatedBy());
+        String updatedBy = defaultConverter.getUserFullName(groupUsers.getUpdatedBy());
+
+        AssigneeGroupUsersResponseDto responseResult = assigneeGroupUsersMapper.toResponseGroupUsers(groupUsers, fullName, groupName, createdBy, updatedBy); 
+
+        return responseResult;
     }
 
     @Override
@@ -38,17 +51,21 @@ public class AssigneeGroupUserServiceImpl implements AssigneeGroupUserService {
         logger.info("Called Add User in Assignee Group: {}", createAssigneeGroupUsersRequestDto);
 
         AssigneeGroupUsers assigneeGroupUsers = assigneeGroupUsersMapper.toAssigneeGroupUsersEntityDetails(createAssigneeGroupUsersRequestDto, currentUserService.getCurrentUserId());
+        
         assigneeGroupUsersRepository.save(assigneeGroupUsers);
 
-        return assigneeGroupUsersMapper.toCreateAssigneeGroupUsersResponseDto(assigneeGroupUsers);
+        String fullName = defaultConverter.getUserFullName(assigneeGroupUsers.getUserId());
+        String groupName = defaultConverter.getAssigneeGroupName(assigneeGroupUsers.getAssigneeGroupId());
+
+        return assigneeGroupUsersMapper.toResponseCrGroupUsers(assigneeGroupUsers, fullName, groupName);
     }
 
     @Override
     public void removeUserFromAssigneeGroup(Integer id) {
 
+        assigneeGroupUsersRepository.deleteById(id);
+
     }
-
-
 
 
 }

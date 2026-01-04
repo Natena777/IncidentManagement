@@ -3,6 +3,7 @@ package org.example.incidentmanagement.service;
 
 import org.example.incidentmanagement.repository.RoleRepository;
 import org.example.incidentmanagement.repository.UserRepository;
+import org.example.incidentmanagement.repository.AssigneeGroupRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,12 +14,15 @@ public class DefaultConverter {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private AssigneeGroupRepository assigneeGroupRepository;
     Logger logger = LoggerFactory.getLogger(DefaultConverter.class);
 
     public DefaultConverter(UserRepository userRepository,
-                            RoleRepository roleRepository) {
+                            RoleRepository roleRepository,
+                            AssigneeGroupRepository assigneeGroupRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.assigneeGroupRepository = assigneeGroupRepository;
     }
 
     public String getUserFullName(Integer id) {
@@ -33,6 +37,11 @@ public class DefaultConverter {
         return roleName;
     }
 
+    public String getAssigneeGroupName(Integer id){
+        logger.info("Called Get AssigneeGroupName on ID {}", id);
+        String groupName = assigneeGroupRepository.findGroupNameById(id).orElse(null);
+        return groupName;
+    }
 
     public String booleanToString(boolean b) {
         String resultText;

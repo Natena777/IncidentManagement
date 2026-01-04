@@ -400,7 +400,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                     String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
                     String scCategoryName = getScCategoryName(scServices.getScCategoryId());
                     String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
-                    String assigneeGroupName = assigneeGroupService.getAssigneeGroupName(scServices.getAssigneeGroupId());
+                    String assigneeGroupName = defaultConverter.getAssigneeGroupName(scServices.getAssigneeGroupId());
                     String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue();
                     String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
 
@@ -433,7 +433,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
             String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
             String scCategoryName = getScCategoryName(scServices.getScCategoryId());
             String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
-            String assigneeGroupName = assigneeGroupService.getAssigneeGroupName(scServices.getAssigneeGroupId());
+            String assigneeGroupName = defaultConverter.getAssigneeGroupName(scServices.getAssigneeGroupId());
             String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue();
             String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
 
@@ -462,7 +462,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
             String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
             String scCategoryName = getScCategoryName(scServices.getScCategoryId());
             String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
-            String assigneeGroupName = assigneeGroupService.getAssigneeGroupName(scServices.getAssigneeGroupId());
+            String assigneeGroupName = defaultConverter.getAssigneeGroupName(scServices.getAssigneeGroupId());
             String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue();
             String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
 
@@ -489,7 +489,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
         String scCategoryName = getScCategoryName(scServices.getScCategoryId());
         String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
-        String assigneeGroupName = assigneeGroupService.getAssigneeGroupName(scServices.getAssigneeGroupId());
+        String assigneeGroupName = defaultConverter.getAssigneeGroupName(scServices.getAssigneeGroupId());
         String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue() ;
         String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
 

@@ -8,10 +8,16 @@ import org.mapstruct.Mapper;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AssigneeGroupUsersMapper {
 
     CreateAssigneeGroupUsersResponseDto toCreateAssigneeGroupUsersResponseDto(AssigneeGroupUsers assigneeGroupUsers);
+        default CreateAssigneeGroupUsersResponseDto toResponseCrGroupUsers(AssigneeGroupUsers assigneeGroupUsers, String fullName, String assigneeGroup){
+            CreateAssigneeGroupUsersResponseDto response = toCreateAssigneeGroupUsersResponseDto(assigneeGroupUsers);
+            response.setUser(fullName);
+            response.setAssigneeGroup(assigneeGroup);
+            return response;
+        }
 
     AssigneeGroupUsers toAssigneeGroupUsersEntity(CreateAssigneeGroupUsersRequestDto requestDto);
 
@@ -24,10 +30,14 @@ public interface AssigneeGroupUsersMapper {
         }
 
     AssigneeGroupUsersResponseDto toAssigneeGroupUsersResponse(AssigneeGroupUsers assigneeGroupUsers);
-
-
-
-
+        default AssigneeGroupUsersResponseDto toResponseGroupUsers(AssigneeGroupUsers assigneeGroupUsers, String fullName, String assigneeGroup, String createdBy, String updatedBy){
+            AssigneeGroupUsersResponseDto response = toAssigneeGroupUsersResponse(assigneeGroupUsers);
+            response.setCreatedBy(fullName);
+            response.setAssigneeGroup(assigneeGroup);
+            response.setCreatedBy(createdBy);
+            response.setUpdatedBy(updatedBy);
+            return response;
+        }
 
 
 

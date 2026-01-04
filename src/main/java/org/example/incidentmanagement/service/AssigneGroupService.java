@@ -12,8 +12,5 @@ public interface AssigneGroupService {
     List<AssigneeGroupResponseDto> findAll();
     AssigneeGroupResponseDto createAssigneeGroup(CreateAssigneeGroupRequestDto createAssigneeGroupRequestDto);
     void deleteAssigneeGroup(Integer id);
-    String getAssigneeGroupName(Integer id);
-
-
 
 }
