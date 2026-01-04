@@ -5,6 +5,8 @@ public class AssigneeGroupUsersResponseDto {
     private Integer id;
     private Integer userId;
     private Integer assigneeGroupId;
+    private String active;
+    
 
     public AssigneeGroupUsersResponseDto() {}
 

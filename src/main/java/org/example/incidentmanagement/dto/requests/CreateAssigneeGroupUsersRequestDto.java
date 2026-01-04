@@ -7,7 +7,6 @@ public class CreateAssigneeGroupUsersRequestDto {
     private Integer id;
     private Integer userId;
     private Integer assigneeGroupId;
-    private String active;
 
     public CreateAssigneeGroupUsersRequestDto() {}
 
@@ -31,12 +30,6 @@ public class CreateAssigneeGroupUsersRequestDto {
 
     public void setAssigneeGroupId(Integer assigneeGroupId) {
         this.assigneeGroupId = assigneeGroupId;
-    }
-    public String getActive() {
-        return active;
-    }
-    public void setActive(String active) {
-        this.active = active;
     }
 
 }

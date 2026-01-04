@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface AssigneeGroupRepository extends JpaRepository<AssigneeGroups, Integer> {
 
 
-    AssigneeGroups findByGroupName(String groupName);
+    @Query("select ag.name from AssigneeGroups ag where ag.id = :id")
+    Optional<String> findGroupNameById(Integer id);
 }

@@ -116,13 +116,6 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     }
 
 
-    @Override
-    public String getAssigneeGroupName(Integer id){
-        logger.info("Called Get AssigneeGroupName");
-        AssigneeGroups assigneeGroups = assigneeGroupRepository.findById(id).orElse(null);
-        return assigneeGroups.getGroupName();
-    }
-
 }
 
 

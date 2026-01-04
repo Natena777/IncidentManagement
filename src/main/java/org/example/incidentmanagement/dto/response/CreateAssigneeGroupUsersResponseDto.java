@@ -3,8 +3,9 @@ package org.example.incidentmanagement.dto.response;
 public class CreateAssigneeGroupUsersResponseDto {
 
     private Integer id;
-    private Integer userId;
-    private Integer assigneeGroupId;
+    private String user;
+    private String assigneeGroup;
+    private String active;
 
     public CreateAssigneeGroupUsersResponseDto() {}
 
@@ -16,17 +17,24 @@ public class CreateAssigneeGroupUsersResponseDto {
     public void setId(Integer id) {
         this.id = id;
     }
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
-    public void setUserId(Integer userId){
+    public void setUserId(String userId){
         this.userId = userId;
     }
-    public Integer getAssigneeGroupId(){
+    public String getAssigneeGroupId(){
         return assigneeGroupId;
     }
-    public void setAssigneeGroupId(Integer assigneeGroupId){
+    public void setAssigneeGroupId(String assigneeGroupId){
         this.assigneeGroupId = assigneeGroupId;
     }
+    public String getActive(){
+        return active;
+    }
+    public void setActive(String active){
+        this.active = active;
+    }
+    
     
 }
