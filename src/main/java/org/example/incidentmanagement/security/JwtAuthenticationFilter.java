@@ -1,7 +1,5 @@
 package org.example.incidentmanagement.security;
 
-
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +14,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -30,13 +27,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
-
-    //Permission Access Check for Public Endpoints
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
 
-        boolean shouldSkip = path.startsWith("/api/auth/")
+        return path.startsWith("/api/auth/")
                 || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")
                 || path.equals("/")
@@ -47,20 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.endsWith(".js")
                 || path.equals("/favicon.svg")
                 || path.equals("/favicon.ico");
-
-        logger.info("""
-                >>> shouldNotFilter Request [Path: {}, 
-                                            Method: {}, 
-                                            URL: {}, 
-                                            Client IP: {},  
-                                            Host: {},  
-                                            Port: {}], 
-                                    Response [shouldSkip: {}]  
-                """, 
-                path, request.getMethod(), request.getRequestURL(), request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort(), shouldSkip);
-        return shouldSkip;
     }
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -68,22 +50,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        logger.info("Called DoFilter For Path {}", request.getServletPath());
-
         String authHeader = request.getHeader("Authorization");
 
-        // ❗ დანარჩენ ყველა endpoint-ზე JWT აუცილებელია
+        // JWT აუცილებელია
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            logger.warn("Missing or invalid Authorization header");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            logger.info("""
-                >>> shouldNotFilter Request [Method: {}, 
-                                            URL: {}, 
-                                            Client IP: {},  
-                                            Host: {},  
-                                            Port: {}], 
-                                    Response: {}  
-                """, 
-                request.getMethod(), request.getRequestURL(), request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort(), response.getStatus());
             return;
         }
 
@@ -91,17 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             if (!jwtUtil.isTokenValid(token)) {
-                logger.warn("Security Blocked Operation SucceFully " +
-                                "Method: {} " +
-                                "URL: {} " +
-                                "Client IP: {} " +
-                                "Host: {} " +
-                                "Port: {} "
-                        , request.getMethod(),
-                        request.getRequestURL(),
-                        request.getRemoteAddr(),
-                        request.getRemoteHost(),
-                        request.getRemotePort());
+                logger.warn("Invalid JWT token");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
@@ -113,7 +75,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 CustomUserPrincipal userDetails =
                         (CustomUserPrincipal) userDetailsService.loadUserByUsername(username);
 
-                logger.info("User: {} has authorities: {}", username, userDetails.getAuthorities());
+                logger.info("User authenticated: {}", username);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
@@ -128,11 +90,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext()
                         .setAuthentication(authentication);
-                logger.info("Authentication Success for User: {}", username);
             }
 
         } catch (Exception e) {
-            logger.error("Exception In JWT Filter: {}", e.getMessage());
+            logger.error("JWT authentication failed: {}", e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
