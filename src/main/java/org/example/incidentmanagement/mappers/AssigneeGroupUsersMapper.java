@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AssigneeGroupUsersMapper {
 
     CreateAssigneeGroupUsersResponseDto toCreateAssigneeGroupUsersResponseDto(AssigneeGroupUsers assigneeGroupUsers);
