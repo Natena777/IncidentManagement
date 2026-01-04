@@ -34,12 +34,12 @@ public class AssigneeGroupUserServiceImpl implements AssigneeGroupUserService {
     @Override
     public AssigneeGroupUsersResponseDto findById(Integer id) {
 
-        AssigneeGroupUsers groupUsers = assigneeGroupRepository.findById(id);
+        AssigneeGroupUsers groupUsers = assigneeGroupUsersRepository.findById(id).orElse(null);
         
-        String fullName = defaultConverter.getUserFullName(groupUsers.getUserId);
-        String groupName = defaultConverter.getAssigneeGroupName(groupUsers.getAssigneeGroupId);
-        String createdBy = defaultConverter.getUserFullName(groupUsers.getCreatedBy);
-        String updatedBy = defaultConverter.getUserFullName(groupUsers.getUpdatedBy);
+        String fullName = defaultConverter.getUserFullName(groupUsers.getUserId());
+        String groupName = defaultConverter.getAssigneeGroupName(groupUsers.getAssigneeGroupId());
+        String createdBy = defaultConverter.getUserFullName(groupUsers.getCreatedBy());
+        String updatedBy = defaultConverter.getUserFullName(groupUsers.getUpdatedBy());
 
         AssigneeGroupUsersResponseDto responseResult = assigneeGroupUsersMapper.toResponseGroupUsers(groupUsers, fullName, groupName, createdBy, updatedBy); 
 
@@ -54,8 +54,8 @@ public class AssigneeGroupUserServiceImpl implements AssigneeGroupUserService {
         
         assigneeGroupUsersRepository.save(assigneeGroupUsers);
 
-        String fullName = defaultConverter.getUserFullName(assigneeGroupUsers.getUserId);
-        String groupName = defaultConverter.getAssigneeGroupName(assigneeGroupUsers.getAssigneeGroupId);
+        String fullName = defaultConverter.getUserFullName(assigneeGroupUsers.getUserId());
+        String groupName = defaultConverter.getAssigneeGroupName(assigneeGroupUsers.getAssigneeGroupId());
 
         return assigneeGroupUsersMapper.toResponseCrGroupUsers(assigneeGroupUsers, fullName, groupName);
     }
@@ -66,8 +66,6 @@ public class AssigneeGroupUserServiceImpl implements AssigneeGroupUserService {
         assigneeGroupUsersRepository.deleteById(id);
 
     }
-
-
 
 
 }

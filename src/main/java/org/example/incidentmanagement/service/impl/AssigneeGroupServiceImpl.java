@@ -57,7 +57,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     @Override
     public AssigneeGroupResponseDto findByGroupName(String groupName) {
         logger.info("Called Find AssigneeGroups by Group Name: {}", groupName);
-        AssigneeGroups assigneeGroups = assigneeGroupRepository.findByGroupName(groupName);
+        AssigneeGroups assigneeGroups = assigneeGroupRepository.findByGroupName(groupName).orElse(null);
 
         String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
         String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
@@ -117,5 +117,3 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
 
 }
-
-

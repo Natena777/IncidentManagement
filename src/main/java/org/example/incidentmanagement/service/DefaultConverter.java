@@ -3,6 +3,7 @@ package org.example.incidentmanagement.service;
 
 import org.example.incidentmanagement.repository.RoleRepository;
 import org.example.incidentmanagement.repository.UserRepository;
+import org.example.incidentmanagement.repository.AssigneeGroupRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

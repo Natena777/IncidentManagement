@@ -14,27 +14,32 @@ public class CreateAssigneeGroupUsersResponseDto {
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
-    public String getUserId() {
-        return userId;
+
+    public String getUser() {
+        return user;
     }
-    public void setUserId(String userId){
-        this.userId = userId;
+
+    public void setUser(String user) {
+        this.user = user;
     }
-    public String getAssigneeGroupId(){
-        return assigneeGroupId;
+
+    public String getAssigneeGroup() {
+        return assigneeGroup;
     }
-    public void setAssigneeGroupId(String assigneeGroupId){
-        this.assigneeGroupId = assigneeGroupId;
+
+    public void setAssigneeGroup(String assigneeGroup) {
+        this.assigneeGroup = assigneeGroup;
     }
-    public String getActive(){
+
+    public String getActive() {
         return active;
     }
-    public void setActive(String active){
+
+    public void setActive(String active) {
         this.active = active;
     }
-    
-    
 }
