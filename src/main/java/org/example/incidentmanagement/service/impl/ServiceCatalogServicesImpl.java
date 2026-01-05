@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -83,17 +82,10 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         List<ScDepartmentsResponseDto> resultList = scDepartmentsList.stream()
         .map(department -> {
             ScDepartmentsResponseDto responseDto = scDepartmentsMapper.toResponseScDepartmentsDto(department);
-            String createdBy = defaultConverter.getUserFullName(department.getCreatedBy());
-            String updatedBy = defaultConverter.getUserFullName(department.getUpdatedBy());
-                if (createdBy != null) {
-                    responseDto.setCreatedBy(createdBy);
-                }
-                if (updatedBy != null) {
-                    responseDto.setUpdatedBy(updatedBy);
-                }
+
                 return responseDto;
-                })
-                .toList();
+            })
+            .toList();
 
         return resultList;
 
@@ -106,20 +98,9 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                 .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_DEPARTMENTS));
         logger.info("Called Find Service Catalog Department By ID: {}, Department Name: {} ", id, scDepartments.getDepartmentName());
 
+
         //Result
         ScDepartmentsResponseDto responseResult = scDepartmentsMapper.toResponseScDepartmentsDto(scDepartments);
-
-        //Check Response Details
-        if (responseResult != null) {
-            String createdBy = defaultConverter.getUserFullName(scDepartments.getCreatedBy());
-            String updatedBy = defaultConverter.getUserFullName(scDepartments.getUpdatedBy());
-            if (createdBy != null) {
-                responseResult.setCreatedBy(createdBy);
-            }
-            if (updatedBy != null) {
-                responseResult.setUpdatedBy(updatedBy);
-            }
-        }
         return responseResult;
     }
 
@@ -131,18 +112,6 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
         //Result
         ScDepartmentsResponseDto responseResult = scDepartmentsMapper.toResponseScDepartmentsDto(scDepartments);
-
-        //Check Response Details
-        if (responseResult != null) {
-            String createdBy = defaultConverter.getUserFullName(scDepartments.getCreatedBy());
-            String updatedBy = defaultConverter.getUserFullName(scDepartments.getUpdatedBy());
-            if (createdBy != null) {
-                responseResult.setCreatedBy(createdBy);
-            }
-            if (updatedBy != null) {
-                responseResult.setUpdatedBy(updatedBy);
-            }
-        }
         return responseResult;
     }
 
@@ -223,15 +192,8 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         List<ScCategory> scCategoryList = scCategoryRepository.findAll();
         List<ScCategoryResponseDto> scCategoryResponseDtoList = scCategoryList.stream()
                 .map(category -> {ScCategoryResponseDto scCategoryResponseDto = scCategoryMapper.toScCategoryResponseDto(category);
-                    String createdBy = defaultConverter.getUserFullName(category.getCreatedBy());
-                    String updatedBy = defaultConverter.getUserFullName(category.getUpdatedBy());
                     String scDepartmentName = getScDepartmentName(category.getScDepartmentId());
-                    if (createdBy != null) {
-                        scCategoryResponseDto.setCreatedBy(createdBy);
-                    }
-                    if (updatedBy != null) {
-                        scCategoryResponseDto.setUpdatedBy(updatedBy);
-                    }
+                
                     if (scDepartmentName != null) {
                         scCategoryResponseDto.setScDepartment(scDepartmentName);
                     }
@@ -248,15 +210,8 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         ScCategory scCategory = scCategoryRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_CATEGORY));
         ScCategoryResponseDto scCategoryResponseDto = scCategoryMapper.toScCategoryResponseDto(scCategory);
-        String createdBy = defaultConverter.getUserFullName(scCategory.getCreatedBy());
-        String updatedBy = defaultConverter.getUserFullName(scCategory.getUpdatedBy());
+
         String scDepartmentName = getScDepartmentName(scCategory.getScDepartmentId());
-        if (createdBy != null) {
-            scCategoryResponseDto.setCreatedBy(createdBy);
-        }
-        if (updatedBy != null) {
-            scCategoryResponseDto.setUpdatedBy(updatedBy);
-        }
         if (scDepartmentName != null) {
             scCategoryResponseDto.setScDepartment(scDepartmentName);
         }
@@ -271,15 +226,9 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                 .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_CATEGORY));
 
         ScCategoryResponseDto scCategoryResponseDto = scCategoryMapper.toScCategoryResponseDto(scCategory);
-        String createdBy = defaultConverter.getUserFullName(scCategory.getCreatedBy());
-        String updatedBy = defaultConverter.getUserFullName(scCategory.getUpdatedBy());
+
         String scDepartmentName = getScDepartmentName(scCategory.getScDepartmentId());
-        if (createdBy != null) {
-            scCategoryResponseDto.setCreatedBy(createdBy);
-        }
-        if (updatedBy != null) {
-            scCategoryResponseDto.setUpdatedBy(updatedBy);
-        }
+
         if (scDepartmentName != null) {
             scCategoryResponseDto.setScDepartment(scDepartmentName);
         }
@@ -295,15 +244,9 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         List<ScSubCategory> scSubCategoryList = scSubCategoryRepository.findAll();
         List<ScSubCategoryResponseDto> scSubCategoryResponseDtoList = scSubCategoryList.stream()
                 .map(subcategory -> {ScSubCategoryResponseDto scSubCategoryResponseDto = scSubCategoryMapper.toScSubCategoryResponseDto(subcategory);
-                    String createdBy = defaultConverter.getUserFullName(subcategory.getCreatedBy());
-                    String updatedBy = defaultConverter.getUserFullName(subcategory.getUpdatedBy());
+   
                     String scCategoryName = getScCategoryName(subcategory.getScCategoryId());
-                    if (createdBy != null) {
-                        scSubCategoryResponseDto.setCreatedBy(createdBy);
-                    }
-                    if (updatedBy != null) {
-                        scSubCategoryResponseDto.setUpdatedBy(updatedBy);
-                    }
+        
                     if (scCategoryName != null) {
                         scSubCategoryResponseDto.setScCategoryName(scCategoryName);
                     }
@@ -320,15 +263,8 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                 .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SUBCATEGORY));
 
         ScSubCategoryResponseDto scSubCategoryResponseDto = scSubCategoryMapper.toScSubCategoryResponseDto(scSubCategory);
-        String createdBy = defaultConverter.getUserFullName(scSubCategory.getCreatedBy());
-        String updatedBy = defaultConverter.getUserFullName(scSubCategory.getUpdatedBy());
+
         String scCategoryName = getScCategoryName(scSubCategory.getScCategoryId());
-        if (createdBy != null) {
-            scSubCategoryResponseDto.setCreatedBy(createdBy);
-        }
-        if (updatedBy != null) {
-            scSubCategoryResponseDto.setUpdatedBy(updatedBy);
-        }
         if (scCategoryName != null) {
             scSubCategoryResponseDto.setScCategoryName(scCategoryName);
         }
@@ -342,15 +278,8 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                 .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SUBCATEGORY));
 
         ScSubCategoryResponseDto scSubCategoryResponseDto = scSubCategoryMapper.toScSubCategoryResponseDto(scSubCategory);
-        String createdBy = defaultConverter.getUserFullName(scSubCategory.getCreatedBy());
-        String updatedBy = defaultConverter.getUserFullName(scSubCategory.getUpdatedBy());
+
         String scCategoryName = getScCategoryName(scSubCategory.getScCategoryId());
-        if (createdBy != null) {
-            scSubCategoryResponseDto.setCreatedBy(createdBy);
-        }
-        if (updatedBy != null) {
-            scSubCategoryResponseDto.setUpdatedBy(updatedBy);
-        }
         if (scCategoryName != null) {
             scSubCategoryResponseDto.setScCategoryName(scCategoryName);
         }
@@ -395,22 +324,16 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         List<ScServicesResponseDto> scServicesResponseDtoList = scServiceslist.stream()
                 .map(scServices -> {
                     ScServicesResponseDto scServicesResponseDto = scServicesMapper.toScServicesResponseDto(scServices);
-                    String createdBy = defaultConverter.getUserFullName(scServices.getCreatedBy());
-                    String updatedBy = defaultConverter.getUserFullName(scServices.getUpdatedBy());
                     String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
                     String scCategoryName = getScCategoryName(scServices.getScCategoryId());
                     String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
-                    String assigneeGroupName = defaultConverter.getAssigneeGroupName(scServices.getAssigneeGroupId());
                     String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue();
                     String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
 
 
-                    scServicesResponseDto.setCreatedBy(createdBy);
-                    scServicesResponseDto.setUpdatedBy(updatedBy);
                     scServicesResponseDto.setScDepartmentName(scDepartmentName);
                     scServicesResponseDto.setScCategoryName(scCategoryName);
                     scServicesResponseDto.setScSubCategoryName(scSubCategoryName);
-                    scServicesResponseDto.setAssigneeGroupName(assigneeGroupName);
                     scServicesResponseDto.setResponseTime(responseTime);
                     scServicesResponseDto.setResolutionTime(resolutionTime);
 
@@ -433,7 +356,6 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
             String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
             String scCategoryName = getScCategoryName(scServices.getScCategoryId());
             String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
-            String assigneeGroupName = defaultConverter.getAssigneeGroupName(scServices.getAssigneeGroupId());
             String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue();
             String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
 
@@ -442,7 +364,6 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
             scServicesResponseDto.setScDepartmentName(scDepartmentName);
             scServicesResponseDto.setScCategoryName(scCategoryName);
             scServicesResponseDto.setScSubCategoryName(scSubCategoryName);
-            scServicesResponseDto.setAssigneeGroupName(assigneeGroupName);
             scServicesResponseDto.setResponseTime(responseTime);
             scServicesResponseDto.setResolutionTime(resolutionTime);
         }
@@ -462,7 +383,6 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
             String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
             String scCategoryName = getScCategoryName(scServices.getScCategoryId());
             String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
-            String assigneeGroupName = defaultConverter.getAssigneeGroupName(scServices.getAssigneeGroupId());
             String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue();
             String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
 
@@ -471,7 +391,6 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
             scServicesResponseDto.setScDepartmentName(scDepartmentName);
             scServicesResponseDto.setScCategoryName(scCategoryName);
             scServicesResponseDto.setScSubCategoryName(scSubCategoryName);
-            scServicesResponseDto.setAssigneeGroupName(assigneeGroupName);
             scServicesResponseDto.setResponseTime(responseTime);
             scServicesResponseDto.setResolutionTime(resolutionTime);
         }
@@ -489,7 +408,6 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         String scDepartmentName = getScDepartmentName(scServices.getScDepartmentId());
         String scCategoryName = getScCategoryName(scServices.getScCategoryId());
         String scSubCategoryName = getScSubCategoryName(scServices.getScSubCategoryId());
-        String assigneeGroupName = defaultConverter.getAssigneeGroupName(scServices.getAssigneeGroupId());
         String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue() ;
         String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
 
@@ -499,7 +417,6 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         scServicesResponseDto.setScDepartmentName(scDepartmentName);
         scServicesResponseDto.setScCategoryName(scCategoryName);
         scServicesResponseDto.setScSubCategoryName(scSubCategoryName);
-        scServicesResponseDto.setAssigneeGroupName(assigneeGroupName);
         scServicesResponseDto.setResponseTime(responseTime);
         scServicesResponseDto.setResolutionTime(resolutionTime);
 

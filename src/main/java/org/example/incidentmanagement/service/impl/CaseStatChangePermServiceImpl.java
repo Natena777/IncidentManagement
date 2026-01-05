@@ -45,14 +45,7 @@ public class CaseStatChangePermServiceImpl implements CaseStatChangePermService 
                 currentUserService.getCurrentUserId(), permissions.get(0), permissions.get(1), permissions.get(2), permissions.get(3));
         caseStatChangePermRepository.save(caseStatChangePerm);
 
-        var resultPermission = paramConverterToResponse(
-                caseStatChangePerm.getCanRead(),
-                caseStatChangePerm.getCanEdit(),
-                caseStatChangePerm.getCanDelete(),
-                caseStatChangePerm.getCanChange());
-
-        CrCaseStatChangePermRespDto resultResponse = caseStatChangeMapper.toCreateCaseStatusResponse(caseStatChangePerm,
-                resultPermission.get(0),resultPermission.get(1), resultPermission.get(2), resultPermission.get(3));
+        CrCaseStatChangePermRespDto resultResponse = caseStatChangeMapper.toCrCaseStatusResponse(caseStatChangePerm);
 
         return resultResponse;
     }
@@ -70,15 +63,6 @@ public class CaseStatChangePermServiceImpl implements CaseStatChangePermService 
                 defaultConverter.booleanToInteger(edit),
                 defaultConverter.booleanToInteger(delete),
                 defaultConverter.booleanToInteger(change)
-        );
-    }
-
-    private List<Boolean> paramConverterToResponse(Integer read, Integer edit, Integer delete, Integer change){
-        return List.of(
-                defaultConverter.IntegerToBoolean(read),
-                defaultConverter.IntegerToBoolean(edit),
-                defaultConverter.IntegerToBoolean(delete),
-                defaultConverter.IntegerToBoolean(change)
         );
     }
 

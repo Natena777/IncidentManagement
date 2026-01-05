@@ -21,7 +21,6 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     Logger logger = LoggerFactory.getLogger(AssigneeGroupServiceImpl.class);
     private AssigneeGroupRepository assigneeGroupRepository;
     private AssigneeGroupMapper assigneeGroupMapper;
-    private DefaultConverter defaultConverter;
     private CurrentUserService currentUserService;
 
     public AssigneeGroupServiceImpl(AssigneeGroupRepository assigneeGroupRepository,
@@ -30,7 +29,6 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
                                     CurrentUserService currentUserService) {
         this.assigneeGroupRepository = assigneeGroupRepository;
         this.assigneeGroupMapper = assigneeGroupMapper;
-        this.defaultConverter = defaultConverter;
         this.currentUserService = currentUserService;
     }
 
@@ -44,10 +42,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
             throw new CustomException(ResponseCodes.INVALID_ASSIGNEE_GROUP);
         }
 
-        String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
-        String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
-
-        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDtoWithUserNames(assigneeGroups, createdBy, updatedBy);
+        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
 
 
 
@@ -59,10 +54,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         logger.info("Called Find AssigneeGroups by Group Name: {}", groupName);
         AssigneeGroups assigneeGroups = assigneeGroupRepository.findByGroupName(groupName).orElse(null);
 
-        String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
-        String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
-
-        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDtoWithUserNames(assigneeGroups, createdBy, updatedBy);
+        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
 
 
 
@@ -78,11 +70,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         //Get List With UserNames
         List<AssigneeGroupResponseDto> result = groups.stream()
                 .map(group -> {
-                    String createdBy = defaultConverter.getUserFullName(group.getCreatedBy());
-                    String updatedBy = defaultConverter.getUserFullName(group.getUpdatedBy());
-
-                    AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDtoWithUserNames(group, createdBy, updatedBy);
-
+                    AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(group);
                     return assigneeGroupResult;
                 })
                 .toList();
@@ -96,10 +84,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         AssigneeGroups assigneeGroups = assigneeGroupMapper.toEntityWithDefaults(createAssigneeGroupRequestDto, currentUserService.getCurrentUserId());
         assigneeGroupRepository.save(assigneeGroups);
 
-        String createdBy = defaultConverter.getUserFullName(assigneeGroups.getCreatedBy());
-        String updatedBy = defaultConverter.getUserFullName(assigneeGroups.getUpdatedBy());
-
-        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDtoWithUserNames(assigneeGroups, createdBy, updatedBy);
+        AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
 
         return assigneeGroupResult;
     }
@@ -107,10 +92,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     @Override
     public void deleteAssigneeGroup(Integer id) {
         AssigneeGroups assigneeGroups = assigneeGroupRepository.findById(id).orElse(null);
-
         logger.info("Called Delete AssigneeGroup: {} {}", id, assigneeGroups.getGroupName() );
-
-
         assigneeGroupRepository.delete(assigneeGroups);
 
     }
