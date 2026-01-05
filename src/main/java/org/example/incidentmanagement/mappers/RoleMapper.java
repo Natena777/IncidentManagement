@@ -3,8 +3,10 @@ package org.example.incidentmanagement.mappers;
 import org.example.incidentmanagement.dto.requests.RoleRequestDto;
 import org.example.incidentmanagement.dto.requests.UpdateRoleRequestDto;
 import org.example.incidentmanagement.dto.response.RoleResponseDto;
+import org.example.incidentmanagement.service.DefaultConverter;
 import org.example.incidentmanagement.entity.Role;
 import org.mapstruct.*;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -15,7 +17,6 @@ public interface RoleMapper {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "status", target = "status")
     @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
-    @Mapping(source = "updatedBy", target = "updatedBy", qualifiedByName = "userIdToFullName")
     RoleResponseDto toRoleResponseDto(Role role);
 
 

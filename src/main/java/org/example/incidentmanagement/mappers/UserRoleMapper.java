@@ -19,9 +19,9 @@ public interface UserRoleMapper {
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
-    @Mapping(target = "active", constant = "A")
+    @Mapping(target = "status", constant = "A")
     @Mapping(source = "mainRole", target = "mainRole", qualifiedByName = "booleanToString")
-    @Mapping(source = "roleName", target = "roleName")
+    @Mapping(source = "roleId", target = "roleId")
     public UserRoles toEntity(CreateUserRoleRequestDto createUserRoleRequestDto);
     default UserRoles toEntityDetails(CreateUserRoleRequestDto createUserRoleRequestDto, Integer currentUserId){
         UserRoles entity = toEntity(createUserRoleRequestDto);
@@ -35,7 +35,7 @@ public interface UserRoleMapper {
     @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
     @Mapping(source = "updatedBy", target = "updatedBy", qualifiedByName = "userIdToFullName")
     @Mapping(source = "roleId" , target = "roleName", qualifiedByName = "roleIdToRoleName")
-    @Mapping(source = "userID", target = "userName", qualifiedByName = "userIdToFullName")
+    @Mapping(source = "userId", target = "userName", qualifiedByName = "userIdToFullName")
     public UserRoleResponseDto toResponse(UserRoles userRoles);
 
 

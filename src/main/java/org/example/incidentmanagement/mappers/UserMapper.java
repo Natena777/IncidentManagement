@@ -4,14 +4,16 @@ import org.example.incidentmanagement.dto.requests.RegistrationUserDto;
 import org.example.incidentmanagement.dto.response.RegistrationUserRespDto;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
+import org.example.incidentmanagement.service.DefaultConverter;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {DefaultConverter.class})
 public interface UserMapper {
 
 
@@ -34,8 +36,7 @@ public interface UserMapper {
 
         } 
 
-    @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
-    @Mapping(source = "updatedBy", target = "updatedBy", qualifiedByName = "userIdToFullName")
+        
     UserResponseDto toResponseDto(User user);
 
     List<UserResponseDto> toResponseDtoList(List<User> users);

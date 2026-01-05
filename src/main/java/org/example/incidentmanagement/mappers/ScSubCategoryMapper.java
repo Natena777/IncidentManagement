@@ -7,6 +7,7 @@ import org.example.incidentmanagement.dto.response.ScSubCategoryResponseDto;
 import org.example.incidentmanagement.entity.ScSubCategory;
 import org.example.incidentmanagement.service.DefaultConverter;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
