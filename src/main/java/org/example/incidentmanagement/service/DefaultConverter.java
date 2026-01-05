@@ -68,6 +68,7 @@ public class DefaultConverter {
     }
 
 
+    @Named("booleanToString")
     public String booleanToString(boolean b) {
         String resultText;
         if (b) {
@@ -78,7 +79,8 @@ public class DefaultConverter {
         return resultText;
     }
 
-        public Integer booleanToInteger(boolean b) {
+    @Named("BooleanToInteger")
+    public Integer booleanToInteger(boolean b) {
         Integer resultInteger;
         if (b) {
             resultInteger = 1;
@@ -89,6 +91,7 @@ public class DefaultConverter {
         return resultInteger;
     }
 
+    @Named("IntegerToBoolean")
     public boolean IntegerToBoolean(Integer i) {
         boolean resultbool;
         if (i == 1) {
