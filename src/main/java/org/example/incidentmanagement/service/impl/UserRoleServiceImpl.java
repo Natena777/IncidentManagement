@@ -24,17 +24,15 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final RoleService roleService;
     private final UserService userService;
     private final CurrentUserService currentUserService;
-    private final DefaultConverter defaultConverter;
 
     public UserRoleServiceImpl(UserRolesRepository userRolesRepository, UserRoleMapper userRoleMapper,
                                RoleService roleService, UserService userService,
-                               CurrentUserService currentUserService, DefaultConverter defaultConverter) {
+                               CurrentUserService currentUserService) {
         this.userRolesRepository = userRolesRepository;
         this.userRoleMapper = userRoleMapper;
         this.roleService = roleService;
         this.userService = userService;
         this.currentUserService = currentUserService;
-        this.defaultConverter = defaultConverter;
     }
 
     @Override
@@ -58,18 +56,7 @@ public class UserRoleServiceImpl implements UserRoleService {
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
 
-        String createdBy = defaultConverter.getUserFullName(userRoles.getCreatedBy());
-        String updatedBy = defaultConverter.getUserFullName(userRoles.getUpdatedBy());
-        String roleName = defaultConverter.getRoleName(userRoles.getRoleId()); ;
-        String userName = defaultConverter.getUserFullName(userRoles.getUserId());
-
         UserRoleResponseDto userRoleResult = userRoleMapper.toResponse(userRoles);
-
-        userRoleResult.setUserName(userName);
-        userRoleResult.setRoleName(roleName);
-        userRoleResult.setCreatedBy(createdBy);
-        userRoleResult.setUpdatedBy(updatedBy);
-
         return userRoleResult;
     }
 
@@ -84,17 +71,6 @@ public class UserRoleServiceImpl implements UserRoleService {
         List<UserRoleResponseDto> userRoleResponseDtos = userRoles.stream()
                 .map(userRole -> {
                     UserRoleResponseDto userRoleResult = userRoleMapper.toResponse(userRole);
-
-                    String createdBy = defaultConverter.getUserFullName(userRole.getCreatedBy());
-                    String updatedBy = defaultConverter.getUserFullName(userRole.getUpdatedBy());
-                    String roleName = defaultConverter.getRoleName(userRole.getRoleId()); ;
-                    String userName = defaultConverter.getUserFullName(userRole.getUserId());
-
-                    userRoleResult.setUserName(userName);
-                    userRoleResult.setRoleName(roleName);
-                    userRoleResult.setCreatedBy(createdBy);
-                    userRoleResult.setUpdatedBy(updatedBy);
-
                     return userRoleResult;
                 }).toList();
         return userRoleResponseDtos;
@@ -111,17 +87,6 @@ public class UserRoleServiceImpl implements UserRoleService {
         List<UserRoleResponseDto> userRoleResponseDtos = userRoles.stream()
                 .map(userRole -> {
                     UserRoleResponseDto userRoleResult = userRoleMapper.toResponse(userRole);
-
-                    String createdBy = defaultConverter.getUserFullName(userRole.getCreatedBy());
-                    String updatedBy = defaultConverter.getUserFullName(userRole.getUpdatedBy());
-                    String roleName = defaultConverter.getRoleName(userRole.getRoleId()); ;
-                    String userName = defaultConverter.getUserFullName(userRole.getUserId());
-
-                    userRoleResult.setUserName(userName);
-                    userRoleResult.setRoleName(roleName);
-                    userRoleResult.setCreatedBy(createdBy);
-                    userRoleResult.setUpdatedBy(updatedBy);
-
                     return userRoleResult;
                 }).toList();
         return userRoleResponseDtos;
@@ -133,8 +98,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         logger.info("Called Create user role with request: {}, {}, {}", createUserRoleRequestDto.getUserId(),
                 createUserRoleRequestDto.getRoleId(), createUserRoleRequestDto.getMainRole());
 
-        String mainRole = defaultConverter.booleanToString(createUserRoleRequestDto.getMainRole());
-        UserRoles userRoles = userRoleMapper.toEntityDetails(createUserRoleRequestDto, currentUserService.getCurrentUserId(), mainRole);
+        UserRoles userRoles = userRoleMapper.toEntityDetails(createUserRoleRequestDto, currentUserService.getCurrentUserId());
 
 
         if (!roleService.existsRole(createUserRoleRequestDto.getRoleId())) {
@@ -154,19 +118,8 @@ public class UserRoleServiceImpl implements UserRoleService {
     //    }
         userRolesRepository.save(userRoles);
 
-        String createdBy = defaultConverter.getUserFullName(userRoles.getCreatedBy());
-        String updatedBy = defaultConverter.getUserFullName(userRoles.getUpdatedBy());
-        String roleName = defaultConverter.getRoleName(userRoles.getRoleId());
-        String userName = defaultConverter.getUserFullName(userRoles.getUserId());
-
+       
         UserRoleResponseDto createResult = userRoleMapper.toResponse(userRoles);
-
-        createResult.setUserName(userName);
-        createResult.setRoleName(roleName);
-        createResult.setCreatedBy(createdBy);
-        createResult.setUpdatedBy(updatedBy);
-
-
         return createResult;
     }
 
@@ -191,17 +144,6 @@ public class UserRoleServiceImpl implements UserRoleService {
         List<UserRoleResponseDto> userRoleResponseDtos = userRoles.stream()
                 .map(userRole -> {
                     UserRoleResponseDto userRoleResult = userRoleMapper.toResponse(userRole);
-
-                    String createdBy = defaultConverter.getUserFullName(userRole.getCreatedBy());
-                    String updatedBy = defaultConverter.getUserFullName(userRole.getUpdatedBy());
-                    String roleName = defaultConverter.getRoleName(userRole.getRoleId()); ;
-                    String userName = defaultConverter.getUserFullName(userRole.getUserId());
-
-                    userRoleResult.setUserName(userName);
-                    userRoleResult.setRoleName(roleName);
-                    userRoleResult.setCreatedBy(createdBy);
-                    userRoleResult.setUpdatedBy(updatedBy);
-
                     return userRoleResult;
                 }).toList();
         return userRoleResponseDtos;

@@ -15,8 +15,14 @@ import java.time.ZoneId;
 public interface UserMapper {
 
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdOn", ignore = true)
+    @Mapping(target = "updatedOn", ignore = true)
+    @Mapping(target = "active", constant = "A")
+    @Mapping(target = "fullName", ignore = true)
+    @Mapping(target = "username", ignore = true)
+    @Mapping(target = "password", ignore = true)
     User toEntity(RegistrationUserDto dto);
-
         default User toEntityDetails(RegistrationUserDto regDto, String userName, String fullName, String password) {
             User entity = toEntity(regDto);
             entity.setUsername(userName);
@@ -24,11 +30,12 @@ public interface UserMapper {
             entity.setPassword(password);
             entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
             entity.setStartDate(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
-            entity.setActive("A");
             return entity;
 
         } 
 
+    @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
+    @Mapping(source = "updatedBy", target = "updatedBy", qualifiedByName = "userIdToFullName")
     UserResponseDto toResponseDto(User user);
 
     List<UserResponseDto> toResponseDtoList(List<User> users);
