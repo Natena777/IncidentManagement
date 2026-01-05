@@ -63,5 +63,27 @@ public class DefaultConverter {
         return resultText;
     }
 
+        public Integer booleanToInteger(boolean b) {
+        Integer resultInteger;
+        if (b) {
+            resultInteger = 1;
+        } else {
+            resultInteger = 0;
+        }
+
+        return resultInteger;
+    }
+
+    public boolean IntegerToBoolean(Integer i) {
+        boolean resultbool;
+        if (i == 1) {
+            resultbool = true;
+        }
+        else {
+            resultbool = false;
+        }
+        return resultbool;
+    }
+
 
 }
