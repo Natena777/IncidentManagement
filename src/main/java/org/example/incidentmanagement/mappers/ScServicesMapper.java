@@ -21,9 +21,17 @@ public interface ScServicesMapper {
     @Mapping(target = "scDepartmentName", ignore = true)
     @Mapping(target = "scCategoryName", ignore = true)
     @Mapping(target = "scSubCategoryName", ignore = true)
+    @Mapping(target = "responseTime", ignore = true)
+    @Mapping(target = "resolutionTime", ignore = true)
     ScServicesResponseDto toScServicesResponseDto(ScServices scServices);
 
-    @Mapping(source = "assigneeGroupId", target = "assigneeGroupName", qualifiedByName = "assigneeGroupIdToGroupName") 
+
+    @Mapping(source = "assigneeGroupId", target = "assigneeGroupName", qualifiedByName = "assigneeGroupIdToGroupName")
+    @Mapping(target = "scDepartmentName", ignore = true)
+    @Mapping(target = "scCategoryName", ignore = true)
+    @Mapping(target = "scSubCategoryName", ignore = true)
+    @Mapping(target = "responseTime", ignore = true)
+    @Mapping(target = "resolutionTime", ignore = true) 
     CreateScServicesResponseDto toCreateScServicesResponseDto (ScServices scServices);
 
     @Mapping(target = "id", ignore = true)

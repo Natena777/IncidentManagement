@@ -17,10 +17,16 @@ public interface RoleMapper {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "status", target = "status")
     @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
+    @Mapping(target = "createdon", ignore = true)
     RoleResponseDto toRoleResponseDto(Role role);
 
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdOn", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedOn", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
     @Mapping(source = "newRoleName", target = "name")
     @Mapping(source = "newRoleDescription", target = "description")
     @Mapping(source = "newRoleStatus", target = "status")

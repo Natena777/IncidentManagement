@@ -24,6 +24,13 @@ public interface UserMapper {
     @Mapping(target = "fullName", ignore = true)
     @Mapping(target = "username", ignore = true)
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "startDate", ignore = true)
+    @Mapping(target = "endDate", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "firstNameEn", ignore = true)
+    @Mapping(target = "lastNameEn", ignore = true)
+    @Mapping(target = "fullNameEn", ignore = true)
     User toEntity(RegistrationUserDto dto);
         default User toEntityDetails(RegistrationUserDto regDto, String userName, String fullName, String password) {
             User entity = toEntity(regDto);
@@ -36,7 +43,7 @@ public interface UserMapper {
 
         } 
 
-        
+
     UserResponseDto toResponseDto(User user);
 
     List<UserResponseDto> toResponseDtoList(List<User> users);

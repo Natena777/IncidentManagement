@@ -21,6 +21,10 @@ public interface GroupCaseStatusMapper {
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "active", constant = "A")
+    @Mapping(target = "currentStatusId", ignore = true)
+    @Mapping(target = "previousStatusId", ignore = true)
+    @Mapping(target = "nextStatusId", ignore = true)
+    @Mapping(target = "assigneeGroupId", ignore = true)
     AssigneeGroupCaseStatus toGroupCaseStatusEntity(CrGroupCaseStatRequestDto crGroupCaseStatRequestDto);
         default AssigneeGroupCaseStatus toGroupCaseStatusEntityDefaults (CrGroupCaseStatRequestDto crGroupCaseStatRequestDto, Integer currentUserId){
             AssigneeGroupCaseStatus entity = toGroupCaseStatusEntity(crGroupCaseStatRequestDto);
