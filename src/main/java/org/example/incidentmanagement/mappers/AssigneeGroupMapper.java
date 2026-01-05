@@ -32,7 +32,6 @@ public interface AssigneeGroupMapper {
                                                 Integer currentUserId) {
         AssigneeGroups entity = toGroupEntity(dto);
         entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
-        entity.setActive("A");
         entity.setCreatedBy(currentUserId);
         return entity;
     }
