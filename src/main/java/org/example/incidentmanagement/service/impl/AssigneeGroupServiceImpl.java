@@ -21,7 +21,6 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     Logger logger = LoggerFactory.getLogger(AssigneeGroupServiceImpl.class);
     private AssigneeGroupRepository assigneeGroupRepository;
     private AssigneeGroupMapper assigneeGroupMapper;
-    private DefaultConverter defaultConverter;
     private CurrentUserService currentUserService;
 
     public AssigneeGroupServiceImpl(AssigneeGroupRepository assigneeGroupRepository,
@@ -30,7 +29,6 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
                                     CurrentUserService currentUserService) {
         this.assigneeGroupRepository = assigneeGroupRepository;
         this.assigneeGroupMapper = assigneeGroupMapper;
-        this.defaultConverter = defaultConverter;
         this.currentUserService = currentUserService;
     }
 
