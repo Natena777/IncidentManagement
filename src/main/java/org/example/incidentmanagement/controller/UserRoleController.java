@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.example.incidentmanagement.dto.ApiResponse;
-import org.example.incidentmanagement.dto.requests.CreateUserRoleRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.UserRoleService;

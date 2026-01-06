@@ -1,8 +1,8 @@
 package org.example.incidentmanagement.mappers;
 
 
-import org.example.incidentmanagement.dto.requests.CreateScServicesRequestDto;
-import org.example.incidentmanagement.dto.response.CreateScServicesResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScServicesRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScServicesResponseDto;
 import org.example.incidentmanagement.dto.response.ScServicesResponseDto;
 import org.example.incidentmanagement.entity.ScServices;
 import org.example.incidentmanagement.service.DefaultConverter;

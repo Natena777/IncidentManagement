@@ -1,7 +1,14 @@
 package org.example.incidentmanagement.service.impl;
 
 
-import org.example.incidentmanagement.dto.requests.*;
+import org.example.incidentmanagement.dto.createRequest.CreateScCategoryRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScDepartmentsRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScServicesRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScSubCategoryRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScCategoryResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScDepartmentsResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScServicesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScSubCategoryResponseDto;
 import org.example.incidentmanagement.dto.response.*;
 import org.example.incidentmanagement.entity.*;
 import org.example.incidentmanagement.exceptions.CustomException;
@@ -29,7 +36,6 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     //Sc Departments Dependencies
     private final ScDepartmentsRepository scDepartmentsRepository;
     private final ScDepartmentsMapper scDepartmentsMapper;
-    private final DefaultConverter defaultConverter;
 
     //Sc Category Dependencies
     private final ScCategoryRepository scCategoryRepository;
@@ -42,7 +48,6 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     //Sc Services Dependencies
     private final ScServicesRepository scServicesRepository;
     private final ScServicesMapper scServicesMapper;
-    private final AssigneGroupService assigneeGroupService;
 
     public ServiceCatalogServicesImpl(ScDepartmentsRepository scDepartmentsRepository,
                                       ScDepartmentsMapper scDepartmentsMapper,
@@ -57,14 +62,12 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                                       CurrentUserService currentUserService) {
         this.scDepartmentsRepository = scDepartmentsRepository;
         this.scDepartmentsMapper = scDepartmentsMapper;
-        this.defaultConverter = defaultConverter;
         this.scCategoryRepository = scCategoryRepository;
         this.scCategoryMapper = scCategoryMapper;
         this.scSubCategoryRepository = scSubCategoryRepository;
         this.scSubCategoryMapper = scSubCategoryMapper;
         this.scServicesRepository = scServicesRepository;
         this.scServicesMapper = scServicesMapper;
-        this.assigneeGroupService = assigneeGroupService;
         this.currentUserService = currentUserService;
     }
 

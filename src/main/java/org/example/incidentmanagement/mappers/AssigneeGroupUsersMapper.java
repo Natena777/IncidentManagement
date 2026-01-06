@@ -2,9 +2,9 @@ package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.entity.AssigneeGroupUsers;
 import org.example.incidentmanagement.service.DefaultConverter;
-import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupUsersRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupUsersRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupUsersResponseDto;
-import org.example.incidentmanagement.dto.response.CreateAssigneeGroupUsersResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateAssigneeGroupUsersResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

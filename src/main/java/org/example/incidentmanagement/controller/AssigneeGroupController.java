@@ -2,7 +2,7 @@ package org.example.incidentmanagement.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
-import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.AssigneGroupService;

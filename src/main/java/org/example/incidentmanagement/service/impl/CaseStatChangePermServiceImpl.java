@@ -1,7 +1,7 @@
 package org.example.incidentmanagement.service.impl;
 
-import org.example.incidentmanagement.dto.requests.CrCasesStatChangePermRequestDto;
-import org.example.incidentmanagement.dto.response.CrCaseStatChangePermRespDto;
+import org.example.incidentmanagement.dto.createRequest.CrCasesStatChangePermRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrCaseStatChangePermRespDto;
 import org.example.incidentmanagement.entity.CaseStatChangePerm;
 import org.example.incidentmanagement.mappers.CaseStatChangeMapper;
 import org.example.incidentmanagement.repository.CaseStatChangePermRepository;

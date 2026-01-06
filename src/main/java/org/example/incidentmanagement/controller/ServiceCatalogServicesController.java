@@ -2,10 +2,14 @@ package org.example.incidentmanagement.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.example.incidentmanagement.dto.ApiResponse;
-import org.example.incidentmanagement.dto.requests.CreateScCategoryRequestDto;
-import org.example.incidentmanagement.dto.requests.CreateScDepartmentsRequestDto;
-import org.example.incidentmanagement.dto.requests.CreateScServicesRequestDto;
-import org.example.incidentmanagement.dto.requests.CreateScSubCategoryRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScCategoryRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScDepartmentsRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScServicesRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScSubCategoryRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScCategoryResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScDepartmentsResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScServicesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScSubCategoryResponseDto;
 import org.example.incidentmanagement.dto.response.*;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.ServiceCatalogServices;

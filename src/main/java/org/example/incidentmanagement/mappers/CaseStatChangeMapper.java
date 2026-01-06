@@ -3,8 +3,8 @@ package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.entity.CaseStatChangePerm;
 import org.example.incidentmanagement.service.DefaultConverter;
-import org.example.incidentmanagement.dto.response.CrCaseStatChangePermRespDto;
-import org.example.incidentmanagement.dto.requests.CrCasesStatChangePermRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrCaseStatChangePermRespDto;
+import org.example.incidentmanagement.dto.createRequest.CrCasesStatChangePermRequestDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

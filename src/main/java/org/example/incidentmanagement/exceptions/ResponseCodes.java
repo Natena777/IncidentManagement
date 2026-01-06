@@ -27,6 +27,7 @@ public enum ResponseCodes {
     ROLE_DELETED(20, "Role Deleted Successfully "),
     ASSIGNEE_GROUP_DELETED(25, "Assignee Group Deleted Successfully "),
     CASE_STATUS_DELETED_SUCCESFULY(50, "Case Status Deleted Succesfully"),
+    DELETE_CASE_SUCCESFULY(100, "Case Deleted Succesfully"),
 
 
     //Already Exists Specific Codes

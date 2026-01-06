@@ -1,7 +1,7 @@
 package org.example.incidentmanagement.service;
 
-import org.example.incidentmanagement.dto.requests.CrCasesStatChangePermRequestDto;
-import org.example.incidentmanagement.dto.response.CrCaseStatChangePermRespDto;
+import org.example.incidentmanagement.dto.createRequest.CrCasesStatChangePermRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrCaseStatChangePermRespDto;
 
 public interface CaseStatChangePermService {
 

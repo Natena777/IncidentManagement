@@ -1,5 +1,5 @@
 package org.example.incidentmanagement.service.impl;
-import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
 import org.example.incidentmanagement.entity.AssigneeGroups;
 import org.example.incidentmanagement.exceptions.CustomException;
@@ -19,9 +19,9 @@ import java.util.List;
 public class AssigneeGroupServiceImpl implements AssigneGroupService {
 
     Logger logger = LoggerFactory.getLogger(AssigneeGroupServiceImpl.class);
-    private AssigneeGroupRepository assigneeGroupRepository;
-    private AssigneeGroupMapper assigneeGroupMapper;
-    private CurrentUserService currentUserService;
+    private final AssigneeGroupRepository assigneeGroupRepository;
+    private final AssigneeGroupMapper assigneeGroupMapper;
+    private final CurrentUserService currentUserService;
 
     public AssigneeGroupServiceImpl(AssigneeGroupRepository assigneeGroupRepository,
                                     AssigneeGroupMapper assigneeGroupMapper,
