@@ -11,7 +11,6 @@ public interface ServiceCatalogServices {
     List<ScDepartmentsResponseDto> findAllScDepartments();
     ScDepartmentsResponseDto findScDepartmentById(Integer id);
     ScDepartmentsResponseDto findScDepartmentByName(String departmentName);
-    String getScDepartmentName(Integer id);
     CreateScDepartmentsResponseDto createScDepartments(CreateScDepartmentsRequestDto createScDepartmentsRequestDto);
     void deleteScDepartments(Integer id);
 
@@ -21,7 +20,6 @@ public interface ServiceCatalogServices {
     ScCategoryResponseDto findScCategoryById(Integer id);
     ScCategoryResponseDto findScCategoryByName(String categoryName);
     CreateScCategoryResponseDto createScCategory(CreateScCategoryRequestDto createScCategoryRequestDto);
-    String getScCategoryName(Integer id);
     void deleteScCategory(Integer id);
 
 
@@ -30,7 +28,6 @@ public interface ServiceCatalogServices {
     ScSubCategoryResponseDto findScSubCategoryById(Integer id);
     ScSubCategoryResponseDto findScSubCategoryByName(String subCategoryName);
     CreateScSubCategoryResponseDto createScSubCategory(CreateScSubCategoryRequestDto createScSubCategoryRequestDto);
-    String getScSubCategoryName(Integer id);
     void deleteScSubCategory(Integer id);
 
 

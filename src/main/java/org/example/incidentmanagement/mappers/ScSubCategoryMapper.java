@@ -16,10 +16,10 @@ public interface ScSubCategoryMapper {
 
     @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
     @Mapping(source = "updatedBy", target = "updatedBy", qualifiedByName =  "userIdToFullName")
-    @Mapping(target = "scCategoryName", ignore = true)
+    @Mapping(source = "scCategoryId", target = "scCategoryName", qualifiedByName = "ScCategoryIdToName")
     ScSubCategoryResponseDto toScSubCategoryResponseDto(ScSubCategory scSubCategory);
 
-    @Mapping(target = "scCategoryName", ignore = true)
+    @Mapping(source = "scCategoryId", target = "scCategoryName", qualifiedByName = "ScCategoryIdToName")
     CreateScSubCategoryResponseDto toCreateScSubCategoryResponseDto(ScSubCategory scSubCategory);
 
     @Mapping(target = "id", ignore = true)
