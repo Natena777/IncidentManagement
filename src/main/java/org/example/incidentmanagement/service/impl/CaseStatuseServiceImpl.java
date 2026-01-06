@@ -1,8 +1,8 @@
 package org.example.incidentmanagement.service.impl;
 
-import org.example.incidentmanagement.dto.requests.CreateCaseStatusesRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateCaseStatusesRequestDto;
 import org.example.incidentmanagement.dto.response.CaseStatusesResponseDto;
-import org.example.incidentmanagement.dto.response.CreateCaseStatusesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateCaseStatusesResponseDto;
 import org.example.incidentmanagement.entity.CaseStatuses;
 import org.example.incidentmanagement.mappers.CaseStatusMapper;
 import org.example.incidentmanagement.repository.CaseStatusesRepository;
@@ -18,9 +18,9 @@ import java.util.List;
 public class CaseStatuseServiceImpl implements CaseStatuseService {
 
     Logger logger = LoggerFactory.getLogger(CaseStatuseServiceImpl.class);
-    private CaseStatusesRepository statusesRepository;
-    private CaseStatusMapper caseStatusMapper;
-    private CurrentUserService currentUserService;
+    private final CaseStatusesRepository statusesRepository;
+    private final CaseStatusMapper caseStatusMapper;
+    private final CurrentUserService currentUserService;
 
     public CaseStatuseServiceImpl(CaseStatusesRepository statusesRepository,
                                   CaseStatusMapper caseStatusMapper,

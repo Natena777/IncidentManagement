@@ -1,8 +1,8 @@
 package org.example.incidentmanagement.mappers;
 
 
-import org.example.incidentmanagement.dto.requests.CreateScSubCategoryRequestDto;
-import org.example.incidentmanagement.dto.response.CreateScSubCategoryResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScSubCategoryRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScSubCategoryResponseDto;
 import org.example.incidentmanagement.dto.response.ScSubCategoryResponseDto;
 import org.example.incidentmanagement.entity.ScSubCategory;
 import org.example.incidentmanagement.service.DefaultConverter;

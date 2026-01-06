@@ -22,7 +22,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private CurrentUserService currentUserService;
+    private final CurrentUserService currentUserService;
 
     public RegistrationServiceImpl(UserRepository userRepository, UserMapper userMapper,
                                    PasswordEncoder passwordEncoder, CurrentUserService currentUserService) {

@@ -1,4 +1,4 @@
-package org.example.incidentmanagement.dto.requests;
+package org.example.incidentmanagement.dto.createRequest;
 
 public class CreateScCategoryRequestDto {
 

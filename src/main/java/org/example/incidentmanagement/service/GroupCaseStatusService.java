@@ -1,7 +1,7 @@
 package org.example.incidentmanagement.service;
 
-import org.example.incidentmanagement.dto.requests.CrGroupCaseStatRequestDto;
-import org.example.incidentmanagement.dto.response.CrGroupCaseStatResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CrGroupCaseStatRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrGroupCaseStatResponseDto;
 
 public interface GroupCaseStatusService {
 

@@ -1,6 +1,6 @@
 package org.example.incidentmanagement.controller;
 
-import org.example.incidentmanagement.dto.response.CreateAssigneeGroupUsersResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateAssigneeGroupUsersResponseDto;
 import org.example.incidentmanagement.service.AssigneeGroupUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
-import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupUsersRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupUsersRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupUsersResponseDto;
 
 

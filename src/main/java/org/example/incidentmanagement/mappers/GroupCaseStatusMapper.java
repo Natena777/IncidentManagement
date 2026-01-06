@@ -1,8 +1,8 @@
 package org.example.incidentmanagement.mappers;
 
 
-import org.example.incidentmanagement.dto.requests.CrGroupCaseStatRequestDto;
-import org.example.incidentmanagement.dto.response.CrGroupCaseStatResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CrGroupCaseStatRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrGroupCaseStatResponseDto;
 import org.example.incidentmanagement.entity.AssigneeGroupCaseStatus;
 import org.example.incidentmanagement.service.DefaultConverter;
 import org.mapstruct.Mapper;

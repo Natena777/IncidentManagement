@@ -1,6 +1,6 @@
 package org.example.incidentmanagement.service.impl;
 
-import org.example.incidentmanagement.dto.requests.CreateUserRoleRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.entity.UserRoles;
 import org.example.incidentmanagement.exceptions.CustomException;
@@ -19,7 +19,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     Logger logger = LoggerFactory.getLogger(UserRoleServiceImpl.class);
 
-    private UserRolesRepository userRolesRepository;
+    private final UserRolesRepository userRolesRepository;
     private final UserRoleMapper userRoleMapper;
     private final RoleService roleService;
     private final UserService userService;

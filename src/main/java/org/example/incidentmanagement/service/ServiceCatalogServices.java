@@ -1,6 +1,13 @@
 package org.example.incidentmanagement.service;
 
-import org.example.incidentmanagement.dto.requests.*;
+import org.example.incidentmanagement.dto.createRequest.CreateScCategoryRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScDepartmentsRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScServicesRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateScSubCategoryRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScCategoryResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScDepartmentsResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScServicesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateScSubCategoryResponseDto;
 import org.example.incidentmanagement.dto.response.*;
 
 import java.util.List;

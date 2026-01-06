@@ -24,7 +24,7 @@ public class RoleServiceImpl implements RoleService {
     Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
-    private CurrentUserService currentUserService;
+    private final CurrentUserService currentUserService;
 
 
     public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper, CurrentUserService currentUserService

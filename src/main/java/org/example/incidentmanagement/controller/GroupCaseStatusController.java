@@ -3,8 +3,8 @@ package org.example.incidentmanagement.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
-import org.example.incidentmanagement.dto.requests.CrGroupCaseStatRequestDto;
-import org.example.incidentmanagement.dto.response.CrGroupCaseStatResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CrGroupCaseStatRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrGroupCaseStatResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.GroupCaseStatusService;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
         description = "Manage Assignee Group Case Status In System")
 public class GroupCaseStatusController {
 
-    private GroupCaseStatusService groupCaseStatusService;
+    private final GroupCaseStatusService groupCaseStatusService;
 
     public GroupCaseStatusController(GroupCaseStatusService groupCaseStatusService) {
         this.groupCaseStatusService = groupCaseStatusService;

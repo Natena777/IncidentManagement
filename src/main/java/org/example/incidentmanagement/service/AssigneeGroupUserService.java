@@ -1,7 +1,7 @@
 package org.example.incidentmanagement.service;
 
-import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupUsersRequestDto;
-import org.example.incidentmanagement.dto.response.CreateAssigneeGroupUsersResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupUsersRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CreateAssigneeGroupUsersResponseDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupUsersResponseDto;
 
 

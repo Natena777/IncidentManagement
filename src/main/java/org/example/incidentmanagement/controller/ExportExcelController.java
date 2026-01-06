@@ -24,8 +24,8 @@ import java.util.List;
         description = "Generate And Export Excel In System")
 public class ExportExcelController {
 
-    private ExcelGeneratorService excelGeneratorService;
-    private UserService userService;
+    private final ExcelGeneratorService excelGeneratorService;
+    private final UserService userService;
 
     public ExportExcelController(ExcelGeneratorService excelGeneratorService, UserService userService) {
         this.excelGeneratorService = excelGeneratorService;

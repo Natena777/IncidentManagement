@@ -1,7 +1,7 @@
 package org.example.incidentmanagement.service;
 
 
-import org.example.incidentmanagement.dto.requests.CreateUserRoleRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.example.incidentmanagement.dto.response;
+package org.example.incidentmanagement.dto.createResponse;
 
 public class CreateScCategoryResponseDto {
 

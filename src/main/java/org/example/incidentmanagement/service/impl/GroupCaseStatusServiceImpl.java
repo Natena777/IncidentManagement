@@ -1,7 +1,7 @@
 package org.example.incidentmanagement.service.impl;
 
-import org.example.incidentmanagement.dto.requests.CrGroupCaseStatRequestDto;
-import org.example.incidentmanagement.dto.response.CrGroupCaseStatResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CrGroupCaseStatRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrGroupCaseStatResponseDto;
 import org.example.incidentmanagement.entity.AssigneeGroupCaseStatus;
 import org.example.incidentmanagement.mappers.GroupCaseStatusMapper;
 import org.example.incidentmanagement.repository.GroupCaseStatusRepository;
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class GroupCaseStatusServiceImpl implements GroupCaseStatusService {
 
-    private GroupCaseStatusRepository groupCaseStatusRepository;
-    private GroupCaseStatusMapper groupCaseStatusMapper;
-    private CurrentUserService currentUserService;
+    private final GroupCaseStatusRepository groupCaseStatusRepository;
+    private final GroupCaseStatusMapper groupCaseStatusMapper;
+    private final CurrentUserService currentUserService;
     Logger logger = LoggerFactory.getLogger(GroupCaseStatusServiceImpl.class);
 
     public GroupCaseStatusServiceImpl(GroupCaseStatusRepository groupCaseStatusRepository,

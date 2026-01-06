@@ -1,6 +1,6 @@
 package org.example.incidentmanagement.mappers;
 
-import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
 import org.example.incidentmanagement.entity.AssigneeGroups;
 import org.example.incidentmanagement.service.DefaultConverter;

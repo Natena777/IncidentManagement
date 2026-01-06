@@ -1,8 +1,8 @@
 package org.example.incidentmanagement.mappers;
 
-import org.example.incidentmanagement.dto.requests.CreateCaseStatusesRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateCaseStatusesRequestDto;
 import org.example.incidentmanagement.dto.response.CaseStatusesResponseDto;
-import org.example.incidentmanagement.dto.response.CreateCaseStatusesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CreateCaseStatusesResponseDto;
 import org.example.incidentmanagement.entity.CaseStatuses;
 import org.example.incidentmanagement.service.DefaultConverter;
 import org.mapstruct.Mapper;

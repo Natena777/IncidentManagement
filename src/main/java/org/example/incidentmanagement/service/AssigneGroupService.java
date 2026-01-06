@@ -1,6 +1,6 @@
 package org.example.incidentmanagement.service;
 
-import org.example.incidentmanagement.dto.requests.CreateAssigneeGroupRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
 
 import java.util.List;
