@@ -18,18 +18,18 @@ public interface ScServicesMapper {
     @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
     @Mapping(source = "updatedBy", target = "updatedBy", qualifiedByName = "userIdToFullName") 
     @Mapping(source = "assigneeGroupId", target = "assigneeGroupName", qualifiedByName = "assigneeGroupIdToGroupName") 
-    @Mapping(target = "scDepartmentName", ignore = true)
-    @Mapping(target = "scCategoryName", ignore = true)
-    @Mapping(target = "scSubCategoryName", ignore = true)
+    @Mapping(source = "scDepartmentId", target = "scDepartmentName", qualifiedByName = "ScDepartmentIdToName")
+    @Mapping(source = "scCategoryId", target = "scCategoryName", qualifiedByName = "ScCategoryIdToName")
+    @Mapping(source = "scSubCategoryId", target = "scSubCategoryName", qualifiedByName = "ScSubCategoryIdToName")
     @Mapping(target = "responseTime", ignore = true)
     @Mapping(target = "resolutionTime", ignore = true)
     ScServicesResponseDto toScServicesResponseDto(ScServices scServices);
 
 
     @Mapping(source = "assigneeGroupId", target = "assigneeGroupName", qualifiedByName = "assigneeGroupIdToGroupName")
-    @Mapping(target = "scDepartmentName", ignore = true)
-    @Mapping(target = "scCategoryName", ignore = true)
-    @Mapping(target = "scSubCategoryName", ignore = true)
+    @Mapping(source = "scDepartmentId", target = "scDepartmentName", qualifiedByName = "ScDepartmentIdToName")
+    @Mapping(source = "scCategoryId", target = "scCategoryName", qualifiedByName = "ScCategoryIdToName")
+    @Mapping(source = "scSubCategoryId", target = "scSubCategoryName", qualifiedByName = "ScSubCategoryIdToName")
     @Mapping(target = "responseTime", ignore = true)
     @Mapping(target = "resolutionTime", ignore = true) 
     CreateScServicesResponseDto toCreateScServicesResponseDto (ScServices scServices);

@@ -15,6 +15,9 @@ public interface ScServicesRepository extends JpaRepository<ScServices, Integer>
 
     Optional<ScServices> findByServicesName(String name);
 
+    @Query("select ss.servicesName from ScServices ss where ss.id = :id")
+    String findServiceNameById(Integer id);
+
 
     @Query("""
     select new org.example.incidentmanagement.dto.response.ServiceCatalogFullResponseDto(
