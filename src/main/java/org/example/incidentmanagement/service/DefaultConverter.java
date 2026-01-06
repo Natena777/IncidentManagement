@@ -1,15 +1,12 @@
 package org.example.incidentmanagement.service;
 
 
-import org.example.incidentmanagement.repository.CaseStatusesRepository;
-import org.example.incidentmanagement.repository.RoleRepository;
-import org.example.incidentmanagement.repository.UserRepository;
+import org.example.incidentmanagement.repository.*;
 import org.mapstruct.Named;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-import org.example.incidentmanagement.repository.AssigneeGroupRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,15 +20,18 @@ public class DefaultConverter {
     private AssigneeGroupRepository assigneeGroupRepository;
     private CaseStatusesRepository statusesRepository;
     Logger logger = LoggerFactory.getLogger(DefaultConverter.class);
+    private ScDepartmentsRepository scDepartmentsRepository;
 
     public DefaultConverter(UserRepository userRepository,
                             RoleRepository roleRepository,
                             AssigneeGroupRepository assigneeGroupRepository,
-                            CaseStatusesRepository statusesRepository) {
+                            CaseStatusesRepository statusesRepository,
+                            ScDepartmentsRepository scDepartmentsRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.assigneeGroupRepository = assigneeGroupRepository;
         this.statusesRepository = statusesRepository;
+        this.scDepartmentsRepository = scDepartmentsRepository;
     }
 
     @Named("userIdToFullName")
@@ -102,6 +102,23 @@ public class DefaultConverter {
         }
         return resultbool;
     }
+
+
+
+    //Service Catalog Start
+    //Service Catalog Department Start
+    @Named("ScDepartmentIdToName")
+    public String getScDepartmentName(Integer id) {
+        String departmentName = scDepartmentsRepository.findByDepartmenNametId(id);
+        return departmentName;
+    }
+
+    @Named("ScDepartmentNameToId")
+    public Integer getScDepartmentId(String departmentName) {
+        Integer departmentId = scDepartmentsRepository.findByDepartmentName(departmentName).get().getId();
+        return departmentId;
+    }
+    //Service Catalog department End
 
 
 }
