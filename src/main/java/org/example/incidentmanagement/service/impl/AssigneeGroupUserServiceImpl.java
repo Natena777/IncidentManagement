@@ -2,10 +2,10 @@ package org.example.incidentmanagement.service.impl;
 
 import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.entity.AssigneeGroupUsers;
-import org.example.incidentmanagement.service.AssigneeGroupUserService;
-import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupUsersRequestDto;
+import org.example.incidentmanagement.service.interfaces.AssigneeGroupUserService;
+import org.example.incidentmanagement.dto.createRequest.CrAssigneeGroupUsersRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupUsersResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateAssigneeGroupUsersResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrAssigneeGroupUsersResponseDto;
 import org.example.incidentmanagement.mappers.AssigneeGroupUsersMapper;
 import org.example.incidentmanagement.repository.AssigneeGroupUsersRepository;
 import org.slf4j.Logger;
@@ -39,10 +39,10 @@ public class AssigneeGroupUserServiceImpl implements AssigneeGroupUserService {
     }
 
     @Override
-    public CreateAssigneeGroupUsersResponseDto addUserInAssigneeGroup(CreateAssigneeGroupUsersRequestDto createAssigneeGroupUsersRequestDto) {
-        logger.info("Called Add User in Assignee Group: {}", createAssigneeGroupUsersRequestDto);
+    public CrAssigneeGroupUsersResponseDto addUserInAssigneeGroup(CrAssigneeGroupUsersRequestDto crAssigneeGroupUsersRequestDto) {
+        logger.info("Called Add User in Assignee Group: {}", crAssigneeGroupUsersRequestDto);
 
-        AssigneeGroupUsers assigneeGroupUsers = assigneeGroupUsersMapper.toAssigneeGroupUsersEntityDetails(createAssigneeGroupUsersRequestDto, currentUserService.getCurrentUserId());
+        AssigneeGroupUsers assigneeGroupUsers = assigneeGroupUsersMapper.toAssigneeGroupUsersEntityDetails(crAssigneeGroupUsersRequestDto, currentUserService.getCurrentUserId());
         
         assigneeGroupUsersRepository.save(assigneeGroupUsers);
 

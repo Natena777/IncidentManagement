@@ -1,10 +1,10 @@
 package org.example.incidentmanagement.mappers;
 
-import org.example.incidentmanagement.dto.createRequest.CreateScCategoryRequestDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScCategoryResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CrScCategoryRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrScCategoryResponseDto;
 import org.example.incidentmanagement.dto.response.ScCategoryResponseDto;
 import org.example.incidentmanagement.entity.ScCategory;
-import org.example.incidentmanagement.service.DefaultConverter;
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ public interface ScCategoryMapper {
 
     
     @Mapping(source = "scDepartmentId", target = "scDepartment", qualifiedByName = "ScDepartmentIdToName")
-    CreateScCategoryResponseDto toCreateScCategoryResponseDto(ScCategory scCategory);
+    CrScCategoryResponseDto toCreateScCategoryResponseDto(ScCategory scCategory);
    
 
     @Mapping(target = "id", ignore = true)
@@ -30,9 +30,9 @@ public interface ScCategoryMapper {
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "active", constant = "A")
-    ScCategory toScCategoryEntity(CreateScCategoryRequestDto createScCategoryRequestDto);
-    default ScCategory toScCategoryEntityDefaults(CreateScCategoryRequestDto createScCategoryRequestDto,  Integer currentUserId){
-        ScCategory entity = toScCategoryEntity(createScCategoryRequestDto);
+    ScCategory toScCategoryEntity(CrScCategoryRequestDto crScCategoryRequestDto);
+    default ScCategory toScCategoryEntityDefaults(CrScCategoryRequestDto crScCategoryRequestDto, Integer currentUserId){
+        ScCategory entity = toScCategoryEntity(crScCategoryRequestDto);
         entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
         entity.setCreatedBy(currentUserId);
         return entity;

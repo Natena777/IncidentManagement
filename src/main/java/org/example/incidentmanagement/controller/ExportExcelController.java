@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.service.ExcelGeneratorService;
-import org.example.incidentmanagement.service.UserService;
+import org.example.incidentmanagement.service.interfaces.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

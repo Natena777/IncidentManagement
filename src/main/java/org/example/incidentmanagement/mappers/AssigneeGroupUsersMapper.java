@@ -1,10 +1,10 @@
 package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.entity.AssigneeGroupUsers;
-import org.example.incidentmanagement.service.DefaultConverter;
-import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupUsersRequestDto;
+import org.example.incidentmanagement.converter.DefaultConverter;
+import org.example.incidentmanagement.dto.createRequest.CrAssigneeGroupUsersRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupUsersResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateAssigneeGroupUsersResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrAssigneeGroupUsersResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -17,7 +17,7 @@ public interface AssigneeGroupUsersMapper {
 
     @Mapping(source = "userId", target = "user", qualifiedByName = "userIdToFullName")
     @Mapping(source = "assigneeGroupId", target = "assigneeGroup", qualifiedByName = "assigneeGroupIdToGroupName")
-    CreateAssigneeGroupUsersResponseDto toResponseCrGroupUsers(AssigneeGroupUsers assigneeGroupUsers);
+    CrAssigneeGroupUsersResponseDto toResponseCrGroupUsers(AssigneeGroupUsers assigneeGroupUsers);
 
 
     @Mapping(target = "id", ignore = true)
@@ -26,8 +26,8 @@ public interface AssigneeGroupUsersMapper {
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "active", constant = "A")
-    AssigneeGroupUsers toEntity(CreateAssigneeGroupUsersRequestDto requestDto);
-        default AssigneeGroupUsers toAssigneeGroupUsersEntityDetails(CreateAssigneeGroupUsersRequestDto requestDto, Integer currentUserId) {
+    AssigneeGroupUsers toEntity(CrAssigneeGroupUsersRequestDto requestDto);
+        default AssigneeGroupUsers toAssigneeGroupUsersEntityDetails(CrAssigneeGroupUsersRequestDto requestDto, Integer currentUserId) {
             AssigneeGroupUsers entity = toEntity(requestDto);
             entity.setCreatedBy(currentUserId);
             entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));

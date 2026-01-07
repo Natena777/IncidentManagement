@@ -1,12 +1,12 @@
 package org.example.incidentmanagement.service.impl;
 
-import org.example.incidentmanagement.dto.createRequest.CreateCaseStatusesRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrCaseStatusesRequestDto;
 import org.example.incidentmanagement.dto.response.CaseStatusesResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateCaseStatusesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrCaseStatusesResponseDto;
 import org.example.incidentmanagement.entity.CaseStatuses;
 import org.example.incidentmanagement.mappers.CaseStatusMapper;
 import org.example.incidentmanagement.repository.CaseStatusesRepository;
-import org.example.incidentmanagement.service.CaseStatuseService;
+import org.example.incidentmanagement.service.interfaces.CaseStatuseService;
 import org.example.incidentmanagement.service.CurrentUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,16 +65,16 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
     }
 
     @Override
-    public CreateCaseStatusesResponseDto createCaseStatuses(CreateCaseStatusesRequestDto createCaseStatusesRequestDto) {
+    public CrCaseStatusesResponseDto createCaseStatuses(CrCaseStatusesRequestDto crCaseStatusesRequestDto) {
         logger.info("Called Create Case Status");
 
-        CaseStatuses casetoSave = caseStatusMapper.toCaseStatusEntityDefaults(createCaseStatusesRequestDto, 
+        CaseStatuses casetoSave = caseStatusMapper.toCaseStatusEntityDefaults(crCaseStatusesRequestDto,
                                                                             currentUserService.getCurrentUserId());
  
 
         statusesRepository.save(casetoSave);
 
-        CreateCaseStatusesResponseDto statusResponse = caseStatusMapper.toCreateCaseStatusResponseDto(casetoSave);
+        CrCaseStatusesResponseDto statusResponse = caseStatusMapper.toCreateCaseStatusResponseDto(casetoSave);
 
         return statusResponse;
     }

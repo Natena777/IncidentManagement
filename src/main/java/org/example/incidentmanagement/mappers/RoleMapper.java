@@ -3,7 +3,7 @@ package org.example.incidentmanagement.mappers;
 import org.example.incidentmanagement.dto.requests.RoleRequestDto;
 import org.example.incidentmanagement.dto.requests.UpdateRoleRequestDto;
 import org.example.incidentmanagement.dto.response.RoleResponseDto;
-import org.example.incidentmanagement.service.DefaultConverter;
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.example.incidentmanagement.entity.Role;
 import org.mapstruct.*;
 

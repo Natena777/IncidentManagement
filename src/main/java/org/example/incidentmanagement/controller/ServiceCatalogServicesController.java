@@ -2,17 +2,17 @@ package org.example.incidentmanagement.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.example.incidentmanagement.dto.ApiResponse;
-import org.example.incidentmanagement.dto.createRequest.CreateScCategoryRequestDto;
-import org.example.incidentmanagement.dto.createRequest.CreateScDepartmentsRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrScCategoryRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrScDepartmentsRequestDto;
 import org.example.incidentmanagement.dto.createRequest.CreateScServicesRequestDto;
-import org.example.incidentmanagement.dto.createRequest.CreateScSubCategoryRequestDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScCategoryResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScDepartmentsResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScServicesResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScSubCategoryResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CrScSubCategoryRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrScCategoryResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrScDepartmentsResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrScServicesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrScSubCategoryResponseDto;
 import org.example.incidentmanagement.dto.response.*;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
-import org.example.incidentmanagement.service.ServiceCatalogServices;
+import org.example.incidentmanagement.service.interfaces.ServiceCatalogServices;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,8 +62,8 @@ public class ServiceCatalogServicesController {
     @PostMapping("/scDepartment")
     @Operation(summary = "Create New Service Catalog Direction",
                 tags = "Service Catalog - Department")
-    public CreateScDepartmentsResponseDto createScDepartment(@RequestBody CreateScDepartmentsRequestDto createScDepartmentsRequestDto){
-        return serviceCatalogServices.createScDepartments(createScDepartmentsRequestDto);
+    public CrScDepartmentsResponseDto createScDepartment(@RequestBody CrScDepartmentsRequestDto crScDepartmentsRequestDto){
+        return serviceCatalogServices.createScDepartments(crScDepartmentsRequestDto);
     }
 
     @DeleteMapping("/scDepartment/delete/{id}")
@@ -107,8 +107,8 @@ public class ServiceCatalogServicesController {
     @PostMapping("/scCategory")
     @Operation(summary = "Create New Service Catalog Category",
                 tags = "Service Catalog - Category")
-    public CreateScCategoryResponseDto createScCategory(@RequestBody CreateScCategoryRequestDto createScCategoryRequestDto){
-        return serviceCatalogServices.createScCategory(createScCategoryRequestDto);
+    public CrScCategoryResponseDto createScCategory(@RequestBody CrScCategoryRequestDto crScCategoryRequestDto){
+        return serviceCatalogServices.createScCategory(crScCategoryRequestDto);
     }
 
     @DeleteMapping("/scCategory/delete/{id}")
@@ -151,8 +151,8 @@ public class ServiceCatalogServicesController {
     @PostMapping("/scSubCategory")
     @Operation(summary = "Create New Service Catalog SubCategory",
                 tags = "Service Catalog - SubCategory")
-    public CreateScSubCategoryResponseDto createScSubCategory(@RequestBody CreateScSubCategoryRequestDto createScSubCategoryRequestDto){
-        return serviceCatalogServices.createScSubCategory(createScSubCategoryRequestDto);
+    public CrScSubCategoryResponseDto createScSubCategory(@RequestBody CrScSubCategoryRequestDto crScSubCategoryRequestDto){
+        return serviceCatalogServices.createScSubCategory(crScSubCategoryRequestDto);
     }
 
     @DeleteMapping("/scSubCategory/delete/{id}")
@@ -194,7 +194,7 @@ public class ServiceCatalogServicesController {
     @PostMapping("/scServices")
     @Operation(summary = "Create New Service Catalog Service Item",
                 tags = "Service Catalog - Service Items")
-    public CreateScServicesResponseDto createScServices(@RequestBody CreateScServicesRequestDto createScServicesRequestDto){
+    public CrScServicesResponseDto createScServices(@RequestBody CreateScServicesRequestDto createScServicesRequestDto){
         return serviceCatalogServices.createScServices(createScServicesRequestDto);
     }
 

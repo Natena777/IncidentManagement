@@ -1,14 +1,14 @@
 package org.example.incidentmanagement.controller;
 
-import org.example.incidentmanagement.dto.createResponse.CreateAssigneeGroupUsersResponseDto;
-import org.example.incidentmanagement.service.AssigneeGroupUserService;
+import org.example.incidentmanagement.dto.createResponse.CrAssigneeGroupUsersResponseDto;
+import org.example.incidentmanagement.service.interfaces.AssigneeGroupUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
-import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupUsersRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrAssigneeGroupUsersRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupUsersResponseDto;
 
 
@@ -26,8 +26,8 @@ public class AssigneeGroupUsersController {
 
     @PostMapping("/addUsers")
     @Operation(summary = "add Users to Assignee Group")
-    public CreateAssigneeGroupUsersResponseDto createAssigneeGroup(@RequestBody CreateAssigneeGroupUsersRequestDto createAssigneeGroupUsersRequestDto){
-        CreateAssigneeGroupUsersResponseDto result = assigneeGroupUserService.addUserInAssigneeGroup(createAssigneeGroupUsersRequestDto);
+    public CrAssigneeGroupUsersResponseDto createAssigneeGroup(@RequestBody CrAssigneeGroupUsersRequestDto crAssigneeGroupUsersRequestDto){
+        CrAssigneeGroupUsersResponseDto result = assigneeGroupUserService.addUserInAssigneeGroup(crAssigneeGroupUsersRequestDto);
         return result;
     }
 

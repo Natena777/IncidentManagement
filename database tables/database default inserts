@@ -1,0 +1,29 @@
+BEGIN;
+insert into sys_roles (name, description, status, created_by, created_on, updated_by, updated_on)
+values ('SUPER_ADMIN', 'Super User For System', 'A', 1, now(), null, null);
+
+insert into sysUserRoles (userID, roleID, main_role, status, created_on, created_by, updated_on, updated_by)
+values(1, 1, 'Y', 'A', now(), 1, null, null)
+
+COMMIT;
+
+
+
+--Working Hours
+INSERT INTO sys_working_hours (assignee_group_id, day_of_week, work_hour_type, start_time, end_time, active)
+VALUES
+(2, 'MONDAY', 'FULL_DAY', '10:00', '19:00', 'Y'),
+(2, 'TUESDAY', 'FULL_DAY', '10:00', '19:00', 'Y'),
+(2, 'WEDNESDAY', 'FULL_DAY', '10:00', '19:00', 'Y'),
+(2, 'THURSDAY', 'FULL_DAY', '10:00', '19:00', 'Y'),
+(2, 'FRIDAY', 'HALF_DAY', '10:00', '17:00', 'Y'),
+(2, 'SATURDAY', 'DAY_OFF', NULL, NULL, 'Y'),
+(2, 'SUNDAY', 'DAY_OFF', NULL, NULL, 'Y');
+
+-- Holidays
+INSERT INTO sys_holidays (assignee_group_id, holiday_date, holiday_name, work_hour_type, start_time, end_time, is_recurring, active)
+VALUES
+(2, '2025-01-01', 'ახალი წელი', 'DAY_OFF', NULL, NULL, TRUE, 'Y'),
+(2, '2025-12-31', 'ახალი წლის წინა დღე', 'HALF_DAY', '10:00', '15:00', TRUE, 'Y'),
+(2, '2025-01-07', 'შობა', 'DAY_OFF', NULL, NULL, TRUE, 'Y');
+

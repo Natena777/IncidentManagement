@@ -8,7 +8,7 @@ import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.repository.UserRepository;
 import org.example.incidentmanagement.service.CurrentUserService;
-import org.example.incidentmanagement.service.RegistrationService;
+import org.example.incidentmanagement.service.interfaces.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;

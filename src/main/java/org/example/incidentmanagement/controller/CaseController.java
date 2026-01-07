@@ -7,7 +7,7 @@ import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.createRequest.CreateCaseRequestDto;
 import org.example.incidentmanagement.dto.createResponse.CreateCaseResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
-import org.example.incidentmanagement.service.CaseService;
+import org.example.incidentmanagement.service.interfaces.CaseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

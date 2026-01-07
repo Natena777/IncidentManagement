@@ -3,11 +3,11 @@ package org.example.incidentmanagement.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
-import org.example.incidentmanagement.dto.createRequest.CreateCaseStatusesRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrCaseStatusesRequestDto;
 import org.example.incidentmanagement.dto.response.CaseStatusesResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateCaseStatusesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrCaseStatusesResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
-import org.example.incidentmanagement.service.CaseStatuseService;
+import org.example.incidentmanagement.service.interfaces.CaseStatuseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,8 +40,8 @@ public class CaseStatusController {
 
     @PostMapping("/create")
     @Operation(summary = "Create New Status")
-    public CreateCaseStatusesResponseDto createCaseStatuses(@RequestBody CreateCaseStatusesRequestDto createCaseStatusesRequestDto) {
-        return caseStatuseService.createCaseStatuses(createCaseStatusesRequestDto);
+    public CrCaseStatusesResponseDto createCaseStatuses(@RequestBody CrCaseStatusesRequestDto crCaseStatusesRequestDto) {
+        return caseStatuseService.createCaseStatuses(crCaseStatusesRequestDto);
     }
 
     @DeleteMapping("/{id}")

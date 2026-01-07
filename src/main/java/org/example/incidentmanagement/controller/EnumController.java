@@ -7,6 +7,9 @@ import org.example.incidentmanagement.enums.RequestTimeUnitEnums;
 import org.springframework.web.bind.annotation.*;
 import org.example.incidentmanagement.enums.RequestTypeEnums;
 
+import java.util.Arrays;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/enums")
 @Tag(name = "Enum Endpoints",
@@ -21,7 +24,11 @@ public class EnumController {
 
     @GetMapping("/request-timeUnits")
     @Operation(description = "Get Service Working Time Unit")
-    public RequestTimeUnitEnums[] getRequestTimeUnits() {return RequestTimeUnitEnums.values();}
+    public List<String> getRequestTimeUnits() {
+        return Arrays.stream(RequestTimeUnitEnums.values())
+                .map(RequestTimeUnitEnums::getDisplayValue)
+                .toList();
+    }
 
 
     @GetMapping("/request-channels")

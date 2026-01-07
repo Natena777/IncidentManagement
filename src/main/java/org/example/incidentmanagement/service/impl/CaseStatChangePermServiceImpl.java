@@ -5,9 +5,9 @@ import org.example.incidentmanagement.dto.createResponse.CrCaseStatChangePermRes
 import org.example.incidentmanagement.entity.CaseStatChangePerm;
 import org.example.incidentmanagement.mappers.CaseStatChangeMapper;
 import org.example.incidentmanagement.repository.CaseStatChangePermRepository;
-import org.example.incidentmanagement.service.CaseStatChangePermService;
+import org.example.incidentmanagement.service.interfaces.CaseStatChangePermService;
 import org.example.incidentmanagement.service.CurrentUserService;
-import org.example.incidentmanagement.service.DefaultConverter;
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

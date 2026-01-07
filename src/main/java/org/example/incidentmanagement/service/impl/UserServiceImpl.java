@@ -6,7 +6,7 @@ import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.repository.UserRepository;
-import org.example.incidentmanagement.service.UserService;
+import org.example.incidentmanagement.service.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

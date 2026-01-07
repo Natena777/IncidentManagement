@@ -6,7 +6,7 @@ import org.example.incidentmanagement.entity.AssigneeGroupCaseStatus;
 import org.example.incidentmanagement.mappers.GroupCaseStatusMapper;
 import org.example.incidentmanagement.repository.GroupCaseStatusRepository;
 import org.example.incidentmanagement.service.CurrentUserService;
-import org.example.incidentmanagement.service.GroupCaseStatusService;
+import org.example.incidentmanagement.service.interfaces.GroupCaseStatusService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 public class CreateCaseResponseDto {
 
     private Integer id;
-    private String number;
     private String createdBy;
     private LocalDateTime createdOn;
     private String caseStatus;
@@ -29,14 +28,6 @@ public class CreateCaseResponseDto {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public String getCreatedBy() {

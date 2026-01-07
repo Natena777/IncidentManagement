@@ -2,10 +2,10 @@ package org.example.incidentmanagement.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
-import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrAssigneeGroupRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
-import org.example.incidentmanagement.service.AssigneGroupService;
+import org.example.incidentmanagement.service.interfaces.AssigneGroupService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +26,8 @@ public class AssigneeGroupController {
 
     @PostMapping("/create")
     @Operation(summary = "Create New Assignee Group")
-    public AssigneeGroupResponseDto createAssigneGroup(@RequestBody CreateAssigneeGroupRequestDto createAssigneeGroupRequestDto){
-        AssigneeGroupResponseDto result = assigneGroupService.createAssigneeGroup(createAssigneeGroupRequestDto);
+    public AssigneeGroupResponseDto createAssigneGroup(@RequestBody CrAssigneeGroupRequestDto crAssigneeGroupRequestDto){
+        AssigneeGroupResponseDto result = assigneGroupService.createAssigneeGroup(crAssigneeGroupRequestDto);
         return result;
     }
 

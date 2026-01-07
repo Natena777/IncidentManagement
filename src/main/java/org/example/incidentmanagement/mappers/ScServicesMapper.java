@@ -2,10 +2,10 @@ package org.example.incidentmanagement.mappers;
 
 
 import org.example.incidentmanagement.dto.createRequest.CreateScServicesRequestDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScServicesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrScServicesResponseDto;
 import org.example.incidentmanagement.dto.response.ScServicesResponseDto;
 import org.example.incidentmanagement.entity.ScServices;
-import org.example.incidentmanagement.service.DefaultConverter;
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import java.time.LocalDateTime;
@@ -31,8 +31,8 @@ public interface ScServicesMapper {
     @Mapping(source = "scCategoryId", target = "scCategoryName", qualifiedByName = "ScCategoryIdToName")
     @Mapping(source = "scSubCategoryId", target = "scSubCategoryName", qualifiedByName = "ScSubCategoryIdToName")
     @Mapping(target = "responseTime", ignore = true)
-    @Mapping(target = "resolutionTime", ignore = true) 
-    CreateScServicesResponseDto toCreateScServicesResponseDto (ScServices scServices);
+    @Mapping(target = "resolutionTime", ignore = true)
+    CrScServicesResponseDto toCreateScServicesResponseDto (ScServices scServices);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
