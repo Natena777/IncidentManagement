@@ -2,16 +2,23 @@ package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.dto.createRequest.CrScCategoryRequestDto;
 import org.example.incidentmanagement.dto.createResponse.CrScCategoryResponseDto;
+import org.example.incidentmanagement.dto.requests.UpdateScCategoryReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScSubCategoryReqDto;
 import org.example.incidentmanagement.dto.response.ScCategoryResponseDto;
 import org.example.incidentmanagement.entity.ScCategory;
 import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 
-@Mapper(componentModel = "spring", uses = {DefaultConverter.class})
+@Mapper(componentModel = "spring",
+        uses = {DefaultConverter.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ScCategoryMapper {
 
     @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
@@ -29,7 +36,7 @@ public interface ScCategoryMapper {
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
-    @Mapping(target = "active", constant = "A")
+    @Mapping(target = "active", constant = "Y")
     ScCategory toScCategoryEntity(CrScCategoryRequestDto crScCategoryRequestDto);
     default ScCategory toScCategoryEntityDefaults(CrScCategoryRequestDto crScCategoryRequestDto, Integer currentUserId){
         ScCategory entity = toScCategoryEntity(crScCategoryRequestDto);
@@ -37,6 +44,9 @@ public interface ScCategoryMapper {
         entity.setCreatedBy(currentUserId);
         return entity;
     }
+
+    @Mapping(source = "active", target = "active", qualifiedByName = "booleanToString")
+    void toUpdateScCategoryEntity(UpdateScCategoryReqDto dto, @MappingTarget ScCategory scCategory);
 
     
 

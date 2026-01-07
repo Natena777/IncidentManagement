@@ -11,7 +11,6 @@ public interface AssigneeGroupUserService {
     
     CrAssigneeGroupUsersResponseDto addUserInAssigneeGroup (CrAssigneeGroupUsersRequestDto crAssigneeGroupUsersRequestDto);
     void removeUserFromAssigneeGroup(Integer id);
-    
     AssigneeGroupUsersResponseDto findById(Integer id);
     
     

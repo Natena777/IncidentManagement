@@ -3,15 +3,23 @@ package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.dto.createRequest.CrScSubCategoryRequestDto;
 import org.example.incidentmanagement.dto.createResponse.CrScSubCategoryResponseDto;
+import org.example.incidentmanagement.dto.requests.UpdateScCategoryReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScSubCategoryReqDto;
 import org.example.incidentmanagement.dto.response.ScSubCategoryResponseDto;
+import org.example.incidentmanagement.entity.ScCategory;
 import org.example.incidentmanagement.entity.ScSubCategory;
 import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-@Mapper(componentModel = "spring", uses = {DefaultConverter.class})
+@Mapper(componentModel = "spring",
+        uses = {DefaultConverter.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ScSubCategoryMapper {
 
     @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
@@ -35,5 +43,9 @@ public interface ScSubCategoryMapper {
         entity.setCreatedBy(currentUserId);
         return entity;
     }
+
+    @Mapping(source = "active", target = "active", qualifiedByName = "booleanToString")
+    void toUpdateScSubCategoryEntity(UpdateScSubCategoryReqDto dto, @MappingTarget ScSubCategory entity);
+
 
 }

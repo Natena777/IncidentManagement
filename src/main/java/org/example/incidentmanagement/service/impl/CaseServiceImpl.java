@@ -63,59 +63,29 @@ public class CaseServiceImpl implements CaseService {
 
         Cases cases = caseMapper.toCaseEntity(createCaseRequestDto,currentUserService.getCurrentUserId(), assigneeGroup);
 
-        // Response Time-ის გამოთვლა
-        LocalDateTime calculatedResponseTime = calculateResponseTime(
+        //Calculate Response And Resolution Time
+        LocalDateTime calculatedResponseTime = timeCalculator.calculateResponseTimeByService(
                 cases.getScServiceId(),
                 cases.getCreatedOn(),
                 cases.getAssigneeGroupId()
         );
 
+        LocalDateTime calculatedResolutionTime = timeCalculator.calculateResolutionTimeByService(
+                cases.getScServiceId(),
+                cases.getCreatedOn(),
+                cases.getAssigneeGroupId()
+        );
+
+
         //Save
         cases.setResponseTimeCalculated(calculatedResponseTime);
+        cases.setResolutionTimeCalculated(calculatedResolutionTime);
         caseRepository.saveAndFlush(cases);
 
 
         CreateCaseResponseDto result = caseMapper.toCreateCaseResponse(cases);
         return result;
     }
-
-
-    private LocalDateTime calculateResponseTime(Integer serviceId,
-                                                LocalDateTime createdOn,
-                                                Integer assigneeGroupId) {
-        logger.info("Calculating response time for serviceId={}, createdOn={}, groupId={}",
-                serviceId, createdOn, assigneeGroupId);
-
-        ScServices serviceItem = scServicesRepository.findById(serviceId)
-                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SERVICES));
-
-        logger.info("Service found: {}, ResponseTimeType: {}",
-                serviceItem.getServicesName(), serviceItem.getResponseTimeType());
-
-        int responseMinutes = defaultConverter.convertTimeUnitToMinutes(
-                serviceItem.getResponseTimeValue(),
-                serviceItem.getResponseTimeType()
-        );
-
-        RequestTimeUnitEnums responseType = serviceItem.getResponseTimeType();
-
-        if (responseType == RequestTimeUnitEnums.WORKING_MINUTES ||
-                responseType == RequestTimeUnitEnums.WORKING_HOURS ||
-                responseType == RequestTimeUnitEnums.WORKING_DAYS) {
-
-            logger.info("Using working hours calculation with {} minutes", responseMinutes);
-            return timeCalculator.calculateWorkingHoursDeadline(
-                    createdOn,
-                    responseMinutes,
-                    assigneeGroupId
-            );
-        }
-
-        logger.info("Using calendar time, adding {} minutes", responseMinutes);
-        return createdOn.plusMinutes(responseMinutes);
-    }
-
-
 
 
 }

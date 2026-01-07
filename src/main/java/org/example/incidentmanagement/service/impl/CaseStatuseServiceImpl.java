@@ -1,9 +1,13 @@
 package org.example.incidentmanagement.service.impl;
 
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.example.incidentmanagement.dto.createRequest.CrCaseStatusesRequestDto;
+import org.example.incidentmanagement.dto.requests.UpdateCaseStatusReqDto;
 import org.example.incidentmanagement.dto.response.CaseStatusesResponseDto;
 import org.example.incidentmanagement.dto.createResponse.CrCaseStatusesResponseDto;
 import org.example.incidentmanagement.entity.CaseStatuses;
+import org.example.incidentmanagement.exceptions.CustomException;
+import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.CaseStatusMapper;
 import org.example.incidentmanagement.repository.CaseStatusesRepository;
 import org.example.incidentmanagement.service.interfaces.CaseStatuseService;
@@ -21,13 +25,16 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
     private final CaseStatusesRepository statusesRepository;
     private final CaseStatusMapper caseStatusMapper;
     private final CurrentUserService currentUserService;
+    private final DefaultConverter defaultConverter;
 
     public CaseStatuseServiceImpl(CaseStatusesRepository statusesRepository,
                                   CaseStatusMapper caseStatusMapper,
-                                  CurrentUserService currentUserService) {
+                                  CurrentUserService currentUserService,
+                                  DefaultConverter defaultConverter) {
         this.statusesRepository = statusesRepository;
         this.caseStatusMapper = caseStatusMapper;
         this.currentUserService = currentUserService;
+        this.defaultConverter = defaultConverter;
     }
 
     @Override
@@ -78,6 +85,23 @@ public class CaseStatuseServiceImpl implements CaseStatuseService {
 
         return statusResponse;
     }
+
+    @Override
+    public CaseStatusesResponseDto updateCaseStatus(Integer id, UpdateCaseStatusReqDto updateCaseStatusReqDto) {
+        CaseStatuses status = statusesRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_CASE_STATUS));
+
+        caseStatusMapper.updateCaseStatusEntity(updateCaseStatusReqDto, status);
+
+
+
+        status.setUpdatedBy(currentUserService.getCurrentUserId());
+        status.setUpdatedOn(defaultConverter.getDefaultTbilisiTime());
+        CaseStatuses saved = statusesRepository.save(status);
+        return caseStatusMapper.toCaseStatusResponseDto(saved);
+    }
+
+
 
     @Override
     public void deleteCaseStatuses(Integer id) {

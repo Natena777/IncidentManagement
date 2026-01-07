@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.createRequest.CrGroupCaseStatRequestDto;
 import org.example.incidentmanagement.dto.createResponse.CrGroupCaseStatResponseDto;
+import org.example.incidentmanagement.dto.requests.UpdateGroupCaseStatusReqDto;
+import org.example.incidentmanagement.dto.response.GroupCaseStatRespDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.interfaces.GroupCaseStatusService;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +30,22 @@ public class GroupCaseStatusController {
 
     @PostMapping("/addStatus")
     @Operation(summary = "add Status to Assignee Group")
-    public CrGroupCaseStatResponseDto addGroupCaseStatus(@RequestBody CrGroupCaseStatRequestDto crGroupCaseStatRequestDto){
-        CrGroupCaseStatResponseDto result = groupCaseStatusService.addCaseStatusOnGroup(crGroupCaseStatRequestDto);
+    public GroupCaseStatRespDto addGroupCaseStatus(@RequestBody CrGroupCaseStatRequestDto crGroupCaseStatRequestDto){
+        GroupCaseStatRespDto result = groupCaseStatusService.addCaseStatusOnGroup(crGroupCaseStatRequestDto);
         return result;
     }
+
+    @PatchMapping("{id}")
+    @Operation(summary = "Update Case Status For Assignee Group")
+    public ResponseEntity<GroupCaseStatRespDto> updateGroupCaseStatus(
+            @PathVariable Integer id,
+            @RequestBody UpdateGroupCaseStatusReqDto updateGroupCaseStatusReqDto){
+
+        GroupCaseStatRespDto respons = groupCaseStatusService.updateGroupCaseStatus(id, updateGroupCaseStatusReqDto);
+        return ResponseEntity.ok(respons);
+
+    }
+
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Remove Case Status From Assignee Group By ID")
@@ -49,7 +63,7 @@ public class GroupCaseStatusController {
 
     @GetMapping("/id/{id}")
     @Operation(summary = "Find Assignee Group Case Status By ID")
-    public CrGroupCaseStatResponseDto findById(@PathVariable Integer id) {
+    public GroupCaseStatRespDto findById(@PathVariable Integer id) {
         return groupCaseStatusService.findById(id);
     }
 

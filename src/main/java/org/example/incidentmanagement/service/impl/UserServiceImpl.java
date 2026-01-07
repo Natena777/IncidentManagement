@@ -1,11 +1,14 @@
 package org.example.incidentmanagement.service.impl;
 
+import org.example.incidentmanagement.converter.DefaultConverter;
+import org.example.incidentmanagement.dto.requests.UpdateUserReqDto;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.UserMapper;
 import org.example.incidentmanagement.repository.UserRepository;
+import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.service.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +23,15 @@ public class UserServiceImpl implements UserService {
     Logger logger  = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    private final CurrentUserService currentUserService;
+    private final DefaultConverter defaultConverter;
+
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper,
+                           CurrentUserService currentUserService, DefaultConverter defaultConverter) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.currentUserService = currentUserService;
+        this.defaultConverter = defaultConverter;
     }
 
 
@@ -86,10 +95,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
-        logger.info("Called updateUser: {}", user);
-        userRepository.save(user);
+    public UserResponseDto updateUser(Integer id, UpdateUserReqDto updateUserReqDto) {
+        logger.info("Called updateUser: {}", id);
+        User user = userRepository.findById(id).orElseThrow(() -> new CustomException(ResponseCodes.INVALID_USER));
 
+
+        userMapper.toUpdateUserEntity(updateUserReqDto, user);
+        user.setUpdatedBy(currentUserService.getCurrentUserId());
+        user.setUpdatedOn(defaultConverter.getDefaultTbilisiTime());
+        User saved = userRepository.save(user);
+        return userMapper.toResponseDto(saved);
     }
 
     @Override

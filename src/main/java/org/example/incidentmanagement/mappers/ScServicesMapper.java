@@ -3,16 +3,22 @@ package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.dto.createRequest.CreateScServicesRequestDto;
 import org.example.incidentmanagement.dto.createResponse.CrScServicesResponseDto;
+import org.example.incidentmanagement.dto.requests.UpdateScServiceReqDto;
 import org.example.incidentmanagement.dto.response.ScServicesResponseDto;
 import org.example.incidentmanagement.entity.ScServices;
 import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 
-@Mapper(componentModel = "spring", uses = {DefaultConverter.class})
+@Mapper(componentModel = "spring",
+        uses = {DefaultConverter.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ScServicesMapper {
 
     @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
@@ -30,6 +36,7 @@ public interface ScServicesMapper {
     @Mapping(source = "scDepartmentId", target = "scDepartmentName", qualifiedByName = "ScDepartmentIdToName")
     @Mapping(source = "scCategoryId", target = "scCategoryName", qualifiedByName = "ScCategoryIdToName")
     @Mapping(source = "scSubCategoryId", target = "scSubCategoryName", qualifiedByName = "ScSubCategoryIdToName")
+    @Mapping(source = "id", target = "serviceId")
     @Mapping(target = "responseTime", ignore = true)
     @Mapping(target = "resolutionTime", ignore = true)
     CrScServicesResponseDto toCreateScServicesResponseDto (ScServices scServices);
@@ -46,6 +53,12 @@ public interface ScServicesMapper {
             entity.setCreatedBy(currentUserId);
             return entity;
     }
+
+
+
+    void toUpdateScServiceEntity(UpdateScServiceReqDto dto, @MappingTarget ScServices scServices);
+
+
 
 
 }

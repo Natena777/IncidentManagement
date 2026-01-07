@@ -1,9 +1,15 @@
 package org.example.incidentmanagement.service;
 
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.example.incidentmanagement.entity.Holiday;
+import org.example.incidentmanagement.entity.ScServices;
 import org.example.incidentmanagement.entity.WorkingHours;
+import org.example.incidentmanagement.enums.RequestTimeUnitEnums;
 import org.example.incidentmanagement.enums.WokingHourTypeEnum;
+import org.example.incidentmanagement.exceptions.CustomException;
+import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.repository.HolidayRepository;
+import org.example.incidentmanagement.repository.ScServicesRepository;
 import org.example.incidentmanagement.repository.WorkingHoursRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,15 +28,92 @@ public class TimeCalculator {
 
     private final WorkingHoursRepository workingHoursRepository;
     private final HolidayRepository holidayRepository;
+    private final ScServicesRepository scServicesRepository;
+    private final DefaultConverter defaultConverter;
 
     public TimeCalculator(WorkingHoursRepository workingHoursRepository,
-                          HolidayRepository holidayRepository) {
+                          HolidayRepository holidayRepository,
+                          ScServicesRepository scServicesRepository,
+                          DefaultConverter defaultConverter) {
         this.workingHoursRepository = workingHoursRepository;
         this.holidayRepository = holidayRepository;
+        this.scServicesRepository = scServicesRepository;
+        this.defaultConverter = defaultConverter;
     }
 
 
-    public LocalDateTime calculateWorkingHoursDeadline(LocalDateTime startTime,
+    public LocalDateTime calculateResponseTimeByService(Integer serviceId,
+                                                LocalDateTime createdOn,
+                                                Integer assigneeGroupId) {
+        logger.info("Calculating response time for serviceId={}, createdOn={}, groupId={}",
+                serviceId, createdOn, assigneeGroupId);
+
+        ScServices serviceItem = scServicesRepository.findById(serviceId)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SERVICES));
+
+
+        int responseMinutes = defaultConverter.convertTimeUnitToMinutes(
+                serviceItem.getResponseTimeValue(),
+                serviceItem.getResponseTimeType()
+        );
+
+        RequestTimeUnitEnums responseType = serviceItem.getResponseTimeType();
+
+        if (responseType == RequestTimeUnitEnums.WORKING_MINUTES ||
+                responseType == RequestTimeUnitEnums.WORKING_HOURS ||
+                responseType == RequestTimeUnitEnums.WORKING_DAYS) {
+
+            logger.info("Using working hours calculation with {} minutes", responseMinutes);
+            LocalDateTime calculatedResponse = calculateWorkingHoursDeadline(
+                    createdOn,
+                    responseMinutes,
+                    assigneeGroupId);
+
+            return calculatedResponse;
+        }
+
+        logger.info("Using calendar time, adding {} minutes", responseMinutes);
+        return createdOn.plusMinutes(responseMinutes);
+    }
+
+
+    public LocalDateTime calculateResolutionTimeByService(Integer serviceId,
+                                                          LocalDateTime createdOn,
+                                                          Integer assigneeGroupId){
+        logger.info("Called Calculate Resolution Time By Service for ServiceID: {}, CreatedOn: {}, GroupID: {}",
+                serviceId, createdOn, assigneeGroupId);
+
+        ScServices serviceItem = scServicesRepository.findById(serviceId)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SERVICES));
+
+
+        int resolutionMinutes = defaultConverter.convertTimeUnitToMinutes(
+                serviceItem.getResolutionValue(),
+                serviceItem.getResolutionTimeType()
+        );
+
+        RequestTimeUnitEnums resolutionType = serviceItem.getResolutionTimeType();
+
+        if (resolutionType == RequestTimeUnitEnums.WORKING_MINUTES ||
+                resolutionType == RequestTimeUnitEnums.WORKING_HOURS ||
+                resolutionType == RequestTimeUnitEnums.WORKING_DAYS) {
+
+            LocalDateTime calculatedResolution = calculateWorkingHoursDeadline(
+                    createdOn,
+                    resolutionMinutes,
+                    assigneeGroupId);
+
+            return calculatedResolution;
+        }
+
+        logger.info("Using calendar time, adding {} minutes", resolutionMinutes);
+        return createdOn.plusMinutes(resolutionMinutes);
+
+    }
+
+
+
+    private LocalDateTime calculateWorkingHoursDeadline(LocalDateTime startTime,
                                                        int responseMinutes,
                                                        Integer assigneeGroupId) {
         logger.info("Calculating deadline: startTime={}, responseMinutes={}, groupId={}",
@@ -100,10 +183,6 @@ public class TimeCalculator {
         logger.info("Calculated deadline: {}", current);
         return current;
     }
-
-
-
-
 
     private WorkingHours getCurrentDayWorkingHours(LocalDateTime currentDateTime,
                                                    Integer assigneeGroupId) {

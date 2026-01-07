@@ -57,7 +57,7 @@ public class RoleController {
     }
 
 
-    @PutMapping("update/{name}")
+    @PatchMapping("/{name}")
     @Operation(summary = "Make Update In System Roles")
     public RoleResponseDto updateRole(@PathVariable String name,
                                       @RequestBody UpdateRoleRequestDto updateRoleRequestDto) {

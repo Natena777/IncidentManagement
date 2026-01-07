@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.createRequest.CrUserRoleRequestDto;
+import org.example.incidentmanagement.dto.requests.UpdateUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.interfaces.UserRoleService;
@@ -52,7 +53,18 @@ public class UserRoleController {
         return userRoleService.createUserRole(crrequestDto);
     }
 
-    @DeleteMapping("/delete/{id}")
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Update Role  User")
+    public ResponseEntity<UserRoleResponseDto> deleteUserRole(@PathVariable int id, @RequestBody UpdateUserRoleRequestDto updaterequestDto) {
+        UserRoleResponseDto  response = userRoleService.updateUserRole(id, updaterequestDto);
+        return ResponseEntity.ok(response);
+
+    }
+
+
+
+    @DeleteMapping("/{id}")
     @Operation(summary = "Delete Role From User")
     public ResponseEntity<ApiResponse> deleteUserRole(@PathVariable int id) {
         userRoleService.deleteUserRole(id);

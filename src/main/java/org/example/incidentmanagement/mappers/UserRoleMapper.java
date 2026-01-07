@@ -1,11 +1,14 @@
 package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.dto.createRequest.CrUserRoleRequestDto;
+import org.example.incidentmanagement.dto.requests.UpdateUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.entity.UserRoles;
 import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -37,6 +40,10 @@ public interface UserRoleMapper {
     @Mapping(source = "roleId" , target = "roleName", qualifiedByName = "roleIdToRoleName")
     @Mapping(source = "userId", target = "userName", qualifiedByName = "userIdToFullName")
     public UserRoleResponseDto toResponse(UserRoles userRoles);
+
+
+    @Mapping(source = "mainRole", target = "mainRole", qualifiedByName = "booleanToString")
+    void toUpdateUserRoleEntity(UpdateUserRoleRequestDto updateUserRoleRequestDto, @MappingTarget UserRoles userRoles);
 
 
 }

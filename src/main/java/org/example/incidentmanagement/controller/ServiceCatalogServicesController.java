@@ -10,7 +10,12 @@ import org.example.incidentmanagement.dto.createResponse.CrScCategoryResponseDto
 import org.example.incidentmanagement.dto.createResponse.CrScDepartmentsResponseDto;
 import org.example.incidentmanagement.dto.createResponse.CrScServicesResponseDto;
 import org.example.incidentmanagement.dto.createResponse.CrScSubCategoryResponseDto;
+import org.example.incidentmanagement.dto.requests.UpdateScCategoryReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScDepartmentsReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScServiceReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScSubCategoryReqDto;
 import org.example.incidentmanagement.dto.response.*;
+import org.example.incidentmanagement.entity.ScSubCategory;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.interfaces.ServiceCatalogServices;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +26,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/servicesCatalog")
 public class ServiceCatalogServicesController {
-
 
     private final ServiceCatalogServices serviceCatalogServices;
 
@@ -66,7 +70,18 @@ public class ServiceCatalogServicesController {
         return serviceCatalogServices.createScDepartments(crScDepartmentsRequestDto);
     }
 
-    @DeleteMapping("/scDepartment/delete/{id}")
+
+    @PatchMapping("scDepartment/{id}")
+    @Operation(summary = "Update Service Catalog Department",
+            tags = "Service Catalog - Department")
+    public ResponseEntity<ScDepartmentsResponseDto> updateScDepartment(
+            @PathVariable Integer id,
+            @RequestBody UpdateScDepartmentsReqDto updateScDepartmentsReqDto){
+        ScDepartmentsResponseDto response = serviceCatalogServices.updateScDepartments(id, updateScDepartmentsReqDto);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/scDepartment/{id}")
     @Operation(summary = "Delete Service Catalog Direction By ID",
                 tags = "Service Catalog - Department")
     public ResponseEntity<ApiResponse> deleteScDepartment(@PathVariable Integer id){
@@ -109,6 +124,16 @@ public class ServiceCatalogServicesController {
                 tags = "Service Catalog - Category")
     public CrScCategoryResponseDto createScCategory(@RequestBody CrScCategoryRequestDto crScCategoryRequestDto){
         return serviceCatalogServices.createScCategory(crScCategoryRequestDto);
+    }
+
+    @PatchMapping("/scCategory/{id}")
+    @Operation(summary = "Update Service Catalog Category",
+            tags = "Service Catalog - Category")
+    public ResponseEntity<ScCategoryResponseDto> updateScCategory(
+            @PathVariable Integer id,
+            @RequestBody UpdateScCategoryReqDto updateScCategoryReqDto){
+        ScCategoryResponseDto response = serviceCatalogServices.updateScCategory(id, updateScCategoryReqDto);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/scCategory/delete/{id}")
@@ -155,7 +180,18 @@ public class ServiceCatalogServicesController {
         return serviceCatalogServices.createScSubCategory(crScSubCategoryRequestDto);
     }
 
-    @DeleteMapping("/scSubCategory/delete/{id}")
+
+    @PatchMapping("/scSubCategory/{id}")
+    @Operation(summary = "Update  Service Catalog SubCategory",
+            tags = "Service Catalog - SubCategory")
+    public ResponseEntity<ScSubCategoryResponseDto> updateScCategory(
+            @PathVariable Integer id,
+            @RequestBody UpdateScSubCategoryReqDto updateScSubCategoryReqDto){
+        ScSubCategoryResponseDto response = serviceCatalogServices.updateScSubCategory(id, updateScSubCategoryReqDto);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/scSubCategory/{id}")
     @Operation(summary = "Delete Service Catalog SubCategory By ID",
                 tags = "Service Catalog - SubCategory")
     public ResponseEntity<ApiResponse> deleteScSubCategory(@PathVariable Integer id){
@@ -198,7 +234,19 @@ public class ServiceCatalogServicesController {
         return serviceCatalogServices.createScServices(createScServicesRequestDto);
     }
 
-    @DeleteMapping("/scServices/delete/{id}")
+
+    @PatchMapping("/scServices/{id}")
+    @Operation(summary = "Update  Service Catalog Service Item",
+            tags = "Service Catalog - Service Items")
+    public ResponseEntity<ScServicesResponseDto> updateScServices(
+            @PathVariable Integer id,
+            @RequestBody UpdateScServiceReqDto updateScServiceReqDto){
+        ScServicesResponseDto response = serviceCatalogServices.updateScServices(id, updateScServiceReqDto);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @DeleteMapping("/scServices/{id}")
     @Operation(summary = "Delete Service Catalog Service Item By ID",
                 tags = "Service Catalog - Service Items")
     public ResponseEntity<ApiResponse> deleteScServices(@PathVariable Integer id){

@@ -190,10 +190,13 @@ public class DefaultConverter {
             return 0;
         }
 
+
+
+
         return switch (unit) {
             case WORKING_MINUTES -> value;
             case WORKING_HOURS -> value * 60;
-            case WORKING_DAYS -> value * 24 * 60;
+            case WORKING_DAYS -> value * 8 * 60;
             case CALENDAR_MINUTES -> value;
             case CALENDAR_HOURS -> value * 60;
             case CALENDAR_DAYS -> value * 24 * 60;

@@ -3,15 +3,21 @@ package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.dto.createRequest.CrGroupCaseStatRequestDto;
 import org.example.incidentmanagement.dto.createResponse.CrGroupCaseStatResponseDto;
+import org.example.incidentmanagement.dto.requests.UpdateGroupCaseStatusReqDto;
+import org.example.incidentmanagement.dto.response.GroupCaseStatRespDto;
 import org.example.incidentmanagement.entity.AssigneeGroupCaseStatus;
 import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-@Mapper(componentModel = "spring", uses = {DefaultConverter.class})
+@Mapper(componentModel = "spring",
+        uses = {DefaultConverter.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface GroupCaseStatusMapper {
 
 
@@ -20,7 +26,7 @@ public interface GroupCaseStatusMapper {
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
-    @Mapping(target = "active", constant = "A")
+    @Mapping(target = "active", constant = "Y")
     @Mapping(target = "currentStatusId", ignore = true)
     @Mapping(target = "previousStatusId", ignore = true)
     @Mapping(target = "nextStatusId", ignore = true)
@@ -39,6 +45,10 @@ public interface GroupCaseStatusMapper {
     @Mapping(source = "currentStatusId", target = "currentStatus", qualifiedByName = "caseStatusIdToStatusName")
     @Mapping(source = "previousStatusId", target = "previousStatus", qualifiedByName = "caseStatusIdToStatusName")
     @Mapping(source = "nextStatusId", target = "nextStatus", qualifiedByName = "caseStatusIdToStatusName")
-    CrGroupCaseStatResponseDto toCaseStatusResponse(AssigneeGroupCaseStatus assigneeGroupCaseStatus);
+    GroupCaseStatRespDto toCaseStatusResponse(AssigneeGroupCaseStatus assigneeGroupCaseStatus);
+
+    @Mapping(source = "active", target = "active", qualifiedByName = "booleanToString")
+    void toUpdateGroupCaseStatus (UpdateGroupCaseStatusReqDto dto, @MappingTarget AssigneeGroupCaseStatus entity);
+
 
 }

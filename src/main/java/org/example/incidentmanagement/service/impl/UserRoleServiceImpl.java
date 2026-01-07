@@ -1,6 +1,8 @@
 package org.example.incidentmanagement.service.impl;
 
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.example.incidentmanagement.dto.createRequest.CrUserRoleRequestDto;
+import org.example.incidentmanagement.dto.requests.UpdateUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.entity.UserRoles;
 import org.example.incidentmanagement.exceptions.CustomException;
@@ -27,15 +29,18 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final RoleService roleService;
     private final UserService userService;
     private final CurrentUserService currentUserService;
+    private final DefaultConverter defaultConverter;
 
     public UserRoleServiceImpl(UserRolesRepository userRolesRepository, UserRoleMapper userRoleMapper,
                                RoleService roleService, UserService userService,
-                               CurrentUserService currentUserService) {
+                               CurrentUserService currentUserService,
+                               DefaultConverter defaultConverter) {
         this.userRolesRepository = userRolesRepository;
         this.userRoleMapper = userRoleMapper;
         this.roleService = roleService;
         this.userService = userService;
         this.currentUserService = currentUserService;
+        this.defaultConverter = defaultConverter;
     }
 
     @Override
@@ -124,6 +129,21 @@ public class UserRoleServiceImpl implements UserRoleService {
        
         UserRoleResponseDto createResult = userRoleMapper.toResponse(userRoles);
         return createResult;
+    }
+
+    @Override
+    public UserRoleResponseDto updateUserRole(Integer id, UpdateUserRoleRequestDto updateUserRoleRequestDto) {
+
+         UserRoles userRoles = userRolesRepository.findById(id)
+                 .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_USER_ROLE));
+
+         userRoleMapper.toUpdateUserRoleEntity(updateUserRoleRequestDto, userRoles);
+
+         userRoles.setUpdatedBy(currentUserService.getCurrentUserId());
+         userRoles.setUpdatedOn(defaultConverter.getDefaultTbilisiTime());
+         UserRoles saved = userRolesRepository.save(userRoles);
+
+         return userRoleMapper.toResponse(saved);
     }
 
 
