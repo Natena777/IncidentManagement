@@ -1,16 +1,20 @@
 package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.dto.createRequest.CrCaseStatusesRequestDto;
+import org.example.incidentmanagement.dto.requests.UpdateCaseStatusReqDto;
 import org.example.incidentmanagement.dto.response.CaseStatusesResponseDto;
 import org.example.incidentmanagement.dto.createResponse.CrCaseStatusesResponseDto;
 import org.example.incidentmanagement.entity.CaseStatuses;
 import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-@Mapper(componentModel = "spring", uses = {DefaultConverter.class})
+@Mapper(componentModel = "spring", uses = {DefaultConverter.class}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CaseStatusMapper {
 
 
@@ -38,8 +42,18 @@ public interface CaseStatusMapper {
             entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
             return entity;
         }
-
     CrCaseStatusesResponseDto toCreateCaseStatusResponseDto(CaseStatuses caseStatuses);
 
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdOn", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedOn", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(source = "caseStatusDescription", target = "statusDescription")
+    @Mapping(source = "active", target = "active", qualifiedByName = "booleanToString")
+    @Mapping(source = "isFinal", target = "isFinal", qualifiedByName = "booleanToString")
+    @Mapping(source = "isPaused", target = "isPaused", qualifiedByName = "booleanToString")
+    void updateCaseStatusEntity(UpdateCaseStatusReqDto dto, @MappingTarget CaseStatuses entity);
 
 }

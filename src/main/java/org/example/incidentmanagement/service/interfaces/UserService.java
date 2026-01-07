@@ -1,5 +1,6 @@
 package org.example.incidentmanagement.service.interfaces;
 
+import org.example.incidentmanagement.dto.requests.UpdateUserReqDto;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
 
@@ -17,7 +18,7 @@ public interface UserService {
 
     void deleteUser(int id);
 
-    void updateUser(User user);
+    UserResponseDto updateUser(Integer id, UpdateUserReqDto updateUserReqDto);
 
     Boolean existsUser(int id);
 

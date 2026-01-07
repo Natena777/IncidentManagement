@@ -15,6 +15,7 @@ public enum ResponseCodes {
     INVALID_SERIVCE_CATALOG_CATEGORY(-9, "Invalid Service Catalog Category"),
     INVALID_SERIVCE_CATALOG_SUBCATEGORY(-10, "Invalid Service Catalog SubCategory"),
     INVALID_SERIVCE_CATALOG_SERVICES(-11, "Invalid Service Catalog Services"),
+    INVALID_CASE_STATUS(-12, "Invalid Case Status"),
 
 
     //Success Default Codes

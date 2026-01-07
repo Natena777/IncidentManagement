@@ -1,5 +1,6 @@
 package org.example.incidentmanagement.service.impl;
 import org.example.incidentmanagement.dto.createRequest.CrAssigneeGroupRequestDto;
+import org.example.incidentmanagement.dto.requests.UpdateAssigneeGroupReqDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
 import org.example.incidentmanagement.entity.AssigneeGroups;
 import org.example.incidentmanagement.exceptions.CustomException;
@@ -22,6 +23,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     private final AssigneeGroupRepository assigneeGroupRepository;
     private final AssigneeGroupMapper assigneeGroupMapper;
     private final CurrentUserService currentUserService;
+    private final DefaultConverter defaultConverter;
 
     public AssigneeGroupServiceImpl(AssigneeGroupRepository assigneeGroupRepository,
                                     AssigneeGroupMapper assigneeGroupMapper,
@@ -30,6 +32,7 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         this.assigneeGroupRepository = assigneeGroupRepository;
         this.assigneeGroupMapper = assigneeGroupMapper;
         this.currentUserService = currentUserService;
+        this.defaultConverter = defaultConverter;
     }
 
 
@@ -87,6 +90,23 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
         AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);
 
         return assigneeGroupResult;
+    }
+
+
+
+    @Override
+    public AssigneeGroupResponseDto updateAssigneeGroup(Integer id, UpdateAssigneeGroupReqDto updateAssigneeGroupReqDto) {
+
+        AssigneeGroups assigneeGroups = assigneeGroupRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_ASSIGNEE_GROUP));
+
+        assigneeGroupMapper.toUpdateEntity(updateAssigneeGroupReqDto, assigneeGroups);
+
+
+        assigneeGroups.setUpdatedBy(currentUserService.getCurrentUserId());
+        assigneeGroups.setUpdatedOn(defaultConverter.getDefaultTbilisiTime());
+        AssigneeGroups saved = assigneeGroupRepository.save(assigneeGroups);
+        return assigneeGroupMapper.toGroupResponseDto(saved);
     }
 
     @Override

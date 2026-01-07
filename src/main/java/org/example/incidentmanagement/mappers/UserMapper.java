@@ -1,19 +1,24 @@
 package org.example.incidentmanagement.mappers;
 
 import org.example.incidentmanagement.dto.requests.RegistrationUserDto;
+import org.example.incidentmanagement.dto.requests.UpdateUserReqDto;
 import org.example.incidentmanagement.dto.response.RegistrationUserRespDto;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 
-@Mapper(componentModel = "spring", uses = {DefaultConverter.class})
+@Mapper(componentModel = "spring",
+        uses = {DefaultConverter.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserMapper {
 
 
@@ -43,11 +48,11 @@ public interface UserMapper {
 
         } 
 
-
     UserResponseDto toResponseDto(User user);
-
     List<UserResponseDto> toResponseDtoList(List<User> users);
-
     RegistrationUserRespDto toRegistrationResp(User user);
+
+    void toUpdateUserEntity(UpdateUserReqDto dto, @MappingTarget User entity);
+
 
 }

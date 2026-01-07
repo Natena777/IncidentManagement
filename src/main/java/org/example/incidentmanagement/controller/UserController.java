@@ -3,6 +3,7 @@ package org.example.incidentmanagement.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
+import org.example.incidentmanagement.dto.requests.UpdateUserReqDto;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.interfaces.UserService;
@@ -28,7 +29,7 @@ public class UserController {
         return userService.findAllUsers();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "Find System User By ID")
     public UserResponseDto findById(@PathVariable int id) {
         UserResponseDto user = userService.findUserById(id);
@@ -43,7 +44,19 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @PatchMapping("/{id}")
+    @Operation(summary = "Update System User")
+    public ResponseEntity<UserResponseDto> updateUser(
+            @PathVariable Integer id,
+            @RequestBody UpdateUserReqDto updateUserReqDto){
+
+        UserResponseDto user = userService.updateUser(id, updateUserReqDto);
+        return ResponseEntity.ok(user);
+    }
+
+
+
+    @DeleteMapping("/{id}")
     @Operation(summary = "Delete System User By ID")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable int id) {
 

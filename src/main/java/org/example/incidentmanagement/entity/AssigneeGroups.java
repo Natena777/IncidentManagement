@@ -80,6 +80,7 @@ public class AssigneeGroups {
     public LocalDateTime getUpdatedOn() {
         return updatedOn;
     }
+    public void setUpdatedOn(LocalDateTime updatedOn) {this.updatedOn = updatedOn;}
 
 
 }

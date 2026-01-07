@@ -13,14 +13,7 @@ public class ScDepartmentsResponseDto {
     private String updatedBy;
 
     public ScDepartmentsResponseDto() {}
-    public ScDepartmentsResponseDto(Integer id, String departmentName, String description, String active, String createdBy, String updatedBy) {
-        this.id = id;
-        this.departmentName = departmentName;
-        this.description = description;
-        this.active = active;
-        this.createdBy = createdBy;
-        this.updatedBy = updatedBy;
-    }
+
     public Integer getId() {
         return id;
     }

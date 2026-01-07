@@ -8,6 +8,10 @@ import org.example.incidentmanagement.dto.createResponse.CrScCategoryResponseDto
 import org.example.incidentmanagement.dto.createResponse.CrScDepartmentsResponseDto;
 import org.example.incidentmanagement.dto.createResponse.CrScServicesResponseDto;
 import org.example.incidentmanagement.dto.createResponse.CrScSubCategoryResponseDto;
+import org.example.incidentmanagement.dto.requests.UpdateScCategoryReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScDepartmentsReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScServiceReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScSubCategoryReqDto;
 import org.example.incidentmanagement.dto.response.*;
 
 import java.util.List;
@@ -19,6 +23,7 @@ public interface ServiceCatalogServices {
     ScDepartmentsResponseDto findScDepartmentById(Integer id);
     ScDepartmentsResponseDto findScDepartmentByName(String departmentName);
     CrScDepartmentsResponseDto createScDepartments(CrScDepartmentsRequestDto crScDepartmentsRequestDto);
+    ScDepartmentsResponseDto updateScDepartments(Integer id, UpdateScDepartmentsReqDto updateScDepartmentsRequestDto);
     void deleteScDepartments(Integer id);
 
 
@@ -27,6 +32,7 @@ public interface ServiceCatalogServices {
     ScCategoryResponseDto findScCategoryById(Integer id);
     ScCategoryResponseDto findScCategoryByName(String categoryName);
     CrScCategoryResponseDto createScCategory(CrScCategoryRequestDto crScCategoryRequestDto);
+    ScCategoryResponseDto updateScCategory(Integer id, UpdateScCategoryReqDto updateScCategoryReqDto);
     void deleteScCategory(Integer id);
 
 
@@ -35,6 +41,7 @@ public interface ServiceCatalogServices {
     ScSubCategoryResponseDto findScSubCategoryById(Integer id);
     ScSubCategoryResponseDto findScSubCategoryByName(String subCategoryName);
     CrScSubCategoryResponseDto createScSubCategory(CrScSubCategoryRequestDto crScSubCategoryRequestDto);
+    ScSubCategoryResponseDto updateScSubCategory(Integer id, UpdateScSubCategoryReqDto updateScSubCategoryReqDto);
     void deleteScSubCategory(Integer id);
 
 
@@ -43,6 +50,7 @@ public interface ServiceCatalogServices {
     ScServicesResponseDto findScServicesById(Integer id);
     ScServicesResponseDto findScServicesByName(String serviceName);
     CrScServicesResponseDto createScServices(CreateScServicesRequestDto createScServicesRequestDto);
+    ScServicesResponseDto updateScServices(Integer id, UpdateScServiceReqDto updateScServiceReqDto);
     List<ServiceCatalogFullResponseDto> getScFullFlow();
     void deleteScServices(Integer id);
 

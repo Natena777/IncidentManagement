@@ -3,6 +3,7 @@ package org.example.incidentmanagement.dto.createResponse;
 
 public class CrScServicesResponseDto {
 
+    private Integer serviceId;
     private String servicesName;
     private String description;
     private String scDepartmentName;
@@ -17,10 +18,11 @@ public class CrScServicesResponseDto {
 
     public CrScServicesResponseDto() {}
 
-    public CrScServicesResponseDto(String servicesName, String description, String scDepartmentName,
-                                   String scCategoryName, String scSubCategoryName, String status,
-                                   String serviceType, String assigneeGroupName, String responseTime,
-                                   String resolutionTime) {
+    public CrScServicesResponseDto(Integer serviceId, String servicesName, String description,
+                                   String scDepartmentName, String scCategoryName, String scSubCategoryName,
+                                   String status, String serviceType, String assigneeGroupName,
+                                   String responseTime, String resolutionTime) {
+        this.serviceId = serviceId;
         this.servicesName = servicesName;
         this.description = description;
         this.scDepartmentName = scDepartmentName;
@@ -32,6 +34,13 @@ public class CrScServicesResponseDto {
         this.responseTime = responseTime;
         this.resolutionTime = resolutionTime;
 
+    }
+
+    public Integer getServiceId() {
+        return serviceId;
+    }
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
     }
 
     public String getServicesName() {

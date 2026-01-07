@@ -10,6 +10,10 @@ import org.example.incidentmanagement.dto.createResponse.CrScCategoryResponseDto
 import org.example.incidentmanagement.dto.createResponse.CrScDepartmentsResponseDto;
 import org.example.incidentmanagement.dto.createResponse.CrScServicesResponseDto;
 import org.example.incidentmanagement.dto.createResponse.CrScSubCategoryResponseDto;
+import org.example.incidentmanagement.dto.requests.UpdateScCategoryReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScDepartmentsReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScServiceReqDto;
+import org.example.incidentmanagement.dto.requests.UpdateScSubCategoryReqDto;
 import org.example.incidentmanagement.dto.response.*;
 import org.example.incidentmanagement.entity.*;
 import org.example.incidentmanagement.exceptions.CustomException;
@@ -35,7 +39,8 @@ import java.util.List;
 public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
     Logger logger = LoggerFactory.getLogger(ServiceCatalogServicesImpl.class);
-    private CurrentUserService currentUserService;
+    private final CurrentUserService currentUserService;
+    private final DefaultConverter defaultConverter;
     //Sc Departments Dependencies
     private final ScDepartmentsRepository scDepartmentsRepository;
     private final ScDepartmentsMapper scDepartmentsMapper;
@@ -61,7 +66,6 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
                                       ScSubCategoryMapper scSubCategoryMapper,
                                       ScServicesRepository scServicesRepository,
                                       ScServicesMapper scServicesMapper,
-                                      AssigneGroupService assigneeGroupService,
                                       CurrentUserService currentUserService) {
         this.scDepartmentsRepository = scDepartmentsRepository;
         this.scDepartmentsMapper = scDepartmentsMapper;
@@ -72,6 +76,7 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         this.scServicesRepository = scServicesRepository;
         this.scServicesMapper = scServicesMapper;
         this.currentUserService = currentUserService;
+        this.defaultConverter = defaultConverter;
     }
 
 
@@ -129,6 +134,20 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     }
 
     @Override
+    public ScDepartmentsResponseDto updateScDepartments(Integer id, UpdateScDepartmentsReqDto updateScDepartmentsRequestDto) {
+        ScDepartments scDepartments = scDepartmentsRepository.findById(id)
+                .orElseThrow(()-> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_DEPARTMENTS));
+
+        scDepartmentsMapper.toUpdateScDepartmentsEntity(updateScDepartmentsRequestDto, scDepartments);
+
+        scDepartments.setUpdatedBy(currentUserService.getCurrentUserId());
+        scDepartments.setUpdatedDate(defaultConverter.getDefaultTbilisiTime());
+        ScDepartments saved = scDepartmentsRepository.save(scDepartments);
+
+        return scDepartmentsMapper.toResponseScDepartmentsDto(saved);
+    }
+
+    @Override
     public void deleteScDepartments(Integer id) {
         logger.info("Called Delete Service Catalog Department By ID: {} ", id);
         ScDepartments scDepartments = scDepartmentsRepository.findById(id)
@@ -155,6 +174,20 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         return result;
     }
 
+    @Override
+    public ScCategoryResponseDto updateScCategory(Integer id, UpdateScCategoryReqDto updateScCategoryReqDto) {
+        ScCategory scCategory = scCategoryRepository.findById(id)
+                .orElseThrow(()->new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_CATEGORY));
+
+
+        scCategoryMapper.toUpdateScCategoryEntity(updateScCategoryReqDto, scCategory);
+
+        scCategory.setUpdatedBy(currentUserService.getCurrentUserId());
+        scCategory.setUpdatedOn(defaultConverter.getDefaultTbilisiTime());
+        ScCategory saved = scCategoryRepository.save(scCategory);
+
+        return scCategoryMapper.toScCategoryResponseDto(saved);
+    }
 
 
     @Override
@@ -249,6 +282,21 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
         return result;
     }
 
+    @Override
+    public ScSubCategoryResponseDto updateScSubCategory(Integer id, UpdateScSubCategoryReqDto updateScSubCategoryReqDto) {
+
+        ScSubCategory scSubCategory = scSubCategoryRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SUBCATEGORY));
+
+
+        scSubCategoryMapper.toUpdateScSubCategoryEntity(updateScSubCategoryReqDto, scSubCategory);
+        scSubCategory.setUpdatedBy(currentUserService.getCurrentUserId());
+        scSubCategory.setUpdatedOn(defaultConverter.getDefaultTbilisiTime());
+        ScSubCategory saved = scSubCategoryRepository.save(scSubCategory);
+        return scSubCategoryMapper.toScSubCategoryResponseDto(saved);
+    }
+
+
 
     @Override
     public void deleteScSubCategory(Integer id) {
@@ -288,8 +336,8 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
         if (scServices != null) {
             //get value
-            String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue();
-            String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
+            String responseTime = scServices.getResponseTimeType().getDisplayValue() + " " + scServices.getResponseTimeValue();
+            String resolutionTime = scServices.getResolutionTimeType().getDisplayValue() + " " + scServices.getResolutionValue();
 
             //set
             scServicesResponseDto.setResponseTime(responseTime);
@@ -338,6 +386,21 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
 
         return scServicesResponseDto;
+    }
+
+    @Override
+    public ScServicesResponseDto updateScServices(Integer id, UpdateScServiceReqDto updateScServiceReqDto) {
+
+        ScServices scServices = scServicesRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ResponseCodes.INVALID_SERIVCE_CATALOG_SERVICES));
+
+        scServicesMapper.toUpdateScServiceEntity(updateScServiceReqDto, scServices);
+
+
+        scServices.setUpdatedBy(currentUserService.getCurrentUserId());
+        scServices.setUpdatedDate(defaultConverter.getDefaultTbilisiTime());
+        ScServices saved = scServicesRepository.save(scServices);
+        return scServicesMapper.toScServicesResponseDto(saved);
     }
 
     @Override

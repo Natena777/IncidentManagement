@@ -10,7 +10,9 @@ import org.mapstruct.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-@Mapper(componentModel = "spring", uses = {DefaultConverter.class})
+@Mapper(componentModel = "spring",
+        uses = {DefaultConverter.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface RoleMapper {
 
     @Mapping(source = "name", target = "role")
@@ -21,7 +23,6 @@ public interface RoleMapper {
     RoleResponseDto toRoleResponseDto(Role role);
 
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdOn", ignore = true)
     @Mapping(target = "createdBy", ignore = true)

@@ -45,7 +45,7 @@ public class AssigneeGroupUsersController {
     
 
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "Find Assignee Group Users By ID")
     public AssigneeGroupUsersResponseDto findById(@PathVariable Integer id) {
         return assigneeGroupUserService.findById(id);

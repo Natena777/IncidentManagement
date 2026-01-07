@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.createRequest.CrCaseStatusesRequestDto;
+import org.example.incidentmanagement.dto.requests.UpdateCaseStatusReqDto;
 import org.example.incidentmanagement.dto.response.CaseStatusesResponseDto;
 import org.example.incidentmanagement.dto.createResponse.CrCaseStatusesResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
@@ -42,6 +43,16 @@ public class CaseStatusController {
     @Operation(summary = "Create New Status")
     public CrCaseStatusesResponseDto createCaseStatuses(@RequestBody CrCaseStatusesRequestDto crCaseStatusesRequestDto) {
         return caseStatuseService.createCaseStatuses(crCaseStatusesRequestDto);
+    }
+
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Update Case Status")
+    public ResponseEntity<CaseStatusesResponseDto> updateCaseStatus(
+            @PathVariable Integer id,
+            @RequestBody UpdateCaseStatusReqDto updateDto) {
+        CaseStatusesResponseDto response = caseStatuseService.updateCaseStatus(id, updateDto);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

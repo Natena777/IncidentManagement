@@ -19,7 +19,7 @@ public class UserRoles {
     private int roleId;
 
     @Column(name = "main_role")
-    private String MainRole;
+    private String mainRole;
 
     @Column(name = "status")
     private String Status;
@@ -38,12 +38,12 @@ public class UserRoles {
 
 
     public UserRoles() {}
-    public UserRoles(int id, int userId, int roleId, String MainRole, String Status,
+    public UserRoles(int id, int userId, int roleId, String mainRole, String Status,
                      LocalDateTime createdOn, Integer createdBy, LocalDateTime updatedOn, Integer updatedBy) {
         this.id = id;
         this.userId = userId;
         this.roleId = roleId;
-        this.MainRole = MainRole;
+        this.mainRole = mainRole;
         this.Status = Status;
         this.createdOn = createdOn;
         this.createdBy = createdBy;
@@ -70,10 +70,10 @@ public class UserRoles {
         this.roleId = roleId;
     }
     public String getMainRole() {
-        return MainRole;
+        return mainRole;
     }
     public void setMainRole(String mainRole) {
-        this.MainRole = mainRole;
+        this.mainRole = mainRole;
     }
     public String getStatus() {
         return Status;

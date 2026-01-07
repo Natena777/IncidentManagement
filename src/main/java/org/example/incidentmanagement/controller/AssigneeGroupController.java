@@ -3,7 +3,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
 import org.example.incidentmanagement.dto.createRequest.CrAssigneeGroupRequestDto;
+import org.example.incidentmanagement.dto.requests.UpdateAssigneeGroupReqDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
+import org.example.incidentmanagement.entity.AssigneeGroups;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.service.interfaces.AssigneGroupService;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,13 @@ public class AssigneeGroupController {
         return result;
     }
 
+    @PatchMapping("/update/{id}")
+    @Operation(summary = "Update Assignee Group")
+    public ResponseEntity<AssigneeGroupResponseDto> updateAssigneeGroup(@PathVariable Integer id, @RequestBody UpdateAssigneeGroupReqDto updateAssigneeGroupReqDto){
+        AssigneeGroupResponseDto response = assigneGroupService.updateAssigneeGroup(id, updateAssigneeGroupReqDto);
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete Assignee Group By ID")
     public ResponseEntity<ApiResponse> deleteAssigneGroup(@PathVariable Integer id) {
@@ -42,7 +51,6 @@ public class AssigneeGroupController {
 
         return ResponseEntity.ok(apiResponse);
     }
-
 
     @GetMapping
     @Operation(summary = "Find All Assignee Group")
