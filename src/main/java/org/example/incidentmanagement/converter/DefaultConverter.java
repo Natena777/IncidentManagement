@@ -1,6 +1,7 @@
-package org.example.incidentmanagement.service;
+package org.example.incidentmanagement.converter;
 
 
+import org.example.incidentmanagement.enums.RequestTimeUnitEnums;
 import org.example.incidentmanagement.repository.*;
 import org.mapstruct.Named;
 
@@ -10,6 +11,7 @@ import java.time.ZoneId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 
 
 @Service
@@ -180,6 +182,24 @@ public class DefaultConverter {
     //Service Catalog Service End
     //Service Catalog End
 
+
+    //Enum Converter End
+    @Named("timeUnitToMinutes")
+    public int convertTimeUnitToMinutes(Integer value, RequestTimeUnitEnums unit) {
+        if (value == null || unit == null) {
+            return 0;
+        }
+
+        return switch (unit) {
+            case WORKING_MINUTES -> value;
+            case WORKING_HOURS -> value * 60;
+            case WORKING_DAYS -> value * 24 * 60;
+            case CALENDAR_MINUTES -> value;
+            case CALENDAR_HOURS -> value * 60;
+            case CALENDAR_DAYS -> value * 24 * 60;
+        };
+    }
+    //Enum Converter End
 
 
 

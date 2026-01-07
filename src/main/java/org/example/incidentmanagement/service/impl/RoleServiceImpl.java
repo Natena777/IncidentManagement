@@ -9,7 +9,7 @@ import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.RoleMapper;
 import org.example.incidentmanagement.repository.RoleRepository;
 import org.example.incidentmanagement.service.CurrentUserService;
-import org.example.incidentmanagement.service.RoleService;
+import org.example.incidentmanagement.service.interfaces.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

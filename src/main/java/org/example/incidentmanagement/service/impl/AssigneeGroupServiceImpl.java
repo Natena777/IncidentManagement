@@ -1,14 +1,14 @@
 package org.example.incidentmanagement.service.impl;
-import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrAssigneeGroupRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
 import org.example.incidentmanagement.entity.AssigneeGroups;
 import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.AssigneeGroupMapper;
 import org.example.incidentmanagement.repository.AssigneeGroupRepository;
-import org.example.incidentmanagement.service.AssigneGroupService;
+import org.example.incidentmanagement.service.interfaces.AssigneGroupService;
 import org.example.incidentmanagement.service.CurrentUserService;
-import org.example.incidentmanagement.service.DefaultConverter;
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -79,9 +79,9 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     }
 
     @Override
-    public AssigneeGroupResponseDto createAssigneeGroup(CreateAssigneeGroupRequestDto createAssigneeGroupRequestDto) {
-        logger.info("Called Create AssigneeGroup: {}", createAssigneeGroupRequestDto.getGroupName());
-        AssigneeGroups assigneeGroups = assigneeGroupMapper.toEntityWithDefaults(createAssigneeGroupRequestDto, currentUserService.getCurrentUserId());
+    public AssigneeGroupResponseDto createAssigneeGroup(CrAssigneeGroupRequestDto crAssigneeGroupRequestDto) {
+        logger.info("Called Create AssigneeGroup: {}", crAssigneeGroupRequestDto.getGroupName());
+        AssigneeGroups assigneeGroups = assigneeGroupMapper.toEntityWithDefaults(crAssigneeGroupRequestDto, currentUserService.getCurrentUserId());
         assigneeGroupRepository.save(assigneeGroups);
 
         AssigneeGroupResponseDto assigneeGroupResult = assigneeGroupMapper.toGroupResponseDto(assigneeGroups);

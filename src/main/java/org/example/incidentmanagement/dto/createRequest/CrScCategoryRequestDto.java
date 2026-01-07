@@ -1,12 +1,12 @@
 package org.example.incidentmanagement.dto.createRequest;
 
-public class CreateScCategoryRequestDto {
+public class CrScCategoryRequestDto {
 
     private String scCategoryName;
     private String description;
     private Integer scDepartmentId;
 
-    public CreateScCategoryRequestDto() {
+    public CrScCategoryRequestDto() {
     }
 
     public String getScCategoryName() {

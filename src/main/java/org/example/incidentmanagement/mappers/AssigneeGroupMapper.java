@@ -1,9 +1,9 @@
 package org.example.incidentmanagement.mappers;
 
-import org.example.incidentmanagement.dto.createRequest.CreateAssigneeGroupRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrAssigneeGroupRequestDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
 import org.example.incidentmanagement.entity.AssigneeGroups;
-import org.example.incidentmanagement.service.DefaultConverter;
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -26,9 +26,9 @@ public interface AssigneeGroupMapper {
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "active", constant = "A")
-    AssigneeGroups toGroupEntity(CreateAssigneeGroupRequestDto dto);
+    AssigneeGroups toGroupEntity(CrAssigneeGroupRequestDto dto);
     // Request Mapping For Creating New Assignee Group with Default Values
-    default AssigneeGroups toEntityWithDefaults(CreateAssigneeGroupRequestDto dto,
+    default AssigneeGroups toEntityWithDefaults(CrAssigneeGroupRequestDto dto,
                                                 Integer currentUserId) {
         AssigneeGroups entity = toGroupEntity(dto);
         entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));

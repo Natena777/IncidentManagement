@@ -4,7 +4,7 @@ import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.repository.UserRepository;
-import org.example.incidentmanagement.service.LoginService;
+import org.example.incidentmanagement.service.interfaces.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;

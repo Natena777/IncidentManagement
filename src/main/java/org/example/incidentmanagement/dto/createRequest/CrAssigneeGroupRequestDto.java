@@ -1,13 +1,13 @@
 package org.example.incidentmanagement.dto.createRequest;
 
-public class CreateAssigneeGroupRequestDto {
+public class CrAssigneeGroupRequestDto {
     private String groupName;
     private String groupDescription;
 
-    public CreateAssigneeGroupRequestDto() {
+    public CrAssigneeGroupRequestDto() {
 
     }
-    public CreateAssigneeGroupRequestDto(String groupName, String groupDescription) {
+    public CrAssigneeGroupRequestDto(String groupName, String groupDescription) {
         this.groupName = groupName;
         this.groupDescription = groupDescription;
 

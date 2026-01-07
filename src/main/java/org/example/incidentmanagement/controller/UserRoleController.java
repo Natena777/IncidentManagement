@@ -5,10 +5,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.example.incidentmanagement.dto.ApiResponse;
-import org.example.incidentmanagement.dto.createRequest.CreateUserRoleRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
-import org.example.incidentmanagement.service.UserRoleService;
+import org.example.incidentmanagement.service.interfaces.UserRoleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +48,7 @@ public class UserRoleController {
 
     @PostMapping("/create")
     @Operation(summary = "Add New Role On User")
-    public UserRoleResponseDto createUserRole(@Valid @RequestBody CreateUserRoleRequestDto crrequestDto) {
+    public UserRoleResponseDto createUserRole(@Valid @RequestBody CrUserRoleRequestDto crrequestDto) {
         return userRoleService.createUserRole(crrequestDto);
     }
 

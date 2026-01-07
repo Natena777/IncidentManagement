@@ -1,6 +1,6 @@
 package org.example.incidentmanagement.dto.createResponse;
 
-public class CreateScSubCategoryResponseDto {
+public class CrScSubCategoryResponseDto {
 
     private String scSubCategoryName;
     private String description;
@@ -8,9 +8,9 @@ public class CreateScSubCategoryResponseDto {
     private String active;
 
 
-    public CreateScSubCategoryResponseDto() {}
-    public CreateScSubCategoryResponseDto(String scSubCategoryName, String description,
-                                          String scCategoryName, String active) {
+    public CrScSubCategoryResponseDto() {}
+    public CrScSubCategoryResponseDto(String scSubCategoryName, String description,
+                                      String scCategoryName, String active) {
         this.scSubCategoryName = scSubCategoryName;
         this.description = description;
         this.scCategoryName = scCategoryName;

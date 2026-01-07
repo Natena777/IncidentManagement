@@ -1,17 +1,15 @@
-package org.example.incidentmanagement.dto.createResponse;
+package org.example.incidentmanagement.dto.createRequest;
 
-
-public class CreateScDepartmentsResponseDto {
+public class CrScDepartmentsRequestDto {
 
     private String departmentName;
     private String description;
-    private String active;
 
-    public CreateScDepartmentsResponseDto() {}
-    public CreateScDepartmentsResponseDto(String departmentName, String description, String active) {
+    public CrScDepartmentsRequestDto() {}
+    public CrScDepartmentsRequestDto(String departmentName, String description) {
         this.departmentName = departmentName;
         this.description = description;
-        this.active = active;
+
     }
 
     public String getDepartmentName() {
@@ -20,18 +18,14 @@ public class CreateScDepartmentsResponseDto {
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
     }
+
     public String getDescription() {
         return description;
     }
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getActive() {
-        return active;
-    }
-    public void setActive(String active) {
-        this.active = active;
-    }
+
 
 
 }

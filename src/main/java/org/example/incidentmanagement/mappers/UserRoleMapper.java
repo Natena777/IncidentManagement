@@ -1,9 +1,9 @@
 package org.example.incidentmanagement.mappers;
 
-import org.example.incidentmanagement.dto.createRequest.CreateUserRoleRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.entity.UserRoles;
-import org.example.incidentmanagement.service.DefaultConverter;
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import java.time.LocalDateTime;
@@ -22,9 +22,9 @@ public interface UserRoleMapper {
     @Mapping(target = "status", constant = "A")
     @Mapping(source = "mainRole", target = "mainRole", qualifiedByName = "booleanToString")
     @Mapping(source = "roleId", target = "roleId")
-    public UserRoles toEntity(CreateUserRoleRequestDto createUserRoleRequestDto);
-    default UserRoles toEntityDetails(CreateUserRoleRequestDto createUserRoleRequestDto, Integer currentUserId){
-        UserRoles entity = toEntity(createUserRoleRequestDto);
+    public UserRoles toEntity(CrUserRoleRequestDto crUserRoleRequestDto);
+    default UserRoles toEntityDetails(CrUserRoleRequestDto crUserRoleRequestDto, Integer currentUserId){
+        UserRoles entity = toEntity(crUserRoleRequestDto);
         entity.setCreatedBy(currentUserId);
         entity.setCreatedOn(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
         return entity;

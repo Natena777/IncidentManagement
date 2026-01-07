@@ -1,14 +1,15 @@
 package org.example.incidentmanagement.service.impl;
 
 
-import org.example.incidentmanagement.dto.createRequest.CreateScCategoryRequestDto;
-import org.example.incidentmanagement.dto.createRequest.CreateScDepartmentsRequestDto;
+import org.example.incidentmanagement.converter.DefaultConverter;
+import org.example.incidentmanagement.dto.createRequest.CrScCategoryRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrScDepartmentsRequestDto;
 import org.example.incidentmanagement.dto.createRequest.CreateScServicesRequestDto;
-import org.example.incidentmanagement.dto.createRequest.CreateScSubCategoryRequestDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScCategoryResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScDepartmentsResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScServicesResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScSubCategoryResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CrScSubCategoryRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrScCategoryResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrScDepartmentsResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrScServicesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrScSubCategoryResponseDto;
 import org.example.incidentmanagement.dto.response.*;
 import org.example.incidentmanagement.entity.*;
 import org.example.incidentmanagement.exceptions.CustomException;
@@ -22,6 +23,8 @@ import org.example.incidentmanagement.repository.ScDepartmentsRepository;
 import org.example.incidentmanagement.repository.ScServicesRepository;
 import org.example.incidentmanagement.repository.ScSubCategoryRepository;
 import org.example.incidentmanagement.service.*;
+import org.example.incidentmanagement.service.interfaces.AssigneGroupService;
+import org.example.incidentmanagement.service.interfaces.ServiceCatalogServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -111,15 +114,15 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     }
 
     @Override
-    public CreateScDepartmentsResponseDto createScDepartments(CreateScDepartmentsRequestDto createScDepartmentsRequestDto) {
-        logger.info("Called Create Department {}, {} ", createScDepartmentsRequestDto.getDepartmentName(),
-                createScDepartmentsRequestDto.getDescription());
+    public CrScDepartmentsResponseDto createScDepartments(CrScDepartmentsRequestDto crScDepartmentsRequestDto) {
+        logger.info("Called Create Department {}, {} ", crScDepartmentsRequestDto.getDepartmentName(),
+                crScDepartmentsRequestDto.getDescription());
         
         //Map and Save
-        ScDepartments scDepartments = scDepartmentsMapper.toScDepartmentsEntityDefaults(createScDepartmentsRequestDto, currentUserService.getCurrentUserId());
+        ScDepartments scDepartments = scDepartmentsMapper.toScDepartmentsEntityDefaults(crScDepartmentsRequestDto, currentUserService.getCurrentUserId());
         scDepartmentsRepository.save(scDepartments);
 
-        CreateScDepartmentsResponseDto result = scDepartmentsMapper.toCreateScDepartmentsResponseDto(scDepartments);
+        CrScDepartmentsResponseDto result = scDepartmentsMapper.toCreateScDepartmentsResponseDto(scDepartments);
 
         return result;
 
@@ -138,17 +141,17 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
 
     //Sc Category Services Implementation
     @Override
-    public CreateScCategoryResponseDto createScCategory(CreateScCategoryRequestDto createScCategoryRequestDto) {
+    public CrScCategoryResponseDto createScCategory(CrScCategoryRequestDto crScCategoryRequestDto) {
         
-        logger.info("Called Create Service Catalog Category {}, {}", createScCategoryRequestDto.getScCategoryName(),
-                createScCategoryRequestDto.getDescription());
+        logger.info("Called Create Service Catalog Category {}, {}", crScCategoryRequestDto.getScCategoryName(),
+                crScCategoryRequestDto.getDescription());
 
 
-        ScCategory scCategory = scCategoryMapper.toScCategoryEntityDefaults(createScCategoryRequestDto, currentUserService.getCurrentUserId());
+        ScCategory scCategory = scCategoryMapper.toScCategoryEntityDefaults(crScCategoryRequestDto, currentUserService.getCurrentUserId());
         scCategoryRepository.save(scCategory);
 
 
-        CreateScCategoryResponseDto result = scCategoryMapper.toCreateScCategoryResponseDto(scCategory);
+        CrScCategoryResponseDto result = scCategoryMapper.toCreateScCategoryResponseDto(scCategory);
         return result;
     }
 
@@ -233,16 +236,16 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     }
 
     @Override
-    public CreateScSubCategoryResponseDto createScSubCategory(CreateScSubCategoryRequestDto createScSubCategoryRequestDto) {
-        logger.info("Called Create Service Catalog Category {}, {}", createScSubCategoryRequestDto.getScSubCategoryName(),
-                createScSubCategoryRequestDto.getDescription());
+    public CrScSubCategoryResponseDto createScSubCategory(CrScSubCategoryRequestDto crScSubCategoryRequestDto) {
+        logger.info("Called Create Service Catalog Category {}, {}", crScSubCategoryRequestDto.getScSubCategoryName(),
+                crScSubCategoryRequestDto.getDescription());
 
         //Map And Save
-        ScSubCategory scSubCategory = scSubCategoryMapper.toScSubCategoryEntityDefaults(createScSubCategoryRequestDto, currentUserService.getCurrentUserId());
+        ScSubCategory scSubCategory = scSubCategoryMapper.toScSubCategoryEntityDefaults(crScSubCategoryRequestDto, currentUserService.getCurrentUserId());
         scSubCategoryRepository.save(scSubCategory);
 
 
-        CreateScSubCategoryResponseDto result = scSubCategoryMapper.toCreateScSubCategoryResponseDto(scSubCategory);
+        CrScSubCategoryResponseDto result = scSubCategoryMapper.toCreateScSubCategoryResponseDto(scSubCategory);
         return result;
     }
 
@@ -316,18 +319,20 @@ public class ServiceCatalogServicesImpl implements ServiceCatalogServices {
     }
 
     @Override
-    public CreateScServicesResponseDto createScServices(CreateScServicesRequestDto createScServicesRequestDto) {
+    public CrScServicesResponseDto createScServices(CreateScServicesRequestDto createScServicesRequestDto) {
         logger.info("Called Create Service Catalog Service ");
 
         //Map And Save
         ScServices scServices = scServicesMapper.toScServicesEntityDefaults(createScServicesRequestDto, currentUserService.getCurrentUserId());
         scServicesRepository.save(scServices);
 
-        String responseTime = scServices.getResponseTimeType() + " " + scServices.getResponseTimeValue() ;
-        String resolutionTime = scServices.getResolutionTimeType() + " " + scServices.getResolutionValue();
+        String responseTime = scServices.getResponseTimeType().getDisplayValue() + " " +
+                scServices.getResponseTimeValue();
+        String resolutionTime = scServices.getResolutionTimeType().getDisplayValue() + " " +
+                scServices.getResolutionValue();
 
 
-        CreateScServicesResponseDto scServicesResponseDto = scServicesMapper.toCreateScServicesResponseDto(scServices);
+        CrScServicesResponseDto scServicesResponseDto = scServicesMapper.toCreateScServicesResponseDto(scServices);
         scServicesResponseDto.setResponseTime(responseTime);
         scServicesResponseDto.setResolutionTime(resolutionTime);
 

@@ -1,10 +1,10 @@
 package org.example.incidentmanagement.mappers;
 
-import org.example.incidentmanagement.dto.createRequest.CreateScDepartmentsRequestDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScDepartmentsResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CrScDepartmentsRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrScDepartmentsResponseDto;
 import org.example.incidentmanagement.dto.response.ScDepartmentsResponseDto;
 import org.example.incidentmanagement.entity.ScDepartments;
-import org.example.incidentmanagement.service.DefaultConverter;
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ public interface ScDepartmentsMapper {
 
     //Return Departments For Create Assigne Group
     
-    CreateScDepartmentsResponseDto toCreateScDepartmentsResponseDto (ScDepartments scDepartments);
+    CrScDepartmentsResponseDto toCreateScDepartmentsResponseDto (ScDepartments scDepartments);
 
     //Return Departments For All Other Response
     @Mapping(source = "createdBy", target = "createdBy", qualifiedByName = "userIdToFullName")
@@ -34,9 +34,9 @@ public interface ScDepartmentsMapper {
     @Mapping(target = "updatedDate", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "active", constant = "A")
-    ScDepartments toScDepartmentsEntity (CreateScDepartmentsRequestDto createScDepartmentsRequestDto);
-    default ScDepartments toScDepartmentsEntityDefaults(CreateScDepartmentsRequestDto createScDepartmentsRequestDto, Integer currentUserId){
-        ScDepartments entity = toScDepartmentsEntity(createScDepartmentsRequestDto);
+    ScDepartments toScDepartmentsEntity (CrScDepartmentsRequestDto crScDepartmentsRequestDto);
+    default ScDepartments toScDepartmentsEntityDefaults(CrScDepartmentsRequestDto crScDepartmentsRequestDto, Integer currentUserId){
+        ScDepartments entity = toScDepartmentsEntity(crScDepartmentsRequestDto);
         entity.setCreatedDate(LocalDateTime.now(ZoneId.of("Asia/Tbilisi")));
         entity.setCreatedBy(currentUserId);
         return entity;

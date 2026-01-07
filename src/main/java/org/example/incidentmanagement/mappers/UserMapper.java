@@ -4,7 +4,7 @@ import org.example.incidentmanagement.dto.requests.RegistrationUserDto;
 import org.example.incidentmanagement.dto.response.RegistrationUserRespDto;
 import org.example.incidentmanagement.dto.response.UserResponseDto;
 import org.example.incidentmanagement.entity.User;
-import org.example.incidentmanagement.service.DefaultConverter;
+import org.example.incidentmanagement.converter.DefaultConverter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

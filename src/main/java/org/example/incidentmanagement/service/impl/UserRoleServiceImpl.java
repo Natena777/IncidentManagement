@@ -1,6 +1,6 @@
 package org.example.incidentmanagement.service.impl;
 
-import org.example.incidentmanagement.dto.createRequest.CreateUserRoleRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrUserRoleRequestDto;
 import org.example.incidentmanagement.dto.response.UserRoleResponseDto;
 import org.example.incidentmanagement.entity.UserRoles;
 import org.example.incidentmanagement.exceptions.CustomException;
@@ -8,6 +8,9 @@ import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.UserRoleMapper;
 import org.example.incidentmanagement.repository.UserRolesRepository;
 import org.example.incidentmanagement.service.*;
+import org.example.incidentmanagement.service.interfaces.RoleService;
+import org.example.incidentmanagement.service.interfaces.UserRoleService;
+import org.example.incidentmanagement.service.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -94,26 +97,26 @@ public class UserRoleServiceImpl implements UserRoleService {
 
 
     @Override
-    public UserRoleResponseDto createUserRole(CreateUserRoleRequestDto createUserRoleRequestDto) {
-        logger.info("Called Create user role with request: {}, {}, {}", createUserRoleRequestDto.getUserId(),
-                createUserRoleRequestDto.getRoleId(), createUserRoleRequestDto.getMainRole());
+    public UserRoleResponseDto createUserRole(CrUserRoleRequestDto crUserRoleRequestDto) {
+        logger.info("Called Create user role with request: {}, {}, {}", crUserRoleRequestDto.getUserId(),
+                crUserRoleRequestDto.getRoleId(), crUserRoleRequestDto.getMainRole());
 
-        UserRoles userRoles = userRoleMapper.toEntityDetails(createUserRoleRequestDto, currentUserService.getCurrentUserId());
+        UserRoles userRoles = userRoleMapper.toEntityDetails(crUserRoleRequestDto, currentUserService.getCurrentUserId());
 
 
-        if (!roleService.existsRole(createUserRoleRequestDto.getRoleId())) {
-            logger.info("Role with id {} not exists", createUserRoleRequestDto.getRoleId());
+        if (!roleService.existsRole(crUserRoleRequestDto.getRoleId())) {
+            logger.info("Role with id {} not exists", crUserRoleRequestDto.getRoleId());
             throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
 
-        if (!userService.existsUser(createUserRoleRequestDto.getUserId())) {
-            logger.info("User with id {} not exists", createUserRoleRequestDto.getUserId());
+        if (!userService.existsUser(crUserRoleRequestDto.getUserId())) {
+            logger.info("User with id {} not exists", crUserRoleRequestDto.getUserId());
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
-    //    UserRoles beforeSaveCheck = userRolesRepository.findByUserId(createUserRoleRequestDto.getUserId());
+    //    UserRoles beforeSaveCheck = userRolesRepository.findByUserId(crUserRoleRequestDto.getUserId());
 
     //    if (beforeSaveCheck != null) {
-    //        logger.info("User with id {} already exists", createUserRoleRequestDto.getUserId());
+    //        logger.info("User with id {} already exists", crUserRoleRequestDto.getUserId());
     //        throw new CustomException(ResponseCodes.USER_ROLE_EXIST);
     //    }
         userRolesRepository.save(userRoles);

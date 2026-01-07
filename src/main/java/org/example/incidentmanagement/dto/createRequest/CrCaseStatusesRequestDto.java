@@ -1,7 +1,7 @@
 package org.example.incidentmanagement.dto.createRequest;
 
 
-public class CreateCaseStatusesRequestDto {
+public class CrCaseStatusesRequestDto {
 
     private String statusName;
     private String statusDescription;

@@ -1,8 +1,0 @@
-BEGIN;
-insert into sys_roles (name, description, status, created_by, created_on, updated_by, updated_on)
-values ('SUPER_ADMIN', 'Super User For System', 'A', 1, now(), null, null);
-
-insert into sysUserRoles (userID, roleID, main_role, status, created_on, created_by, updated_on, updated_by)
-values(1, 1, 'Y', 'A', now(), 1, null, null)
-
-COMMIT;

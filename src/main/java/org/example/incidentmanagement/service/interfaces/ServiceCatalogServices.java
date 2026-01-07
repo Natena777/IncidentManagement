@@ -1,13 +1,13 @@
-package org.example.incidentmanagement.service;
+package org.example.incidentmanagement.service.interfaces;
 
-import org.example.incidentmanagement.dto.createRequest.CreateScCategoryRequestDto;
-import org.example.incidentmanagement.dto.createRequest.CreateScDepartmentsRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrScCategoryRequestDto;
+import org.example.incidentmanagement.dto.createRequest.CrScDepartmentsRequestDto;
 import org.example.incidentmanagement.dto.createRequest.CreateScServicesRequestDto;
-import org.example.incidentmanagement.dto.createRequest.CreateScSubCategoryRequestDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScCategoryResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScDepartmentsResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScServicesResponseDto;
-import org.example.incidentmanagement.dto.createResponse.CreateScSubCategoryResponseDto;
+import org.example.incidentmanagement.dto.createRequest.CrScSubCategoryRequestDto;
+import org.example.incidentmanagement.dto.createResponse.CrScCategoryResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrScDepartmentsResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrScServicesResponseDto;
+import org.example.incidentmanagement.dto.createResponse.CrScSubCategoryResponseDto;
 import org.example.incidentmanagement.dto.response.*;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface ServiceCatalogServices {
     List<ScDepartmentsResponseDto> findAllScDepartments();
     ScDepartmentsResponseDto findScDepartmentById(Integer id);
     ScDepartmentsResponseDto findScDepartmentByName(String departmentName);
-    CreateScDepartmentsResponseDto createScDepartments(CreateScDepartmentsRequestDto createScDepartmentsRequestDto);
+    CrScDepartmentsResponseDto createScDepartments(CrScDepartmentsRequestDto crScDepartmentsRequestDto);
     void deleteScDepartments(Integer id);
 
 
@@ -26,7 +26,7 @@ public interface ServiceCatalogServices {
     List<ScCategoryResponseDto> findAllScCategories();
     ScCategoryResponseDto findScCategoryById(Integer id);
     ScCategoryResponseDto findScCategoryByName(String categoryName);
-    CreateScCategoryResponseDto createScCategory(CreateScCategoryRequestDto createScCategoryRequestDto);
+    CrScCategoryResponseDto createScCategory(CrScCategoryRequestDto crScCategoryRequestDto);
     void deleteScCategory(Integer id);
 
 
@@ -34,7 +34,7 @@ public interface ServiceCatalogServices {
     List<ScSubCategoryResponseDto> findAllScSubCategories();
     ScSubCategoryResponseDto findScSubCategoryById(Integer id);
     ScSubCategoryResponseDto findScSubCategoryByName(String subCategoryName);
-    CreateScSubCategoryResponseDto createScSubCategory(CreateScSubCategoryRequestDto createScSubCategoryRequestDto);
+    CrScSubCategoryResponseDto createScSubCategory(CrScSubCategoryRequestDto crScSubCategoryRequestDto);
     void deleteScSubCategory(Integer id);
 
 
@@ -42,7 +42,7 @@ public interface ServiceCatalogServices {
     List<ScServicesResponseDto> findAllScServices();
     ScServicesResponseDto findScServicesById(Integer id);
     ScServicesResponseDto findScServicesByName(String serviceName);
-    CreateScServicesResponseDto createScServices(CreateScServicesRequestDto createScServicesRequestDto);
+    CrScServicesResponseDto createScServices(CreateScServicesRequestDto createScServicesRequestDto);
     List<ServiceCatalogFullResponseDto> getScFullFlow();
     void deleteScServices(Integer id);
 

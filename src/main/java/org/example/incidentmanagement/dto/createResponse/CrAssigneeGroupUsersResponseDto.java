@@ -1,13 +1,13 @@
 package org.example.incidentmanagement.dto.createResponse;
 
-public class CreateAssigneeGroupUsersResponseDto {
+public class CrAssigneeGroupUsersResponseDto {
 
     private Integer id;
     private String user;
     private String assigneeGroup;
     private String active;
 
-    public CreateAssigneeGroupUsersResponseDto() {}
+    public CrAssigneeGroupUsersResponseDto() {}
 
 
     // Getters and Setters

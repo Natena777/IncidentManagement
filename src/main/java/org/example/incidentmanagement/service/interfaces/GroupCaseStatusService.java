@@ -1,4 +1,4 @@
-package org.example.incidentmanagement.service;
+package org.example.incidentmanagement.service.interfaces;
 
 import org.example.incidentmanagement.dto.createRequest.CrGroupCaseStatRequestDto;
 import org.example.incidentmanagement.dto.createResponse.CrGroupCaseStatResponseDto;

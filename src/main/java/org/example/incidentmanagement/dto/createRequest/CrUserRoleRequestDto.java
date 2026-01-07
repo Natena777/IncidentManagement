@@ -3,7 +3,7 @@ package org.example.incidentmanagement.dto.createRequest;
 import jakarta.validation.constraints.NotNull;
 
 
-public class CreateUserRoleRequestDto {
+public class CrUserRoleRequestDto {
 
     @NotNull
     private Integer roleId;
@@ -13,8 +13,8 @@ public class CreateUserRoleRequestDto {
 
     private Boolean mainRole;
 
-    public CreateUserRoleRequestDto() {}
-    public CreateUserRoleRequestDto(Integer roleId, Integer userId, Boolean mainRole) {
+    public CrUserRoleRequestDto() {}
+    public CrUserRoleRequestDto(Integer roleId, Integer userId, Boolean mainRole) {
         this.roleId = roleId;
         this.userId = userId;
         this.mainRole = mainRole;
