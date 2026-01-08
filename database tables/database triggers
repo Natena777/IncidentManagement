@@ -9,6 +9,161 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION trg_sys_users_audit()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'INSERT') THEN
+        INSERT INTO sys_users_log (
+            main_id,
+            created_on,
+            created_by,
+            modified_on,
+            modified_by,
+            first_name,
+            last_name,
+            full_name,
+            first_name_en,
+            last_name_en,
+            full_name_en,
+            username,
+            email,
+            phone,
+            address,
+            active,
+            password,
+            start_date,
+            end_date,
+            action_date,
+            action_type
+        )
+        VALUES (
+            NEW.id,
+            NEW.created_on,
+            NEW.created_by,
+            NEW.modified_on,
+            NEW.modified_by,
+            NEW.first_name,
+            NEW.last_name,
+            NEW.full_name,
+            NEW.first_name_en,
+            NEW.last_name_en,
+            NEW.full_name_en,
+            NEW.username,
+            NEW.email,
+            NEW.phone,
+            NEW.address,
+            NEW.active,
+            NEW.password,
+            NEW.start_date,
+            NEW.end_date,
+            CURRENT_TIMESTAMP,
+            'I'
+        );
+        RETURN NEW;
+
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO sys_users_log (
+            main_id,
+            created_on,
+            created_by,
+            modified_on,
+            modified_by,
+            first_name,
+            last_name,
+            full_name,
+            first_name_en,
+            last_name_en,
+            full_name_en,
+            username,
+            email,
+            phone,
+            address,
+            active,
+            password,
+            start_date,
+            end_date,
+            action_date,
+            action_type
+        )
+        VALUES (
+            OLD.id,
+            OLD.created_on,
+            OLD.created_by,
+            OLD.modified_on,
+            OLD.modified_by,
+            OLD.first_name,
+            OLD.last_name,
+            OLD.full_name,
+            OLD.first_name_en,
+            OLD.last_name_en,
+            OLD.full_name_en,
+            OLD.username,
+            OLD.email,
+            OLD.phone,
+            OLD.address,
+            OLD.active,
+            OLD.password,
+            OLD.start_date,
+            OLD.end_date,
+            CURRENT_TIMESTAMP,
+            'U'
+        );
+        RETURN NEW;
+
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO sys_users_log (
+            main_id,
+            created_on,
+            created_by,
+            modified_on,
+            modified_by,
+            first_name,
+            last_name,
+            full_name,
+            first_name_en,
+            last_name_en,
+            full_name_en,
+            username,
+            email,
+            phone,
+            address,
+            active,
+            password,
+            start_date,
+            end_date,
+            action_date,
+            action_type
+        )
+        VALUES (
+            OLD.id,
+            OLD.created_on,
+            OLD.created_by,
+            OLD.modified_on,
+            OLD.modified_by,
+            OLD.first_name,
+            OLD.last_name,
+            OLD.full_name,
+            OLD.first_name_en,
+            OLD.last_name_en,
+            OLD.full_name_en,
+            OLD.username,
+            OLD.email,
+            OLD.phone,
+            OLD.address,
+            OLD.active,
+            OLD.password,
+            OLD.start_date,
+            OLD.end_date,
+            CURRENT_TIMESTAMP,
+            'D'
+        );
+        RETURN OLD;
+    END IF;
+
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
 
 
 
@@ -21,3 +176,8 @@ FOR EACH ROW
 EXECUTE FUNCTION generate_case_number();
 
 
+CREATE TRIGGER trg_sys_users_audit
+AFTER INSERT OR UPDATE OR DELETE
+ON sys_users
+FOR EACH ROW
+EXECUTE FUNCTION trg_sys_users_audit();
