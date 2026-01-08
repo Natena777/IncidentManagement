@@ -1,0 +1,309 @@
+BEGIN;
+
+-- 1
+CREATE TABLE sys_users_log (
+    id integer generated always as identity
+        constraint sys_users_log_pk primary key,
+    main_id       integer,
+    created_on    timestamp,
+    created_by    integer,
+    modified_on   timestamp,
+    modified_by   integer,
+    first_name    varchar(250),
+    last_name     varchar(250),
+    full_name     varchar(250),
+    first_name_en varchar(50),
+    last_name_en  varchar(100),
+    full_name_en  varchar(250),
+    username      varchar(50),
+    email         varchar(50),
+    phone         varchar(20),
+    address       varchar(250),
+    active        varchar(1) not null,
+    password      varchar(100),
+    start_date    timestamp,
+    end_date      timestamp,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 2
+CREATE TABLE sys_roles_log (
+    id integer generated always as identity
+        constraint sys_roles_log_pk primary key,
+    main_id     integer,
+    name        varchar(50)  not null,
+    description varchar(250),
+    status      varchar(1)   not null,
+    created_by  integer,
+    created_on  timestamp,
+    updated_by  integer,
+    updated_on  timestamp,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 3
+CREATE TABLE sys_user_Roles_log (
+    id integer generated always as identity
+        constraint sys_user_Roles_log_pk primary key,
+    main_id integer,
+    userID integer,
+    roleID integer,
+    main_role varchar(1),
+    status varchar(1),
+    created_on timestamp,
+    created_by integer,
+    updated_on timestamp,
+    updated_by integer,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 4
+CREATE TABLE case_statuses_log (
+    id integer generated always as identity
+        constraint case_statuses_log_pk primary key,
+    main_id integer,
+    name varchar(30) not null,
+    description varchar(50),
+    created_by integer,
+    created_on timestamp,
+    active varchar(1),
+    updated_by integer,
+    updated_on timestamp,
+    is_final varchar(1),
+    is_paused varchar(1),
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 5
+CREATE TABLE sys_assignee_groups_log (
+    id integer generated always as identity
+        constraint sys_assignee_groups_log_pk primary key,
+    main_id integer,
+    name varchar(30),
+    description varchar(50),
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 6
+CREATE TABLE sys_assignee_groups_users_log (
+    id integer generated always as identity
+        constraint sys_assignee_groups_users_log_pk primary key,
+    main_id integer,
+    user_id integer,
+    assignee_group_id integer,
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 7
+CREATE TABLE assignee_group_statuses_log (
+    id integer generated always as identity
+        constraint assignee_group_statuses_log_pk primary key,
+    main_id integer,
+    previous_status_id integer,
+    next_status_id integer,
+    assignee_group_id integer,
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 8
+CREATE TABLE case_status_change_permissions_log (
+    id integer generated always as identity
+        constraint case_status_change_permissions_log_pk primary key,
+    main_id integer,
+    assignee_group_statuses_id integer,
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    can_read integer check (can_read in (0,1)),
+    can_edit integer check (can_edit in (0,1)),
+    can_delete integer check (can_delete in (0,1)),
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 9
+CREATE TABLE scdepartments_log (
+    id integer generated always as identity
+        constraint scdepartments_log_pk primary key,
+    main_id integer,
+    name varchar(50),
+    description varchar(100),
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 10
+CREATE TABLE sccategory_log (
+    id integer generated always as identity
+        constraint sccategory_log_pk primary key,
+    main_id integer,
+    name varchar(50),
+    description varchar(100),
+    scdepartment_id integer,
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 11
+CREATE TABLE scsubcategory_log (
+    id integer generated always as identity
+        constraint scsubcategory_log_pk primary key,
+    main_id integer,
+    name varchar(50),
+    description varchar(100),
+    sccategory_id integer,
+    active varchar(1),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 12
+CREATE TABLE scservice_log (
+    id integer generated always as identity
+        constraint scservice_log_pk primary key,
+    main_id integer,
+    name varchar(50),
+    description varchar(100),
+    scdepartment_id integer,
+    sccategory_id integer,
+    scsubcategory_id integer,
+    status varchar(20),
+    service_type varchar(20),
+    assignee_group_id integer,
+    response_time_type varchar(20),
+    response_time_value integer,
+    resolution_time_type varchar(20),
+    resolution_time_value integer,
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- 13
+CREATE TABLE cases_log (
+    id integer generated always as identity
+        constraint cases_log_pk primary key,
+    main_id integer,
+    number varchar(20),
+    created_by integer,
+    created_on timestamp,
+    updated_by integer,
+    updated_on timestamp,
+    status integer,
+    subject varchar(250),
+    description text,
+    channel varchar(20),
+    scdepartment_id integer,
+    sccategory_id integer,
+    scsubcategory_id integer,
+    scservice_id integer,
+    assignee_group_id integer,
+    assignee_user_id integer,
+    response_time_calculated timestamp,
+    resolutio_time_calculated timestamp,
+    response_time_actual timestamp,
+    resolution_time_actual timestamp,
+    action_date   timestamp,
+    action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- სამუშაო საათების ცხრილი
+CREATE TABLE sys_working_hours_log (
+  id INTEGER GENERATED ALWAYS AS IDENTITY
+    CONSTRAINT sys_working_hours_log_pk PRIMARY KEY,
+  main_id integer,
+  assignee_group_id INTEGER,
+  day_of_week VARCHAR(20),
+  work_hour_type VARCHAR(20),
+  start_time TIME,
+  end_time TIME,
+  description VARCHAR(200),
+  active CHAR(1),
+  created_by INTEGER,
+  created_on TIMESTAMP,
+  updated_by INTEGER,
+  updated_on TIMESTAMP,
+  action_date   timestamp,
+  action_type   varchar(1)
+        constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+-- დასვენების დღეების ცხრილი
+CREATE TABLE sys_holidays_log (
+  id INTEGER GENERATED ALWAYS AS IDENTITY
+    CONSTRAINT sys_holidays_log_pk PRIMARY KEY,
+  main_id integer,
+  assignee_group_id INTEGER,
+  holiday_date DATE,
+  holiday_name VARCHAR(100),
+  work_hour_type VARCHAR(20),
+  start_time TIME,
+  end_time TIME,
+  is_recurring BOOLEAN,
+  active CHAR(1),
+  created_by INTEGER,
+  created_on TIMESTAMP,
+  updated_by INTEGER,
+  updated_on TIMESTAMP,
+   action_date   timestamp,
+   action_type   varchar(1)
+       constraint check_action_type check (action_type IN ('I', 'U', 'D'))
+);
+
+
+
+COMMIT;
