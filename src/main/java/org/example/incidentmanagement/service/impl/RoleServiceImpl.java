@@ -4,11 +4,13 @@ import org.example.incidentmanagement.dto.requests.RoleRequestDto;
 import org.example.incidentmanagement.dto.response.RoleResponseDto;
 import org.example.incidentmanagement.dto.requests.UpdateRoleRequestDto;
 import org.example.incidentmanagement.entity.Role;
+import org.example.incidentmanagement.entity.UserRoles;
 import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.RoleMapper;
 import org.example.incidentmanagement.repository.RoleRepository;
 import org.example.incidentmanagement.service.CurrentUserService;
+import org.example.incidentmanagement.service.ValidationServices;
 import org.example.incidentmanagement.service.interfaces.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +27,15 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
     private final CurrentUserService currentUserService;
+    private final ValidationServices validationServices;
 
 
-    public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper, CurrentUserService currentUserService
-                           ) {
+    public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper,
+                           CurrentUserService currentUserService, ValidationServices validationServices) {
         this.roleRepository = roleRepository;
         this.roleMapper = roleMapper;
         this.currentUserService = currentUserService;
+        this.validationServices = validationServices;
     }
 
 
@@ -57,7 +61,7 @@ public class RoleServiceImpl implements RoleService {
             throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
 
-        RoleResponseDto roleResult = roleMapper.toRoleResponseDto(roleRepository.findByName(roleName));
+        RoleResponseDto roleResult = roleMapper.toRoleResponseDto(roleRepository.findByName(roleName).orElse(null));
 
         return roleResult;
 
@@ -89,7 +93,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleResponseDto updateRole(String name, UpdateRoleRequestDto role) {
         logger.info("called Update Role");
 
-        Role roleToUpdate = roleRepository.findByName(name);
+        Role roleToUpdate = roleRepository.findByName(name).orElse(null);
 
         if (roleToUpdate == null) {
             logger.info("Update Role is null");
@@ -108,16 +112,22 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void deleteRole(String name) {
         logger.info("called Delete Role : {}", name );
+        Role role = roleRepository.findByName(name).orElse(null);
+
+        boolean existUserInRole = validationServices.existsUserInRole(role.getId());
+
+        if (existUserInRole) {
+            throw new RuntimeException("Role Have Users");
+        }
 
         if (name == null) {
             logger.info("delete() called with null role");
             throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
-        if (roleRepository.findByName(name) == null) {
+        if (role == null) {
             logger.info("Role with name {} not found", name);
             throw new CustomException(ResponseCodes.INVALID_ROLE);
         }
-        Role role = roleRepository.findByName(name);
 
         roleRepository.delete(role);
 

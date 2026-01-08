@@ -106,7 +106,11 @@ public class UserRoleServiceImpl implements UserRoleService {
         logger.info("Called Create user role with request: {}, {}, {}", crUserRoleRequestDto.getUserId(),
                 crUserRoleRequestDto.getRoleId(), crUserRoleRequestDto.getMainRole());
 
-        UserRoles userRoles = userRoleMapper.toEntityDetails(crUserRoleRequestDto, currentUserService.getCurrentUserId());
+        boolean exists = userRolesRepository.existsByUserIdAndRoleId(crUserRoleRequestDto.getUserId(), crUserRoleRequestDto.getRoleId());
+
+        if (exists) {
+            throw new RuntimeException("User role already exists");
+        }
 
 
         if (!roleService.existsRole(crUserRoleRequestDto.getRoleId())) {
@@ -118,12 +122,9 @@ public class UserRoleServiceImpl implements UserRoleService {
             logger.info("User with id {} not exists", crUserRoleRequestDto.getUserId());
             throw new CustomException(ResponseCodes.INVALID_USER);
         }
-    //    UserRoles beforeSaveCheck = userRolesRepository.findByUserId(crUserRoleRequestDto.getUserId());
 
-    //    if (beforeSaveCheck != null) {
-    //        logger.info("User with id {} already exists", crUserRoleRequestDto.getUserId());
-    //        throw new CustomException(ResponseCodes.USER_ROLE_EXIST);
-    //    }
+
+        UserRoles userRoles = userRoleMapper.toEntityDetails(crUserRoleRequestDto, currentUserService.getCurrentUserId());
         userRolesRepository.save(userRoles);
 
        

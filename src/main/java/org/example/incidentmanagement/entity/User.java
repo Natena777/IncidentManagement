@@ -61,6 +61,9 @@ public class User {
     @Column(name = "active")
     private String active;
 
+    @Column(name = "lock_status")
+    private String lockStatus;
+
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
@@ -74,7 +77,7 @@ public class User {
                 LocalDateTime updatedOn, Integer updatedBy, String username,
                 String firstName, String lastName, String fullName,
                 String firstNameEn, String lastNameEn, String fullNameEn,
-                String password,
+                String password, String lockStatus,
                 String email, String phone, String address, String active,
                 LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
@@ -96,6 +99,7 @@ public class User {
         this.firstNameEn = firstNameEn;
         this.lastNameEn = lastNameEn;
         this.fullNameEn = fullNameEn;
+        this.lockStatus = lockStatus;
     }
     
     public int getId() {
@@ -181,6 +185,8 @@ public class User {
     }
     public String getActive() {return active;}
     public void setActive(String active) {this.active = active;}
+    public String getLockStatus() {return lockStatus;}
+    public void setLockStatus(String lockStatus) {this.lockStatus = lockStatus;}
     public LocalDateTime getStartDate() {
         return startDate;
     }

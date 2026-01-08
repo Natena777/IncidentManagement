@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    public Role findByName(String name);
+    Optional<Role> findByName(String name);
 
     @Query("select r.name from Role r where r.id = :id")
     Optional<String> findRoleNameById(Integer id);

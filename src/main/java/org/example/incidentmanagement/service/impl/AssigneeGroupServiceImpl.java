@@ -1,4 +1,6 @@
 package org.example.incidentmanagement.service.impl;
+
+
 import org.example.incidentmanagement.dto.createRequest.CrAssigneeGroupRequestDto;
 import org.example.incidentmanagement.dto.requests.UpdateAssigneeGroupReqDto;
 import org.example.incidentmanagement.dto.response.AssigneeGroupResponseDto;
@@ -7,6 +9,7 @@ import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.AssigneeGroupMapper;
 import org.example.incidentmanagement.repository.AssigneeGroupRepository;
+import org.example.incidentmanagement.service.ValidationServices;
 import org.example.incidentmanagement.service.interfaces.AssigneGroupService;
 import org.example.incidentmanagement.service.CurrentUserService;
 import org.example.incidentmanagement.converter.DefaultConverter;
@@ -24,15 +27,18 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     private final AssigneeGroupMapper assigneeGroupMapper;
     private final CurrentUserService currentUserService;
     private final DefaultConverter defaultConverter;
+    private final ValidationServices validationServices;
 
     public AssigneeGroupServiceImpl(AssigneeGroupRepository assigneeGroupRepository,
                                     AssigneeGroupMapper assigneeGroupMapper,
                                     DefaultConverter defaultConverter,
-                                    CurrentUserService currentUserService) {
+                                    CurrentUserService currentUserService,
+                                    ValidationServices validationServices) {
         this.assigneeGroupRepository = assigneeGroupRepository;
         this.assigneeGroupMapper = assigneeGroupMapper;
         this.currentUserService = currentUserService;
         this.defaultConverter = defaultConverter;
+        this.validationServices = validationServices;
     }
 
 
@@ -112,10 +118,32 @@ public class AssigneeGroupServiceImpl implements AssigneGroupService {
     @Override
     public void deleteAssigneeGroup(Integer id) {
         AssigneeGroups assigneeGroups = assigneeGroupRepository.findById(id).orElse(null);
-        logger.info("Called Delete AssigneeGroup: {} {}", id, assigneeGroups.getGroupName() );
-        assigneeGroupRepository.delete(assigneeGroups);
+        logger.info("Called Delete AssigneeGroup: {} {}", id, assigneeGroups.getGroupName());
 
+        //Check Case Exist.
+        boolean existCase = validationServices.existsCaseByAssigneeGroupId(id);
+        if (existCase){
+            throw new CustomException(ResponseCodes.ASSIGNEE_GROUP_HAVE_CASE);
+        }
+
+        //Check Group Users
+        boolean existUser = validationServices.existUserInAssigneeGroup(id);
+        if (existUser){
+            throw new CustomException(ResponseCodes.ASSIGNEE_GROUP_HAVE_USERS);
+        }
+
+        //Check Service Catalog Services
+        boolean existService = validationServices.existsScServiceByAssigneeGroupId(id);
+        if (existService){
+            throw new CustomException(ResponseCodes.ASSIGNEE_GROUP_HAVE_SERVICES);
+        }
+
+        assigneeGroupRepository.delete(assigneeGroups);
     }
+
+
+
+
 
 
 }
