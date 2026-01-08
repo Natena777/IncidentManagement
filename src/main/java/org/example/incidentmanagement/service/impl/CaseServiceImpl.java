@@ -7,6 +7,7 @@ import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.CaseMapper;
 import org.example.incidentmanagement.repository.CaseRepository;
+import org.example.incidentmanagement.repository.DatabaseOperations;
 import org.example.incidentmanagement.repository.ScServicesRepository;
 import org.example.incidentmanagement.service.interfaces.CaseService;
 import org.example.incidentmanagement.service.CurrentUserService;
@@ -14,9 +15,13 @@ import org.example.incidentmanagement.converter.DefaultConverter;
 import org.example.incidentmanagement.service.TimeCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CaseServiceImpl implements CaseService {
@@ -49,7 +54,19 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
+    public List<Map<String, Object>> getAllCaseAccessRights(Integer caseId) {
+
+        DatabaseOperations databaseOperations = new DatabaseOperations();
+        List<Map<String, Object>> accessRights = databaseOperations.getCasesAccessRights(caseId);
+        return accessRights;
+    }
+
+    @Override
     public CreateCaseResponseDto createCase(CreateCaseRequestDto createCaseRequestDto) {
+
+        Integer currentUser = currentUserService.getCurrentUserId();
+        LocalDateTime currentDate = defaultConverter.getDefaultTbilisiTime();
+
         logger.info("Called Create Case");
         Integer assigneeGroup = scServicesRepository.findById(createCaseRequestDto.getScServiceId()).orElse(null).getAssigneeGroupId();
 
@@ -79,6 +96,12 @@ public class CaseServiceImpl implements CaseService {
         cases.setResponseTimeCalculated(calculatedResponseTime);
         cases.setResolutionTimeCalculated(calculatedResolutionTime);
         caseRepository.saveAndFlush(cases);
+
+        //Add Case Access Rights
+        DatabaseOperations databaseOperations = new DatabaseOperations();
+        databaseOperations.insertCasesAccessRight(cases.getId(), currentUser, null, null,
+                currentUser, currentDate, true, true, true);
+
 
 
         CreateCaseResponseDto result = caseMapper.toCreateCaseResponse(cases);
