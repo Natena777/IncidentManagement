@@ -8,11 +8,13 @@ import java.util.List;
 
 public interface UserRolesRepository extends JpaRepository<UserRoles, Integer> {
 
-    public Boolean existsByUserIdAndRoleId(int userId, int roleId);
+    boolean existsByUserIdAndRoleId(int userId, int roleId);
+    boolean existsByRoleId(int roleId);
+
     public UserRoles findById(int id);
     public UserRoles findByUserId(int userId);
-    
-    public List<UserRoles> findByRoleId(int roleID);  
+    public List<UserRoles> findByRoleId(int roleID);
+
     @Query("select ur from UserRoles ur where ur.userId = :userId")
     public List<UserRoles> findUserAllRoles(int userId);
 

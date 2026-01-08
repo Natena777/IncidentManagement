@@ -8,6 +8,7 @@ public enum ResponseCodes {
     INVALID_PASSWORD(-3, "Invalid Password"),
     INVALID_USER(-4, "Invalid User"),
     INVALID_ROLE(-5, "Invalid Role"),
+    INVALID_USER_ROLE(-6, "Invalid User Role"),
     
     //Invalid Specific Codes
     INVALID_ASSIGNEE_GROUP(-7, "Assignee Group Not Found"),
@@ -16,6 +17,9 @@ public enum ResponseCodes {
     INVALID_SERIVCE_CATALOG_SUBCATEGORY(-10, "Invalid Service Catalog SubCategory"),
     INVALID_SERIVCE_CATALOG_SERVICES(-11, "Invalid Service Catalog Services"),
     INVALID_CASE_STATUS(-12, "Invalid Case Status"),
+    ASSIGNEE_GROUP_HAVE_CASE(-13, "Assignee Group Have Case"),
+    ASSIGNEE_GROUP_HAVE_USERS(-14, "Assignee Group Have Users"),
+    ASSIGNEE_GROUP_HAVE_SERVICES(-15, "Assignee Group Have Services"),
 
 
     //Success Default Codes
@@ -31,12 +35,18 @@ public enum ResponseCodes {
     DELETE_CASE_SUCCESFULY(100, "Case Deleted Succesfully"),
 
 
+    //Not Found
+    USERNAME_NOTFOUND(-150, "Username Not Found"),
+
+    //Inactive User
+    INACTIVE_USER(-40, "Inactive User, Please Contact System Administrator"),
+
+
     //Already Exists Specific Codes
-    USER_ROLE_EXIST(-12, "User Already Have One Role"),
-    INVALID_NEW_ROLE(-6, "New Role Already Exists"),
+    USER_ROLE_EXIST(-50, "User Already Have One Role"),
+    INVALID_NEW_ROLE(-16, "New Role Already Exists"),
 
     //Other Errors
-    INVALID_USER_ROLE(-13, "Invalid User Role"),
     VALIDATION_ERROR(-998, "Validation Error");
 
     private int code;

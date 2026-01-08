@@ -1,5 +1,7 @@
 package org.example.incidentmanagement.service;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import org.example.incidentmanagement.entity.User;
 import org.example.incidentmanagement.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +28,14 @@ public class CurrentUserService {
 
         String username = authentication.getName();
 
-        return userRepository.findByUsername(username).getId();
+        User user = userRepository.findByUsername(username);
+
+        if (user != null) {
+            return user.getId();
+        }
+
+        return null;
+
     }
 
     public String getCurrentUsername() {

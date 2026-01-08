@@ -3,8 +3,6 @@ package org.example.incidentmanagement.service.impl;
 import org.example.incidentmanagement.dto.createRequest.CreateCaseRequestDto;
 import org.example.incidentmanagement.dto.createResponse.CreateCaseResponseDto;
 import org.example.incidentmanagement.entity.Cases;
-import org.example.incidentmanagement.entity.ScServices;
-import org.example.incidentmanagement.enums.RequestTimeUnitEnums;
 import org.example.incidentmanagement.exceptions.CustomException;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
 import org.example.incidentmanagement.mappers.CaseMapper;
