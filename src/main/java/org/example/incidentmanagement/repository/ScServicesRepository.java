@@ -18,6 +18,7 @@ public interface ScServicesRepository extends JpaRepository<ScServices, Integer>
     @Query("select ss.servicesName from ScServices ss where ss.id = :id")
     String findServiceNameById(Integer id);
 
+    boolean existsByAssigneeGroupId(Integer id);
 
     @Query("""
     select new org.example.incidentmanagement.dto.response.ServiceCatalogFullResponseDto(

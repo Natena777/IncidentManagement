@@ -19,6 +19,8 @@ CREATE TABLE sys_users (
     phone         varchar(20),
     address       varchar(250),
     active        varchar(1) not null,
+    lock_status    varchar(10)
+        constraint status_check check (lock_status IN ('Locked', 'Unlocked'));
     password      varchar(100),
     start_date    timestamp,
     end_date      timestamp
@@ -263,6 +265,25 @@ CREATE TABLE sys_holidays (
   ),
   CONSTRAINT uk_holiday_group_date UNIQUE (assignee_group_id, holiday_date)
 );
+
+--endpoint audit log
+create table sys_audit_log (
+    id integer  generated always as identity
+        constraint sys_audit_log_pk primary key,
+    created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by integer,
+    service_name varchar(100) NOT NULL,
+    endpoint varchar(255) NOT NULL,
+    http_method varchar(10) NOT NULL,
+    success boolean NOT NULL,
+    http_status integer,
+    error_code varchar(50),
+    error_message varchar(500),
+    duration_ms integer,
+    client_ip varchar(50),
+    trace_id varchar(100)
+);
+
 
 
 COMMIT;
