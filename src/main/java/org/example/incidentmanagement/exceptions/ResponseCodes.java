@@ -10,6 +10,7 @@ public enum ResponseCodes {
     INVALID_ROLE(-5, "Invalid Role"),
     INVALID_USER_ROLE(-6, "Invalid User Role"),
     FAILED_DATABASE_MANUAL_OPERATION(-7, "Database Manual Operation Failed"),
+    FAILED_SEND_EMAIL(-10, "Failed To Send Email"),
     
     //Invalid Specific Codes
     INVALID_ASSIGNEE_GROUP(-7, "Assignee Group Not Found"),
