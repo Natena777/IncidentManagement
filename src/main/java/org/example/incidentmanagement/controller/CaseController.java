@@ -11,6 +11,9 @@ import org.example.incidentmanagement.service.interfaces.CaseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/case")
 @Tag(name = "Case Management API",
@@ -41,5 +44,25 @@ public class CaseController {
         return ResponseEntity.ok(apiResponse);
     }
 
+
+    @GetMapping("/{caseId}/accessRights")
+    @Operation(summary = "Get Case Access Rights")
+    public List<Map<String, Object>> getAccessRights(@PathVariable Integer caseId) {
+        return caseService.getAllCaseAccessRights(caseId);
+
+    }
+
+    @DeleteMapping("/{caseId}/accessRights/{id}")
+    @Operation(summary = "Delete Case Acess Rights")
+    public ResponseEntity<ApiResponse> deleteAcessRights(@PathVariable Integer caseId,
+                                                         @PathVariable Integer id) {
+        caseService.deleteCaseAccessRights(caseId, id);
+        ApiResponse apiResponse = new ApiResponse(
+                ResponseCodes.ACCESS_RIGHTS_DELETED_SUCCESFULY.getCode(),
+                ResponseCodes.ACCESS_RIGHTS_DELETED_SUCCESFULY.getMessage()
+        );
+
+        return ResponseEntity.ok(apiResponse);
+    }
 
 }

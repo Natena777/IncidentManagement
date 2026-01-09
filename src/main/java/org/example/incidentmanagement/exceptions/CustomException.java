@@ -10,6 +10,11 @@ public class CustomException extends RuntimeException {
         this.responseCodes = responseCodes;
     }
 
+    public CustomException(ResponseCodes responseCodes, String message) {
+        super(message);
+        this.responseCodes = responseCodes;
+    }
+
 
     public ResponseCodes getErrorCodes() {
         return responseCodes;

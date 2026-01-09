@@ -9,6 +9,7 @@ public enum ResponseCodes {
     INVALID_USER(-4, "Invalid User"),
     INVALID_ROLE(-5, "Invalid Role"),
     INVALID_USER_ROLE(-6, "Invalid User Role"),
+    FAILED_DATABASE_MANUAL_OPERATION(-7, "Database Manual Operation Failed"),
     
     //Invalid Specific Codes
     INVALID_ASSIGNEE_GROUP(-7, "Assignee Group Not Found"),
@@ -32,7 +33,15 @@ public enum ResponseCodes {
     ROLE_DELETED(20, "Role Deleted Successfully "),
     ASSIGNEE_GROUP_DELETED(25, "Assignee Group Deleted Successfully "),
     CASE_STATUS_DELETED_SUCCESFULY(50, "Case Status Deleted Succesfully"),
-    DELETE_CASE_SUCCESFULY(100, "Case Deleted Succesfully"),
+    DELETE_CASE_SUCCESFULY(90, "Case Deleted Succesfully"),
+    ACCESS_RIGHTS_DELETED_SUCCESFULY(100, "Access Rights Deleted Succesfully"),
+
+
+    //Not Found
+    USERNAME_NOTFOUND(-150, "Username Not Found"),
+
+    //Inactive User
+    INACTIVE_USER(-40, "Inactive User, Please Contact System Administrator"),
 
 
     //Not Found
