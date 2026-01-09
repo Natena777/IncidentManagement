@@ -1,4 +1,4 @@
-name: CI/CD - Deploy Backend + Frontend
+name: CI/CD - Deploy Backend
 
 on:
   push:
@@ -172,42 +172,6 @@ jobs:
             echo "✅ Backend restarted successfully"
 
       # ════════════════════════════════════════════════════════
-      # FRONTEND DEPLOYMENT
-      # ════════════════════════════════════════════════════════
-
-      - name: Checkout Frontend code
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ secrets.FRONTEND_REPO }}
-          token: ${{ secrets.GH_PAT }}
-          path: frontend
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Install Frontend dependencies
-        working-directory: ./frontend
-        run: npm ci
-
-      - name: Build Frontend
-        working-directory: ./frontend
-        run: npm run build
-        env:
-          VITE_API_URL: http://72.60.32.128:8080
-
-      - name: Upload Frontend build to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "frontend/dist/*"
-          target: "/var/www/frontend"
-          strip_components: 2
-
-      # ════════════════════════════════════════════════════════
       # MAINTENANCE MODE - END
       # ════════════════════════════════════════════════════════
 
@@ -239,9 +203,6 @@ jobs:
             echo ""
             echo "Backend Status:"
             systemctl status incident --no-pager | head -n 10
-            echo ""
-            echo "Nginx Status:"
-            systemctl status nginx --no-pager | head -n 10
             echo ""
             echo "═══════════════════════════════════════"
             echo "✅ Deployment Complete!"
