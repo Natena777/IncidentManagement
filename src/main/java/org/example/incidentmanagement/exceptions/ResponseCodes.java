@@ -44,13 +44,6 @@ public enum ResponseCodes {
     INACTIVE_USER(-40, "Inactive User, Please Contact System Administrator"),
 
 
-    //Not Found
-    USERNAME_NOTFOUND(-150, "Username Not Found"),
-
-    //Inactive User
-    INACTIVE_USER(-40, "Inactive User, Please Contact System Administrator"),
-
-
     //Already Exists Specific Codes
     USER_ROLE_EXIST(-50, "User Already Have One Role"),
     INVALID_NEW_ROLE(-16, "New Role Already Exists"),
