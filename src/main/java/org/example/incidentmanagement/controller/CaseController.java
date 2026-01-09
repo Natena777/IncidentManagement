@@ -52,4 +52,17 @@ public class CaseController {
 
     }
 
+    @DeleteMapping("/{caseId}/accessRights/{id}")
+    @Operation(summary = "Delete Case Acess Rights")
+    public ResponseEntity<ApiResponse> deleteAcessRights(@PathVariable Integer caseId,
+                                                         @PathVariable Integer id) {
+        caseService.deleteCaseAccessRights(caseId, id);
+        ApiResponse apiResponse = new ApiResponse(
+                ResponseCodes.ACCESS_RIGHTS_DELETED_SUCCESFULY.getCode(),
+                ResponseCodes.ACCESS_RIGHTS_DELETED_SUCCESFULY.getMessage()
+        );
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
 }

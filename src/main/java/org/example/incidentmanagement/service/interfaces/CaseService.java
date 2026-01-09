@@ -11,7 +11,10 @@ public interface CaseService {
 
     CreateCaseResponseDto createCase(CreateCaseRequestDto createCaseRequestDto);
     void deleteCase(Integer id);
+
+
     List<Map<String, Object>> getAllCaseAccessRights(Integer caseId);
+    void deleteCaseAccessRights(Integer caseId, Integer accessRightId);
 
 
 }
