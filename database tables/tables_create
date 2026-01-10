@@ -236,6 +236,20 @@ create table cases_access_rights (
     can_edit boolean,
     can_delete boolean);
 
+CREATE TABLE public.case_comments (
+  id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
+  case_id integer NOT NULL,
+  comment_text text,
+  comment_type character varying,
+  created_on timestamp without time zone,
+  created_by integer,
+  modified_on timestamp without time zone,
+  modified_by integer,
+  CONSTRAINT case_comments_pkey PRIMARY KEY (id),
+  CONSTRAINT case_id_fk FOREIGN KEY (case_id) REFERENCES public.cases(id)
+);
+
+
 -- სამუშაო საათების ცხრილი
 CREATE TABLE sys_working_hours (
   id INTEGER GENERATED ALWAYS AS IDENTITY
@@ -304,3 +318,5 @@ create table sys_audit_log (
 
 
 COMMIT;
+
+

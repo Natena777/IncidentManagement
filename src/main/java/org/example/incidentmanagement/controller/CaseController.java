@@ -4,10 +4,14 @@ package org.example.incidentmanagement.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.incidentmanagement.dto.ApiResponse;
+import org.example.incidentmanagement.dto.createRequest.CrCaseCommentRequestDto;
 import org.example.incidentmanagement.dto.createRequest.CreateCaseRequestDto;
 import org.example.incidentmanagement.dto.createResponse.CreateCaseResponseDto;
+import org.example.incidentmanagement.dto.response.CaseCommentRespDto;
 import org.example.incidentmanagement.exceptions.ResponseCodes;
+import org.example.incidentmanagement.service.interfaces.CaseCommentService;
 import org.example.incidentmanagement.service.interfaces.CaseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +25,12 @@ import java.util.Map;
 public class CaseController {
 
     private final CaseService caseService;
+    private final CaseCommentService caseCommentService;
 
-    public CaseController(final CaseService caseService) {
+    public CaseController(CaseService caseService,
+                          CaseCommentService caseCommentService) {
         this.caseService = caseService;
+        this.caseCommentService = caseCommentService;
     }
 
     @PostMapping("/create")
@@ -64,5 +71,29 @@ public class CaseController {
 
         return ResponseEntity.ok(apiResponse);
     }
+
+
+    @PostMapping("/{caseId}/comments")
+    @Operation(summary = "Add Case Comment")
+    public ResponseEntity<CaseCommentRespDto> addCaseComment(@PathVariable Integer caseId,
+                                                             @RequestBody CrCaseCommentRequestDto requestDto){
+
+        CaseCommentRespDto result  = caseCommentService.addComment(caseId, requestDto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(result);
+    }
+
+
+    @GetMapping("/{caseId}/comments")
+    @Operation(summary = "Get Case All Comments")
+    public ResponseEntity<List<CaseCommentRespDto>> getAllCaseComments(@PathVariable Integer caseId) {
+        List<CaseCommentRespDto>result  = caseCommentService.getCommentsByCaseId(caseId);
+
+        return ResponseEntity.ok(result);
+    }
+
+
 
 }

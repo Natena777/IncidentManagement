@@ -17,15 +17,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class DefaultConverter {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private AssigneeGroupRepository assigneeGroupRepository;
-    private CaseStatusesRepository statusesRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final AssigneeGroupRepository assigneeGroupRepository;
+    private final CaseStatusesRepository statusesRepository;
     Logger logger = LoggerFactory.getLogger(DefaultConverter.class);
-    private ScDepartmentsRepository scDepartmentsRepository;
-    private ScCategoryRepository scCategoryRepository;
-    private ScSubCategoryRepository scSubCategoryRepository;
-    private ScServicesRepository scServicesRepository;
+    private final ScDepartmentsRepository scDepartmentsRepository;
+    private final ScCategoryRepository scCategoryRepository;
+    private final ScSubCategoryRepository scSubCategoryRepository;
+    private final ScServicesRepository scServicesRepository;
+    private final CaseRepository caseRepository;
 
     public DefaultConverter(UserRepository userRepository,
                             RoleRepository roleRepository,
@@ -34,7 +35,8 @@ public class DefaultConverter {
                             ScDepartmentsRepository scDepartmentsRepository,
                             ScCategoryRepository scCategoryRepository,
                             ScSubCategoryRepository scSubCategoryRepository,
-                            ScServicesRepository scServicesRepository) {
+                            ScServicesRepository scServicesRepository,
+                            CaseRepository caseRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.assigneeGroupRepository = assigneeGroupRepository;
@@ -43,6 +45,7 @@ public class DefaultConverter {
         this.scCategoryRepository = scCategoryRepository;
         this.scSubCategoryRepository = scSubCategoryRepository;
         this.scServicesRepository = scServicesRepository;
+        this.caseRepository = caseRepository;
     }
 
     @Named("userIdToFullName")
@@ -181,6 +184,13 @@ public class DefaultConverter {
     }
     //Service Catalog Service End
     //Service Catalog End
+
+
+    @Named("getCaseNumber")
+    public String getCaseNumber(Integer caseId) {
+        String caseNumber = caseRepository.getCaseNumberById(caseId);
+        return caseNumber;
+    }
 
 
     //Enum Converter End
